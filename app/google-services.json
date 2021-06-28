@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "472435979804",
+    "project_id": "oscar-academy-c95ef",
+    "storage_bucket": "oscar-academy-c95ef.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:472435979804:android:71089340510dc89a7991d9",
+        "android_client_info": {
+          "package_name": "com.sports.oscaracademy"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "472435979804-vt1q2tmnm4co97je2amdrd732r4lab8c.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyArUqTRAVsc8JSf4vnBaVIMPSaWVb1LkeE"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "472435979804-vt1q2tmnm4co97je2amdrd732r4lab8c.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
