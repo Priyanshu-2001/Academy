@@ -1,251 +1,262 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    tools:context=".LoginActivity">
+    xmlns:tools="http://schemas.android.com/tools">
 
+<data>
+    <variable
+        name="viewmodel"
+        type="com.sports.oscaracademy.viewModel.LoginViewModel" />
+</data>
     <androidx.constraintlayout.widget.ConstraintLayout
-        android:id="@+id/tv_logo"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:fontFamily="@font/rubik_bold"
-        android:gravity="center"
+        android:layout_height="match_parent"
+        tools:context=".LoginActivity">
 
-        android:text="logo"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.0"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent">
-
-        <TextView
-            android:id="@+id/textView"
-            android:layout_width="wrap_content"
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/tv_logo"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:fontFamily="@font/rubik_bold"
-            android:padding="60dp"
-            android:text="WELCOME"
-            android:textColor="@color/black"
-            android:textSize="20dp"
-            app:layout_constraintBottom_toBottomOf="parent"
+            android:gravity="center"
+
+            android:text="logo"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
-
-        <ImageView
-            android:id="@+id/imageView5"
-            android:layout_width="50dp"
-            android:layout_height="50dp"
-            android:background="@color/colorPrimary"
-            android:rotation="138"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/imageView2" />
-
-        <ImageView
-            android:id="@+id/imageView2"
-            android:layout_width="50dp"
-            android:layout_height="50dp"
-            android:background="@color/colorPrimary"
-            android:rotation="138"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
-
-        <ImageView
-            android:id="@+id/imageView3"
-            android:layout_width="50dp"
-            android:layout_height="50dp"
-            android:background="@color/colorPrimary"
-            android:rotation="138"
-            app:layout_constraintBottom_toBottomOf="@+id/imageView5"
-            app:layout_constraintEnd_toStartOf="@+id/imageView5"
-            app:layout_constraintTop_toTopOf="parent" />
-
-    </androidx.constraintlayout.widget.ConstraintLayout>
-
-    <TextView
-        android:id="@+id/tv_desc"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:fontFamily="@font/rubik_medium"
-        android:gravity="center"
-        android:padding="15dp"
-        android:text="Sign in Your Account "
-        android:textColor="@color/black"
-        android:textSize="16sp"
-        app:layout_constraintTop_toBottomOf="@id/tv_logo" />
-
-    <androidx.appcompat.widget.AppCompatEditText
-        android:id="@+id/edit_username"
-        android:layout_width="match_parent"
-        android:layout_height="50dp"
-        android:layout_marginLeft="55dp"
-        android:layout_marginTop="20dp"
-        android:layout_marginRight="55dp"
-        android:background="@drawable/text_field_1"
-        android:hint="Email"
-        android:text="@={viewmodel.userName}"
-        android:inputType="text"
-        android:paddingStart="20dp"
-        android:paddingLeft="20dp"
-        android:paddingRight="20dp"
-        android:singleLine="true"
-        android:textColor="#8B91AB"
-        android:textColorHint="#8B91AB"
-        android:textSize="14sp"
-        android:theme="@style/EditTextTheme"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/tv_desc" />
-
-    <com.google.android.material.textfield.TextInputLayout
-        android:id="@+id/create_pass"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginLeft="55dp"
-        android:layout_marginTop="20dp"
-        android:layout_marginRight="55dp"
-        app:hintEnabled="false"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/edit_username"
-        app:passwordToggleEnabled="true">
-
-        <com.google.android.material.textfield.TextInputEditText
-            android:id="@+id/edit_pass"
-            android:layout_width="match_parent"
-            android:layout_height="50dp"
-            android:background="@drawable/text_field_1"
-            android:fontFamily="@font/rubik"
-            android:hint="Password"
-            android:text="@={viewmodel.password}"
-            android:inputType="textPassword"
-            android:paddingStart="20dp"
-            android:paddingLeft="20dp"
-            android:singleLine="true"
-            android:textColor="#8B91AB"
-            android:textSize="14sp"
-            android:theme="@style/EditTextTheme"
-            tools:ignore="RtlSymmetry" />
-    </com.google.android.material.textfield.TextInputLayout>
-
-    <Button
-        android:id="@+id/btn_sign_in"
-        android:layout_width="match_parent"
-        android:layout_height="50dp"
-        android:layout_marginLeft="55dp"
-        android:layout_marginTop="20dp"
-        android:layout_marginRight="55dp"
-        android:background="@drawable/btn_theme_1"
-        android:clickable="true"
-        android:onClick="@{(v) -> viewmodel.onClick(v)}"
-        android:focusable="true"
-        android:fontFamily="@font/rubik_medium"
-        android:text="SIGN IN"
-        android:textColor="@color/white"
-        android:textSize="14sp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/create_pass" />
-
-    <TextView
-        android:id="@+id/tv_or"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="30dp"
-        android:fontFamily="@font/rubik"
-        android:gravity="center"
-        android:padding="15dp"
-        android:text="OR SIGN IN WITH"
-        android:textColor="@color/black"
-        android:textSize="14sp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/btn_sign_in" />
-
-
-    <androidx.constraintlayout.widget.ConstraintLayout
-        android:id="@+id/btn_parent_layout"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="15dp"
-        app:layout_constraintEnd_toEndOf="@+id/tv_or"
-        app:layout_constraintStart_toStartOf="@+id/tv_or"
-        app:layout_constraintTop_toBottomOf="@+id/tv_or">
-
-        <LinearLayout
-            android:id="@+id/layout_google"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:orientation="vertical"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.0"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent">
 
-            <ImageButton
-                android:id="@+id/btn_google"
-                android:layout_width="30dp"
-                android:layout_height="30dp"
-                android:layout_gravity="center"
-                android:background="@drawable/google"
-                android:clickable="true"
-                android:focusable="true" />
-
             <TextView
+                android:id="@+id/textView"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_gravity="center"
-                android:fontFamily="@font/rubik"
-                android:text="google" />
-        </LinearLayout>
+                android:fontFamily="@font/rubik_bold"
+                android:padding="60dp"
+                android:text="WELCOME"
+                android:textColor="@color/black"
+                android:textSize="20dp"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
 
+            <ImageView
+                android:id="@+id/imageView5"
+                android:layout_width="50dp"
+                android:layout_height="50dp"
+                android:background="@color/colorPrimary"
+                android:rotation="138"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/imageView2" />
 
-    </androidx.constraintlayout.widget.ConstraintLayout>
+            <ImageView
+                android:id="@+id/imageView2"
+                android:layout_width="50dp"
+                android:layout_height="50dp"
+                android:background="@color/colorPrimary"
+                android:rotation="138"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
 
+            <ImageView
+                android:id="@+id/imageView3"
+                android:layout_width="50dp"
+                android:layout_height="50dp"
+                android:background="@color/colorPrimary"
+                android:rotation="138"
+                app:layout_constraintBottom_toBottomOf="@+id/imageView5"
+                app:layout_constraintEnd_toStartOf="@+id/imageView5"
+                app:layout_constraintTop_toTopOf="parent" />
 
-    <androidx.constraintlayout.widget.ConstraintLayout
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="20dp"
-        app:layout_constraintEnd_toEndOf="@+id/btn_parent_layout"
-        app:layout_constraintStart_toStartOf="@+id/btn_parent_layout"
-        app:layout_constraintTop_toBottomOf="@+id/btn_parent_layout">
+        </androidx.constraintlayout.widget.ConstraintLayout>
 
         <TextView
-            android:id="@+id/tv_end"
-            android:layout_width="wrap_content"
+            android:id="@+id/tv_desc"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:fontFamily="@font/rubik"
+            android:fontFamily="@font/rubik_medium"
             android:gravity="center"
-            android:paddingTop="15dp"
-            android:text="don't have an account"
+            android:padding="15dp"
+            android:text="Sign in Your Account "
             android:textColor="@color/black"
-            android:textSize="14sp"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toStartOf="@id/tv_sign_up"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
+            android:textSize="16sp"
+            app:layout_constraintTop_toBottomOf="@id/tv_logo" />
 
-        <TextView
-            android:id="@+id/tv_sign_up"
-            android:layout_width="wrap_content"
+        <androidx.appcompat.widget.AppCompatEditText
+            android:id="@+id/edit_username"
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:layout_marginLeft="55dp"
+            android:layout_marginTop="20dp"
+            android:layout_marginRight="55dp"
+            android:background="@drawable/text_field_1"
+            android:hint="Email"
+            android:inputType="text"
+            android:paddingStart="20dp"
+            android:paddingLeft="20dp"
+            android:paddingRight="20dp"
+            android:singleLine="true"
+            android:text="@={viewmodel.userName}"
+            android:textColor="#8B91AB"
+            android:textColorHint="#8B91AB"
+            android:textSize="14sp"
+            android:theme="@style/EditTextTheme"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/tv_desc" />
+
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/create_pass"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_marginLeft="55dp"
+            android:layout_marginTop="20dp"
+            android:layout_marginRight="55dp"
+            app:hintEnabled="false"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/edit_username"
+            app:passwordToggleEnabled="true">
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/edit_pass"
+                android:layout_width="match_parent"
+                android:layout_height="50dp"
+                android:background="@drawable/text_field_1"
+                android:fontFamily="@font/rubik"
+                android:hint="Password"
+                android:inputType="textPassword"
+                android:paddingStart="20dp"
+                android:paddingLeft="20dp"
+                android:singleLine="true"
+                android:text="@={viewmodel.password}"
+                android:textColor="#8B91AB"
+                android:textSize="14sp"
+                android:theme="@style/EditTextTheme"
+                tools:ignore="RtlSymmetry" />
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <Button
+            android:id="@+id/btn_sign_in"
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:layout_marginLeft="55dp"
+            android:layout_marginTop="20dp"
+            android:layout_marginRight="55dp"
+            android:background="@drawable/btn_theme_1"
             android:clickable="true"
             android:focusable="true"
+            android:fontFamily="@font/rubik_medium"
+            android:onClick="@{(v) -> viewmodel.onClick(v)}"
+            android:text="SIGN IN"
+            android:textColor="@color/white"
+            android:textSize="14sp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.504"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/create_pass" />
+
+        <TextView
+            android:id="@+id/tv_or"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="30dp"
             android:fontFamily="@font/rubik"
             android:gravity="center"
-            android:paddingLeft="10dp"
-            android:paddingTop="15dp"
-            android:onClick="@{(v) -> viewmodel.onClickSignUp(v)}"
-            android:text="SIGNUP"
-            android:textColor="@color/colorPrimary"
-            app:layout_constraintBottom_toBottomOf="parent"
+            android:padding="15dp"
+            android:text="OR SIGN IN WITH"
+            android:textColor="@color/black"
+            android:textSize="14sp"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toEndOf="@+id/tv_end"
-            app:layout_constraintTop_toTopOf="parent"
-            tools:ignore="RtlSymmetry" />
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/btn_sign_in" />
+
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/btn_parent_layout"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="15dp"
+            app:layout_constraintEnd_toEndOf="@+id/tv_or"
+            app:layout_constraintStart_toStartOf="@+id/tv_or"
+            app:layout_constraintTop_toBottomOf="@+id/tv_or">
+
+            <LinearLayout
+                android:id="@+id/layout_google"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:onClick="@{(v) -> viewmodel.googleSignIn(v)}"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent">
+
+                <ImageButton
+                    android:id="@+id/btn_google"
+                    android:layout_width="30dp"
+                    android:layout_height="30dp"
+                    android:layout_gravity="center"
+                    android:background="@drawable/google"
+                    android:clickable="true"
+                    android:focusable="true" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:fontFamily="@font/rubik"
+                    android:text="google" />
+            </LinearLayout>
+
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="20dp"
+            app:layout_constraintEnd_toEndOf="@+id/btn_parent_layout"
+            app:layout_constraintStart_toStartOf="@+id/btn_parent_layout"
+            app:layout_constraintTop_toBottomOf="@+id/btn_parent_layout">
+
+            <TextView
+                android:id="@+id/tv_end"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:fontFamily="@font/rubik"
+                android:gravity="center"
+                android:paddingTop="15dp"
+                android:text="don't have an account"
+                android:textColor="@color/black"
+                android:textSize="14sp"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toStartOf="@id/tv_sign_up"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <TextView
+                android:id="@+id/tv_sign_up"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:clickable="true"
+                android:focusable="true"
+                android:fontFamily="@font/rubik"
+                android:gravity="center"
+                android:onClick="@{(v) -> viewmodel.onClickSignUp(v)}"
+                android:paddingLeft="10dp"
+                android:paddingTop="15dp"
+                android:text="SIGNUP"
+                android:textColor="@color/colorPrimary"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toEndOf="@+id/tv_end"
+                app:layout_constraintTop_toTopOf="parent"
+                tools:ignore="RtlSymmetry" />
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+
     </androidx.constraintlayout.widget.ConstraintLayout>
-
-
-</androidx.constraintlayout.widget.ConstraintLayout>
+</layout>

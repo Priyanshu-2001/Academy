@@ -1,0 +1,366 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    >
+<data>
+    <variable
+        name="viewmodel"
+        type="com.sports.oscaracademy.viewModel.SignupViewModel" />
+</data>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        tools:context=".signUpActivity">
+
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/tv_logo"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:fontFamily="@font/rubik_bold"
+            android:gravity="center"
+
+            android:text="logo"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.0"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent">
+
+            <TextView
+                android:id="@+id/textView"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:fontFamily="@font/rubik_bold"
+                android:padding="60dp"
+                android:text="WELCOME"
+                android:textColor="@color/black"
+                android:textSize="20dp"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <ImageView
+                android:id="@+id/imageView5"
+                android:layout_width="50dp"
+                android:layout_height="50dp"
+                android:background="@color/colorPrimary"
+                android:rotation="138"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/imageView2" />
+
+            <ImageView
+                android:id="@+id/imageView2"
+                android:layout_width="50dp"
+                android:layout_height="50dp"
+                android:background="@color/colorPrimary"
+                android:rotation="138"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <ImageView
+                android:id="@+id/imageView3"
+                android:layout_width="50dp"
+                android:layout_height="50dp"
+                android:background="@color/colorPrimary"
+                android:rotation="138"
+                app:layout_constraintBottom_toBottomOf="@+id/imageView5"
+                app:layout_constraintEnd_toStartOf="@+id/imageView5"
+                app:layout_constraintTop_toTopOf="parent" />
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+        <TextView
+            android:id="@+id/tv_desc"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:fontFamily="@font/rubik_medium"
+            android:gravity="center"
+            android:padding="15dp"
+            android:text="Sign up with your Email"
+            android:textColor="@color/black"
+            android:textSize="16sp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/tv_logo" />
+
+        <androidx.appcompat.widget.AppCompatEditText
+            android:id="@+id/edit_username"
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:layout_marginLeft="55dp"
+            android:layout_marginTop="16dp"
+            android:layout_marginRight="55dp"
+            android:background="@drawable/text_field_1"
+            android:hint="Full Name"
+            android:inputType="text"
+            android:paddingStart="20dp"
+            android:paddingLeft="20dp"
+            android:paddingRight="20dp"
+            android:singleLine="true"
+            android:text="@={viewmodel.userName}"
+            android:textColor="#8B91AB"
+            android:textColorHint="#8B91AB"
+            android:textSize="14sp"
+            android:theme="@style/EditTextTheme"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.504"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/tv_desc" />
+
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/user_age"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="55dp"
+            android:layout_marginTop="20dp"
+            android:layout_marginRight="55dp"
+            app:hintEnabled="false"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/edit_username">
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/User_Email"
+                android:layout_width="match_parent"
+                android:layout_height="50dp"
+                android:background="@drawable/text_field_1"
+                android:fontFamily="@font/rubik"
+                android:hint="Email"
+                android:inputType="textPassword"
+                android:paddingStart="20dp"
+                android:paddingLeft="20dp"
+                android:singleLine="true"
+                android:text="@={viewmodel.email}"
+                android:textColor="#8B91AB"
+                android:textSize="14sp"
+                android:theme="@style/EditTextTheme"
+                tools:ignore="RtlSymmetry" />
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/create_pass"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="55dp"
+            android:layout_marginTop="20dp"
+            android:layout_marginRight="55dp"
+            app:hintEnabled="false"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/user_age"
+            app:passwordToggleEnabled="true">
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/edit_pass"
+                android:layout_width="match_parent"
+                android:layout_height="50dp"
+                android:background="@drawable/text_field_1"
+                android:fontFamily="@font/rubik"
+                android:hint="Password"
+                android:inputType="textPassword"
+                android:paddingStart="20dp"
+                android:paddingLeft="20dp"
+                android:singleLine="true"
+                android:text="@={viewmodel.password}"
+                android:textColor="#8B91AB"
+                android:textSize="14sp"
+                android:theme="@style/EditTextTheme"
+                tools:ignore="RtlSymmetry" />
+        </com.google.android.material.textfield.TextInputLayout>
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/c_passLayout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="55dp"
+            android:layout_marginTop="20dp"
+            android:layout_marginRight="55dp"
+            app:hintEnabled="false"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/create_pass"
+            app:passwordToggleEnabled="true">
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/confirm_pass"
+                android:layout_width="match_parent"
+                android:layout_height="50dp"
+                android:background="@drawable/text_field_1"
+                android:fontFamily="@font/rubik"
+                android:hint="Confirm Password"
+                android:inputType="textPassword"
+                android:paddingStart="20dp"
+                android:paddingLeft="20dp"
+                android:singleLine="true"
+                android:text="@={viewmodel.con_password}"
+                android:textColor="#8B91AB"
+                android:textSize="14sp"
+                android:theme="@style/EditTextTheme"
+                tools:ignore="RtlSymmetry" />
+        </com.google.android.material.textfield.TextInputLayout>
+
+
+        <Button
+            android:id="@+id/btn_sign_in"
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:layout_marginLeft="55dp"
+            android:layout_marginTop="20dp"
+            android:layout_marginRight="55dp"
+            android:background="@drawable/btn_theme_1"
+            android:clickable="true"
+            android:focusable="true"
+            android:fontFamily="@font/rubik_medium"
+            android:onClick="@{(v) -> viewmodel.signupBtnclick(v)}"
+            android:text="SIGN UP"
+            android:textColor="@color/white"
+            android:textSize="14sp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.504"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/c_passLayout" />
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintVertical_bias=".6"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/btn_sign_in">
+
+            <TextView
+                android:id="@+id/tv_end"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:fontFamily="@font/rubik"
+                android:gravity="center"
+                android:paddingTop="15dp"
+                android:text="Already have an account"
+                android:textColor="@color/black"
+                android:textSize="14sp"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toStartOf="@id/tv_sign_in"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <TextView
+                android:id="@+id/tv_sign_in"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:clickable="true"
+                android:focusable="true"
+                android:fontFamily="@font/rubik"
+                android:gravity="center"
+                android:onClick="@{(v) -> viewmodel.onClickSignIn(v)}"
+                android:paddingLeft="5dp"
+                android:paddingTop="15dp"
+                android:text="SIGN-IN"
+                android:textColor="@color/colorPrimary"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toEndOf="@+id/tv_end"
+                app:layout_constraintTop_toTopOf="parent"
+                tools:ignore="RtlSymmetry" />
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+<!--        <FrameLayout-->
+<!--            android:id="@+id/frameLayout"-->
+<!--            android:layout_width="match_parent"-->
+<!--            android:layout_height="match_parent"-->
+<!--            android:visibility="@{viewmodel.Visibility}"-->
+<!--            android:elevation="100dp"-->
+<!--            android:background="#fffafafa"-->
+<!--            android:clickable="false">-->
+
+<!--            <androidx.constraintlayout.widget.ConstraintLayout-->
+<!--                android:layout_width="match_parent"-->
+<!--                android:layout_height="match_parent">-->
+
+
+<!--                <ImageView-->
+<!--                    android:id="@+id/imageView7"-->
+<!--                    android:layout_width="60dp"-->
+<!--                    android:layout_height="60dp"-->
+<!--                    android:layout_marginTop="30dp"-->
+<!--                    app:layout_constraintEnd_toEndOf="parent"-->
+<!--                    app:layout_constraintStart_toStartOf="parent"-->
+<!--                    app:layout_constraintTop_toTopOf="parent"-->
+<!--                    app:srcCompat="@drawable/ic_baseline_mark_email_read_24" />-->
+
+<!--                <TextView-->
+<!--                    android:id="@+id/textView10"-->
+<!--                    android:layout_width="wrap_content"-->
+<!--                    android:layout_height="wrap_content"-->
+<!--                    android:fontFamily="@font/inter_bold"-->
+<!--                    android:text="Check Your Mail"-->
+<!--                    android:textAlignment="center"-->
+<!--                    android:textColor="@color/black"-->
+<!--                    android:textSize="29sp"-->
+<!--                    app:layout_constraintEnd_toEndOf="parent"-->
+<!--                    app:layout_constraintStart_toStartOf="parent"-->
+<!--                    app:layout_constraintTop_toBottomOf="@id/imageView7" />-->
+
+<!--                <TextView-->
+<!--                    android:id="@+id/description"-->
+<!--                    android:layout_width="wrap_content"-->
+<!--                    android:layout_height="wrap_content"-->
+<!--                    android:layout_marginTop="10dp"-->
+<!--                    android:padding="20dp"-->
+<!--                    android:text="Verification mail has been sent to your Email"-->
+<!--                    android:textAlignment="center"-->
+<!--                    android:textSize="18sp"-->
+<!--                    app:layout_constraintEnd_toEndOf="parent"-->
+<!--                    app:layout_constraintStart_toStartOf="parent"-->
+<!--                    app:layout_constraintTop_toBottomOf="@id/textView10" />-->
+
+<!--                <Button-->
+<!--                    android:id="@+id/openEmail"-->
+<!--                    android:layout_width="wrap_content"-->
+<!--                    android:layout_height="wrap_content"-->
+<!--                    android:layout_marginTop="25dp"-->
+<!--                    android:text="Open Email"-->
+<!--                    android:onClick="@{v->viewmodel.openMail(v)}"-->
+<!--                    android:backgroundTint="@color/colorPrimary"-->
+<!--                    android:textColor="@color/white"-->
+<!--                    app:layout_constraintEnd_toEndOf="parent"-->
+<!--                    app:layout_constraintStart_toStartOf="parent"-->
+<!--                    app:layout_constraintTop_toBottomOf="@id/description" />-->
+
+<!--                <TextView-->
+<!--                    android:id="@+id/skip"-->
+<!--                    android:layout_width="wrap_content"-->
+<!--                    android:layout_height="wrap_content"-->
+<!--                    android:layout_marginTop="5dp"-->
+<!--                    android:onClick="@{v -> viewmodel.loginScreen(v)}"-->
+<!--                    android:text="Return To Login Screen"-->
+<!--                    app:layout_constraintEnd_toEndOf="parent"-->
+<!--                    app:layout_constraintStart_toStartOf="parent"-->
+<!--                    app:layout_constraintTop_toBottomOf="@id/openEmail" />-->
+
+<!--                <TextView-->
+<!--                    android:id="@+id/ResendInfo"-->
+<!--                    android:layout_width="wrap_content"-->
+<!--                    android:layout_height="wrap_content"-->
+<!--                    android:text="Did not receive the email? Check your spam folder"-->
+<!--                    app:layout_constraintBottom_toTopOf="@+id/resend"-->
+<!--                    app:layout_constraintEnd_toEndOf="parent"-->
+<!--                    app:layout_constraintStart_toStartOf="parent" />-->
+
+<!--                <TextView-->
+<!--                    android:id="@+id/resend"-->
+<!--                    android:layout_width="wrap_content"-->
+<!--                    android:layout_height="wrap_content"-->
+<!--                    android:text="or try another email address"-->
+<!--                    app:layout_constraintBottom_toBottomOf="parent"-->
+<!--                    app:layout_constraintEnd_toEndOf="parent"-->
+<!--                    app:layout_constraintStart_toStartOf="parent" />-->
+
+<!--            </androidx.constraintlayout.widget.ConstraintLayout>-->
+
+
+<!--        </FrameLayout>-->
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</layout>
