@@ -1,5 +1,6 @@
 package com.sports.oscaracademy.viewModel;
 
+import android.app.Activity;
 import android.app.Application;
 import android.content.Intent;
 import android.view.View;
@@ -9,6 +10,8 @@ import androidx.lifecycle.AndroidViewModel;
 import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModel;
 
+import com.google.android.gms.auth.api.signin.GoogleSignIn;
+import com.google.android.gms.auth.api.signin.GoogleSignInClient;
 import com.google.android.gms.auth.api.signin.GoogleSignInOptions;
 import com.google.android.gms.common.api.GoogleApiClient;
 import com.google.firebase.auth.FirebaseAuth;
@@ -21,12 +24,9 @@ public class LoginViewModel extends AndroidViewModel {
     public MutableLiveData<loginData> loginData = new MutableLiveData<>();
     public MutableLiveData<String> userName = new MutableLiveData<>();
     public MutableLiveData<String> password = new MutableLiveData<>();
-    private FirebaseAuth mAuth ;
-    private Application app;
+
     public LoginViewModel(Application application) {
         super(application);
-        app = application;
-        mAuth = FirebaseAuth.getInstance();
     }
 
     public MutableLiveData<loginData> getUser() {
@@ -43,16 +43,5 @@ public class LoginViewModel extends AndroidViewModel {
     }
     public void onClickSignUp(View v){
         v.getContext().startActivity(new Intent(v.getContext(),signUpActivity.class));
-    }
-    public void googleSignIn(View v){
-
-    }
-    public void processSignIn(View v){
-        GoogleSignInOptions gso = new GoogleSignInOptions
-                .Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
-                .requestIdToken(v.getContext().getString(R.string.default_web_client_id))
-                .requestEmail()
-                .build();
-//        mGoogleSignInClient = GoogleSignIn.getClient(this, gso);
     }
 }
