@@ -6,14 +6,16 @@
 
     <application
         android:allowBackup="true"
-        android:icon="@mipmap/ic_launcher"
+        android:icon="@drawable/ic_baseline_sports_tennis_24"
         android:label="@string/app_name"
-        android:roundIcon="@mipmap/ic_launcher_round"
+        android:roundIcon="@drawable/ic_baseline_sports_tennis_24"
         android:supportsRtl="true"
         android:theme="@style/Theme.OscarAcademy">
         <activity android:name=".EmailVerification"></activity>
         <activity android:name=".signUpActivity" />
-        <activity android:name=".Dashboard" />
+        <activity
+            android:name=".Dashboard"
+            android:theme="@style/NoActionBar" />
         <activity
             android:name=".LoginActivity"
             android:theme="@style/NoActionBar" />

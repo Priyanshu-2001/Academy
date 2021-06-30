@@ -1,6 +1,7 @@
 package com.sports.oscaracademy;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.app.AppCompatDelegate;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -14,6 +15,7 @@ public class MainActivity extends AppCompatActivity {
 
     @Override
     protected void onStart() {
+        AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO);
         super.onStart();
         FirebaseUser currentUser = mAuth.getCurrentUser();
         updateUI(currentUser);
@@ -26,16 +28,21 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void run() {
                 Intent i;
-                if(currentUser==null){
-                    i = new Intent(MainActivity.this,LoginActivity.class);
-                }else{
-                    i = new Intent(MainActivity.this , Dashboard.class);
+                if (currentUser != null) {
+                    if (currentUser.isEmailVerified())
+                        i = new Intent(MainActivity.this, Dashboard.class);
+                    else{
+                        i = new Intent(MainActivity.this, EmailVerification.class);
+                        i.putExtra("email" ,currentUser.getEmail());
+                    }
+                } else {
+                        i = new Intent(MainActivity.this, LoginActivity.class);
                 }
 
                 startActivity(i);
                 finish();
             }
-        },2000);
+        }, 2000);
 
     }
 

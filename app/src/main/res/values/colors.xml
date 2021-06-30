@@ -8,4 +8,6 @@
     <color name="black">#FF000000</color>
     <color name="white">#FFFFFFFF</color>
     <color name="colorPrimary">#34A853</color>
+    <color name="scnd_grey">#8B91AB</color>
+    <color name="app.compat.light">#fffafafa</color>
 </resources>

@@ -6,12 +6,11 @@ import androidx.databinding.DataBindingUtil;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
 
-import android.app.Activity;
+import android.app.ProgressDialog;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
-import android.widget.Button;
 import android.widget.Toast;
 
 import com.google.android.gms.auth.api.signin.GoogleSignIn;
@@ -22,14 +21,20 @@ import com.google.android.gms.common.SignInButton;
 import com.google.android.gms.common.api.ApiException;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
+import com.google.android.material.snackbar.BaseTransientBottomBar;
+import com.google.android.material.snackbar.Snackbar;
 import com.google.firebase.auth.AuthCredential;
 import com.google.firebase.auth.AuthResult;
+import com.google.firebase.auth.EmailAuthCredential;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.auth.GoogleAuthProvider;
 import com.sports.oscaracademy.data.loginData;
 import com.sports.oscaracademy.databinding.ActivityLoginBinding;
+import com.sports.oscaracademy.dialog.dialogs;
 import com.sports.oscaracademy.viewModel.LoginViewModel;
+
+import org.jetbrains.annotations.NotNull;
 
 public class LoginActivity extends AppCompatActivity {
 
@@ -39,13 +44,8 @@ public class LoginActivity extends AppCompatActivity {
     private FirebaseAuth mAuth;
     SignInButton gSignIn;
     private static final int RC_SIGN_IN = 1002;
-
-    @Override
-    protected void onStart() {
-        super.onStart();
-        FirebaseUser currentUser = mAuth.getCurrentUser();
-//        updateUI(currentUser);
-    }
+    dialogs dialog = new dialogs();
+    private ProgressDialog progressDialog;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -56,7 +56,7 @@ public class LoginActivity extends AppCompatActivity {
         binding.setLifecycleOwner(this);
         binding.setViewmodel(model);
         gSignIn = binding.btnParentLayout;
-
+        progressDialog = new ProgressDialog(LoginActivity.this,R.style.AlertDialog);
         mAuth = FirebaseAuth.getInstance();
         processSignIn();
         gSignIn.setOnClickListener(new View.OnClickListener() {
@@ -65,15 +65,6 @@ public class LoginActivity extends AppCompatActivity {
                 processLogin();
             }
         });
-//        model.gSignIn.observe(this, new Observer<Boolean>() {
-//            @Override
-//            public void onChanged(Boolean b) {
-//                if(b){
-//                    processLogin();
-//                    model.gSignIn.setValue(false);
-//                }
-//            }
-//        });
         model.getUser().observe(this, new Observer<loginData>() {
             @Override
             public void onChanged(loginData loginData) {
@@ -109,6 +100,7 @@ public class LoginActivity extends AppCompatActivity {
                 // Google Sign In was successful, authenticate with Firebase
                 GoogleSignInAccount account = task.getResult(ApiException.class);
                 Log.d("TAG", "firebaseAuthWithGoogle:" + account.getId());
+                dialog.alertDialogLogin(progressDialog,"Signing In....");
                 firebaseAuthWithGoogle(account.getIdToken());
             } catch (ApiException e) {
                 // Google Sign In failed, update UI appropriately
@@ -123,16 +115,18 @@ public class LoginActivity extends AppCompatActivity {
                 .addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
                     @Override
                     public void onComplete(@NonNull Task<AuthResult> task) {
+                        dialog.dismissDialog(progressDialog);
                         if (task.isSuccessful()) {
                             // Sign in success, update UI with the signed-in user's information
                             Log.d("TAG", "signInWithCredential:success");
                             FirebaseUser user = mAuth.getCurrentUser();
+                            startActivity(new Intent(LoginActivity.this,Dashboard.class));
+                            finishAffinity();
+//                            Snackbar.make(LoginActivity.this,getCurrentFocus().getRootView(),"Login Sucessfull",Snackbar.LENGTH_LONG).show();
                             Toast.makeText(LoginActivity.this, "Login Sucessful", Toast.LENGTH_SHORT).show();
-//                            updateUI(user);
                         } else {
-                            // If sign in fails, display a message to the user.
+                            dialog.displayDialog(task.getException().getLocalizedMessage() , LoginActivity.this);
                             Log.w("TAG", "signInWithCredential:failure", task.getException());
-//                            updateUI(null);
                         }
                     }
                 });
@@ -144,10 +138,8 @@ public class LoginActivity extends AppCompatActivity {
         if (loginData.getPassword() != null && loginData.getPassword() != null) {
 
             if (!loginData.getUserName().isEmpty() && !loginData.getPassword().isEmpty()) {
-                Log.e("TAG", "onChanged: username " + loginData.getUserName());
-                Log.e("TAG", "onChanged: pass " + loginData.getPassword());
-//                service = new loginService(login_data, LoginActivity.this);
-
+                dialog.alertDialogLogin(progressDialog,"Signing In....");
+                logUserIn(loginData);
             } else if (!loginData.getUserName().isEmpty() && loginData.getPassword().isEmpty()) {
                 binding.editPass.setError("Enter Password");
             } else if (loginData.getUserName().isEmpty() && !loginData.getPassword().isEmpty()) {
@@ -164,5 +156,27 @@ public class LoginActivity extends AppCompatActivity {
                 binding.editUsername.setError("Enter Username");
             }
         }
+    }
+
+    private void logUserIn(loginData loginData) {
+
+        mAuth.signInWithEmailAndPassword(loginData.getUserName(),loginData.getPassword())
+                .addOnCompleteListener(LoginActivity.this,new OnCompleteListener<AuthResult>() {
+                    @Override
+                    public void onComplete(@NonNull @NotNull Task<AuthResult> task) {
+                        dialog.dismissDialog(progressDialog);
+                        if(task.isSuccessful()){
+                            if(mAuth.getCurrentUser().isEmailVerified()) {
+                                startActivity(new Intent(LoginActivity.this, Dashboard.class));
+                                finishAffinity();
+                            }else{
+                                dialog.displayDialog("Please Verify Your Email",LoginActivity.this);
+                            }
+                        }else{
+                            dialog.displayDialog(task.getException().getLocalizedMessage(),LoginActivity.this);
+//                            Toast.makeText(LoginActivity.this, task.getException().getLocalizedMessage(), Toast.LENGTH_SHORT).show();
+                        }
+                    }
+                });
     }
 }
