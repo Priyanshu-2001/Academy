@@ -1,3 +1,11 @@
 <resources>
     <string name="app_name">OscarAcademy</string>
+    <array name="progress">
+        <item>#34A853</item>
+        <item>#000000</item>
+        <item>#34B453</item>
+        <item>#34C853</item>
+    </array>
+    <string name="open">open</string>
+    <string name="close">close</string>
 </resources>
