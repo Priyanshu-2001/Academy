@@ -17,7 +17,7 @@
         android:layout_height="match_parent"
         android:elevation="100dp"
         android:fitsSystemWindows="true"
-        tools:openDrawer="start">
+        >
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
@@ -81,6 +81,7 @@
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintHorizontal_bias="0.0"
                 app:layout_constraintStart_toStartOf="parent"
+                tools:listitem="@layout/single_dashboard_rcv"
                 app:layout_constraintTop_toBottomOf="@+id/imageView" />
 
             <com.github.ybq.android.spinkit.SpinKitView

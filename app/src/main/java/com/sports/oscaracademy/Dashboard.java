@@ -64,7 +64,7 @@ public class Dashboard extends AppCompatActivity {
 
 
         binding = DataBindingUtil.setContentView(this, R.layout.activity_dashboard);
-        model = new ViewModelProvider(this).get(HomeModel.class);
+//        model = new ViewModelProvider(this).get(HomeModel.class);
         binding.setLifecycleOwner(Dashboard.this);
         rcv = binding.MainRCV;
 
@@ -102,6 +102,10 @@ public class Dashboard extends AppCompatActivity {
             @Override
             public boolean onNavigationItemSelected(@NonNull @NotNull MenuItem item) {
                 switch (item.getItemId()) {
+                    case R.id.Home:
+                        Toast.makeText(Dashboard.this, "Home", Toast.LENGTH_SHORT).show();
+                        drawer.closeDrawer(GravityCompat.START);
+                        break;
                     case R.id.meet_coach:
                         Toast.makeText(Dashboard.this, "Meeting Coach", Toast.LENGTH_SHORT).show();
                         drawer.closeDrawer(GravityCompat.START);
