@@ -15,7 +15,8 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_margin="20dp"
-            android:elevation="10dp"
+            android:outlineSpotShadowColor="@color/colorPrimary"
+            android:elevation="100dp"
             android:padding="30dp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
@@ -25,25 +26,27 @@
             <RelativeLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="15dp"
-                android:padding="25dp">
+                android:paddingVertical="25dp"
+                android:paddingHorizontal="10dp">
 
                 <TextView
                     android:id="@+id/textView"
-                    android:layout_width="wrap_content"
+                    android:layout_width="100dp"
                     android:layout_height="wrap_content"
                     android:layout_below="@id/image"
                     android:layout_centerHorizontal="true"
+                    android:textAlignment="center"
                     android:layout_marginTop="10dp"
                     android:textColor="#000000"
                     android:textSize="12sp"
+                    android:breakStrategy="simple"
                     android:text="@{userModelRCV.fieldname}"
                     app:fontFamily="@font/rubik" />
 
                 <ImageView
                     android:id="@+id/image"
-                    android:layout_width="75dp"
-                    android:layout_height="75dp"
+                    android:layout_width="100dp"
+                    android:layout_height="100dp"
                     android:layout_centerHorizontal="true"
                     android:layout_marginTop="15dp"
                     android:src="@drawable/app_icon"

@@ -55,7 +55,7 @@
                 app:layout_constraintTop_toTopOf="parent"
                 app:srcCompat="@drawable/app_icon" />
 
-            <androidx.recyclerview.widget.RecyclerView
+             <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/MainRCV"
                 android:layout_width="match_parent"
                 android:layout_height="0dp"
