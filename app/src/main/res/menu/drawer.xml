@@ -2,13 +2,20 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android">
     <group android:checkableBehavior="single">
         <item
+            android:id="@+id/Home"
+            android:title="Home"
+            android:icon="@drawable/home"/>
+        <item
             android:id="@+id/meet_coach"
-            android:title="Meet Coach" />
+            android:title="Contact Us"
+            android:icon="@drawable/contact"/>
         <item
             android:id="@+id/privacy_policy"
-            android:title="Privacy Policy" />
+            android:title="Privacy Policy"
+            android:icon="@drawable/privacy"/>
         <item
             android:id="@+id/Log_out"
-            android:title="Log Out" />
+            android:title="Log Out"
+            android:icon="@drawable/logout"/>
     </group>
 </menu>

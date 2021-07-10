@@ -1,12 +1,15 @@
 package com.sports.oscaracademy.data;
 
+import android.app.Application;
 import android.widget.ImageView;
 
 import androidx.databinding.BindingAdapter;
+import androidx.lifecycle.AndroidViewModel;
+import androidx.lifecycle.ViewModel;
 
 import com.bumptech.glide.Glide;
 
-public class DashBoardData {
+public class DashBoardData extends ViewModel {
     public String ImageUrl , fieldname;
 
     public String getImageUrl() {
@@ -19,7 +22,7 @@ public class DashBoardData {
     }
 
     public DashBoardData(String imageUrl, String fieldname) {
-        ImageUrl = imageUrl;
+        ImageUrl = imageUrl ;
         this.fieldname = fieldname;
     }
     @BindingAdapter("android:loadImage") // function name is independent of this xml loadImage :)

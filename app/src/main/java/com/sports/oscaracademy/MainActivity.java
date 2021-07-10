@@ -22,7 +22,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void updateUI(FirebaseUser currentUser) {
-
+        getWindow().setStatusBarColor(getColor(R.color.app_compat_light));
         Handler mHandeler = new Handler();
         mHandeler.postDelayed(new Runnable() {
             @Override

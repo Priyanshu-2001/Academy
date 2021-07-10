@@ -42,6 +42,9 @@ import com.sports.oscaracademy.viewModel.LoginViewModel;
 
 import org.jetbrains.annotations.NotNull;
 
+import java.util.HashMap;
+import java.util.Map;
+
 public class LoginActivity extends AppCompatActivity {
 
     private ActivityLoginBinding binding;
@@ -53,6 +56,7 @@ public class LoginActivity extends AppCompatActivity {
     dialogs dialog = new dialogs();
     private ProgressDialog progressDialog;
     FirebaseFirestore store;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -64,6 +68,7 @@ public class LoginActivity extends AppCompatActivity {
         gSignIn = binding.btnParentLayout;
         progressDialog = new ProgressDialog(LoginActivity.this,R.style.AlertDialog);
         mAuth = FirebaseAuth.getInstance();
+        store = FirebaseFirestore.getInstance();
         processSignIn();
         gSignIn.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -125,12 +130,15 @@ public class LoginActivity extends AppCompatActivity {
                         if (task.isSuccessful()) {
                             // Sign in success, update UI with the signed-in user's information
                             Log.d("TAG", "signInWithCredential:success");
-                            FirebaseUser user = mAuth.getCurrentUser();
-                            SaveToPreferences();
-                            startActivity(new Intent(LoginActivity.this,Dashboard.class));
-                            finishAffinity();
-//                            Snackbar.make(LoginActivity.this,getCurrentFocus().getRootView(),"Login Sucessfull",Snackbar.LENGTH_LONG).show();
-                            Toast.makeText(LoginActivity.this, "Login Sucessful", Toast.LENGTH_SHORT).show();
+                            Log.e("TAG", "onComplete: " + task.getResult().getAdditionalUserInfo().isNewUser() );
+                            if(task.getResult().getAdditionalUserInfo().isNewUser()){
+                                saveInDB();
+                            }else{
+                                SaveToPreferences();
+                                startActivity(new Intent(LoginActivity.this, Dashboard.class));
+                                finishAffinity();
+                            }
+                            Snackbar.make(binding.getRoot(),"Login Sucess Full",BaseTransientBottomBar.LENGTH_LONG).show();
                         } else {
                             dialog.displayDialog(task.getException().getLocalizedMessage() , LoginActivity.this);
                             Log.w("TAG", "signInWithCredential:failure", task.getException());
@@ -174,11 +182,22 @@ public class LoginActivity extends AppCompatActivity {
                         dialog.dismissDialog(progressDialog);
                         if(task.isSuccessful()){
                             if(mAuth.getCurrentUser().isEmailVerified()) {
-                                SaveToPreferences();
-                                startActivity(new Intent(LoginActivity.this, Dashboard.class));
-                                finishAffinity();
+                                Log.d("TAG", "onComplete: " + task.getResult().getAdditionalUserInfo().isNewUser());
+                                if(task.getResult().getAdditionalUserInfo().isNewUser()){
+                                    saveInDB();
+                                }else{
+                                    Toast.makeText(LoginActivity.this, "nooooooooo", Toast.LENGTH_SHORT).show();
+                                    SaveToPreferences();
+                                    startActivity(new Intent(LoginActivity.this, Dashboard.class));
+                                    finishAffinity();
+                                }
                             }else{
-                                dialog.displayDialog("Please Verify Your Email",LoginActivity.this);
+                                mAuth.getCurrentUser().sendEmailVerification().addOnSuccessListener(new OnSuccessListener<Void>() {
+                                    @Override
+                                    public void onSuccess(Void unused) {
+                                        dialog.displayDialog("Please Verify Your Email",LoginActivity.this);
+                                    }
+                                });
                             }
                         }else{
                             dialog.displayDialog(task.getException().getLocalizedMessage(),LoginActivity.this);
@@ -186,6 +205,41 @@ public class LoginActivity extends AppCompatActivity {
                         }
                     }
                 });
+    }
+
+    private void saveInDB(){
+        Map<String,String> item = new HashMap<>();
+        item.put("name" ,mAuth.getCurrentUser().getDisplayName() );
+        item.put("isStudent" , "false");
+        item.put("email" , mAuth.getCurrentUser().getEmail());
+        item.put("userID",mAuth.getCurrentUser().getUid());
+        item.put("Phone Number", "Not Available");
+        item.put("Age", "Not Available");
+        item.put("Sex", "Not Available");
+        item.put("DOB", "Not Available");
+        store.collection("user").document(mAuth.getUid()).set(item).
+                addOnCompleteListener(new OnCompleteListener<Void>() {
+                    @Override
+                    public void onComplete(@NonNull @NotNull Task<Void> task) {
+                        if(task.isSuccessful()){
+                            Map<String, String> type = new HashMap<>();
+                            type.put("role","Student_dashboard");
+                            store.collection("userType_private").document(mAuth.getCurrentUser().getUid())
+                                    .set(type)
+                                    .addOnCompleteListener(new OnCompleteListener<Void>() {
+                                        @Override
+                                        public void onComplete(@NonNull @NotNull Task<Void> task) {
+                                            SaveToPreferences();
+                                            startActivity(new Intent(LoginActivity.this, Dashboard.class));
+                                            finishAffinity();
+                                        }
+                                    });
+                        }else{
+                            Toast.makeText(LoginActivity.this, task.getException().getLocalizedMessage(), Toast.LENGTH_SHORT).show();
+                        }
+                    }
+                });
+
     }
 
     private void SaveToPreferences() {
@@ -204,7 +258,6 @@ public class LoginActivity extends AppCompatActivity {
         editor.apply();
     }
     private String getUserType(){
-        store = FirebaseFirestore.getInstance();
         DocumentReference doc = FirebaseFirestore.getInstance().collection("userType_private").document(mAuth.getUid().toString());
         final String[] temp = new String[1];
         doc.get().addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
@@ -224,7 +277,7 @@ public class LoginActivity extends AppCompatActivity {
         });
         return temp[0];
     }
-    // Method need to be put after some time
+    // Method need to be put after some time for userType login
     public void NextScreenIntent(){
         Intent i;
         if(getUserType()=="admin"){
