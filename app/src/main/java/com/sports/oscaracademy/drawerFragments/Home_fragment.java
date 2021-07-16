@@ -1,5 +1,7 @@
 package com.sports.oscaracademy.drawerFragments;
 
+import android.content.Context;
+import android.content.SharedPreferences;
 import android.os.Build;
 import android.os.Bundle;
 
@@ -19,10 +21,8 @@ import android.widget.Toast;
 
 import com.github.ybq.android.spinkit.sprite.Sprite;
 import com.github.ybq.android.spinkit.style.WanderingCubes;
-import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
-import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
@@ -38,13 +38,7 @@ import org.jetbrains.annotations.NotNull;
 import java.util.ArrayList;
 
 public class Home_fragment extends Fragment {
-    private static final String ARG_PARAM1 = "param1";
-    private static final String ARG_PARAM2 = "param2";
-
-    private String mParam1;
-    private String mParam2;
     private FirebaseAuth mAuth;
-    private HomeModel model;
     private RecyclerView rcv;
     private dashBoard_adapter adapter;
     private FirebaseFirestore db;
@@ -56,10 +50,6 @@ public class Home_fragment extends Fragment {
     }
     public static Home_fragment newInstance() {
         Home_fragment fragment = new Home_fragment();
-//        Bundle args = new Bundle();
-//        args.putString(ARG_PARAM1, param1);
-//        args.putString(ARG_PARAM2, param2);
-//        fragment.setArguments(args);
         return fragment;
     }
 
@@ -68,16 +58,11 @@ public class Home_fragment extends Fragment {
         super.onCreate(savedInstanceState);
         mAuth = FirebaseAuth.getInstance();
         db = FirebaseFirestore.getInstance();
-        if (getArguments() != null) {
-            mParam1 = getArguments().getString(ARG_PARAM1);
-            mParam2 = getArguments().getString(ARG_PARAM2);
-        }
     }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        // Inflate the layout for this fragment
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {
             requireActivity().getWindow().setStatusBarColor(getResources().getColor(R.color.white,getContext().getTheme()));
             requireActivity().getWindow().getDecorView().setSystemUiVisibility(View.SYSTEM_UI_FLAG_LIGHT_STATUS_BAR);
@@ -100,6 +85,12 @@ public class Home_fragment extends Fragment {
                         Log.d("TAG", "onSuccess: document snapshot" + documentSnapshot);
                         Log.d("TAG", "onSuccess: document role" + documentSnapshot.get("role"));
                         collection[0] = String.valueOf(documentSnapshot.get("role"));
+                        SharedPreferences.Editor editor = requireContext().getSharedPreferences("tokenFile", Context.MODE_PRIVATE).edit();
+                        if(collection[0].equals("Student_dashboard"))
+                            editor.putString("role","0");
+                        else
+                            editor.putString("role","1");
+                        editor.apply();
                         db.collection(collection[0]).get()
                                 .addOnSuccessListener(new OnSuccessListener<QuerySnapshot>() {
                                     @Override
@@ -114,7 +105,7 @@ public class Home_fragment extends Fragment {
                                             datalist.add(new DashBoardData(imgURL.get(i), s));
                                             i++;
                                         }
-                                        adapter = new dashBoard_adapter(datalist); // need data over here from firebase server
+                                        adapter = new dashBoard_adapter(datalist, requireContext()); // need data over here from firebase server
                                         Log.d("TAG", "onCreate: " + datalist.get(1).getFieldname());
                                         rcv.setLayoutManager(new GridLayoutManager(getContext(), 2));
                                         rcv.setAdapter(adapter);

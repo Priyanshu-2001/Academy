@@ -11,7 +11,9 @@
         android:roundIcon="@drawable/app_icon"
         android:supportsRtl="true"
         android:theme="@style/Theme.OscarAcademy">
-        <activity android:name=".EmailVerification"></activity>
+        <activity android:name=".dashboardAcivities.admin_attendance"></activity>
+        <activity android:name=".dashboardAcivities.attendance" />
+        <activity android:name=".EmailVerification" />
         <activity android:name=".signUpActivity" />
         <activity
             android:name=".Dashboard"

@@ -7,7 +7,10 @@
     <color name="teal_700">#FF018786</color>
     <color name="black">#FF000000</color>
     <color name="white">#FFFFFFFF</color>
-    <color name="colorPrimary">#34A853</color>
+    <color name="colorPrimary">#07A8C5</color>
     <color name="scnd_grey">#8B91AB</color>
+    <color name="absent_span">#D50000</color>
+    <color name="present_spam">#00C853</color>
+    <color name="leave_span">#8B91AB</color>
     <color name="app.compat.light">#fffafafa</color>
 </resources>

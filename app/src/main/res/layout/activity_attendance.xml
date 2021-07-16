@@ -1,0 +1,190 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+
+    </data>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        tools:context=".dashboardAcivities.attendance">
+
+        <androidx.appcompat.widget.Toolbar xmlns:android="http://schemas.android.com/apk/res/android"
+            android:id="@+id/toolbar"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:elevation="25dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent">
+
+            <TextView
+                android:id="@+id/topTitleName"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:fadingEdge="horizontal"
+                android:gravity="center"
+                android:marqueeRepeatLimit="2"
+                android:textColor="#000000"
+                android:textSize="20sp"
+                android:textStyle="bold" />
+        </androidx.appcompat.widget.Toolbar>
+
+        <com.prolificinteractive.materialcalendarview.MaterialCalendarView xmlns:app="http://schemas.android.com/apk/res-auto"
+            android:id="@+id/calendarView"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/toolbar"
+            app:mcv_firstDayOfWeek="monday"
+            app:mcv_selectionColor="@color/colorPrimary"
+            app:mcv_showOtherDates="all" />
+
+        <ScrollView
+            android:id="@+id/AdminScrollView"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:visibility="gone"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/calendarView">
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center">
+                <Button
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="20dp"
+                    android:id="@+id/markAttendance"
+                    android:padding="20dp"
+                    android:text="Mark Attendance"
+                    android:layout_centerHorizontal="true"
+                    android:background="@drawable/btn_theme_1"
+                    android:textColor="@color/white"/>
+                <Button
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/getAttend"
+                    android:text="Get Attendance"
+                    android:textColor="@color/white"
+                    android:padding="20dp"
+                    android:layout_below="@+id/markAttendance"
+                    android:background="@drawable/btn_theme_1"
+                    android:layout_centerHorizontal="true"
+                    android:layout_marginTop="10dp"
+                    />
+            </RelativeLayout>
+
+        </ScrollView>
+
+        <ScrollView
+            android:id="@+id/studentScrollView"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:visibility="visible"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/calendarView">
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:padding="25dp">
+
+                <Button
+                    android:id="@+id/leaveButton"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerInParent="true"
+                    android:background="@drawable/btn_theme_1"
+                    android:padding="20dp"
+                    android:text="Apply For Leave"
+                    android:textColor="@color/white"
+                    android:textSize="14sp"
+                    android:visibility="gone" />
+                <Button
+                    android:id="@+id/cancelLeave"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerInParent="true"
+                    android:background="@drawable/btn_theme_1"
+                    android:padding="20dp"
+                    android:text="Cancel Leave"
+                    android:textColor="@color/white"
+                    android:textSize="14sp"
+                    android:visibility="gone" />
+
+                <de.hdodenhof.circleimageview.CircleImageView
+                    android:id="@+id/absent"
+                    android:layout_width="10dp"
+                    android:layout_height="10dp"
+                    android:layout_margin="10dp"
+                    android:layout_marginTop="25dp"
+                    android:src="@drawable/absent_span" />
+
+                <de.hdodenhof.circleimageview.CircleImageView
+                    android:id="@+id/present"
+                    android:layout_width="10dp"
+                    android:layout_height="10dp"
+                    android:layout_below="@id/absent"
+                    android:layout_centerVertical="true"
+                    android:layout_margin="10dp"
+                    android:src="@drawable/present_span" />
+
+                <de.hdodenhof.circleimageview.CircleImageView
+                    android:id="@+id/leave"
+                    android:layout_width="10dp"
+                    android:layout_height="10dp"
+                    android:layout_below="@id/present"
+                    android:layout_margin="10dp"
+                    android:src="@drawable/leave_span" />
+
+                <TextView
+                    android:id="@+id/absentText"
+                    android:layout_width="wrap_content"
+                    android:layout_height="12dp"
+                    android:layout_alignParentTop="true"
+                    android:layout_marginStart="2dp"
+                    android:layout_marginTop="10dp"
+                    android:layout_marginEnd="10dp"
+                    android:layout_marginBottom="10dp"
+                    android:layout_toEndOf="@id/absent"
+                    android:text="Absent"
+                    android:textSize="8sp" />
+
+                <TextView
+                    android:id="@+id/presentText"
+                    android:layout_width="wrap_content"
+                    android:layout_height="12dp"
+                    android:layout_below="@id/absentText"
+                    android:layout_marginStart="2dp"
+                    android:layout_marginTop="6dp"
+                    android:layout_toEndOf="@id/present"
+                    android:text="Present"
+                    android:textSize="8sp" />
+
+                <TextView
+                    android:id="@+id/leaveText"
+                    android:layout_width="wrap_content"
+                    android:layout_height="12dp"
+                    android:layout_below="@id/presentText"
+                    android:layout_marginStart="2dp"
+                    android:layout_marginTop="16dp"
+                    android:layout_toEndOf="@id/leave"
+                    android:text="Leave"
+                    android:textSize="8sp" />
+
+
+            </RelativeLayout>
+
+        </ScrollView>
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</layout>

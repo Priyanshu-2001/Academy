@@ -138,7 +138,7 @@ public class LoginActivity extends AppCompatActivity {
                                 startActivity(new Intent(LoginActivity.this, Dashboard.class));
                                 finishAffinity();
                             }
-                            Snackbar.make(binding.getRoot(),"Login Sucess Full",BaseTransientBottomBar.LENGTH_LONG).show();
+                            Snackbar.make(binding.getRoot(),"Login Success",BaseTransientBottomBar.LENGTH_LONG).show();
                         } else {
                             dialog.displayDialog(task.getException().getLocalizedMessage() , LoginActivity.this);
                             Log.w("TAG", "signInWithCredential:failure", task.getException());
@@ -186,7 +186,6 @@ public class LoginActivity extends AppCompatActivity {
                                 if(task.getResult().getAdditionalUserInfo().isNewUser()){
                                     saveInDB();
                                 }else{
-                                    Toast.makeText(LoginActivity.this, "nooooooooo", Toast.LENGTH_SHORT).show();
                                     SaveToPreferences();
                                     startActivity(new Intent(LoginActivity.this, Dashboard.class));
                                     finishAffinity();
