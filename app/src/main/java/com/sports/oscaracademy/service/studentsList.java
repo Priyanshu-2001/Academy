@@ -77,6 +77,7 @@ public class studentsList {
                     }
                     data.setValue(tempData);
                 }else{
+                    data.setValue(null);
                     Toast.makeText(mContext, Objects.requireNonNull(task.getException()).getLocalizedMessage(), Toast.LENGTH_SHORT).show();
                 }
             }

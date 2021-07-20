@@ -88,6 +88,12 @@ public class attendance extends AppCompatActivity {
                     markAttendance();
                 }
             });
+            binding.getAttend.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    getAttendance();
+                }
+            });
         }
 
 
@@ -123,11 +129,21 @@ public class attendance extends AppCompatActivity {
         });
     }
 
+    private void getAttendance() {
+        Intent i = new Intent(this,admin_attendance.class);
+        i.putExtra("date",binding.calendarView.getSelectedDate().getDay());
+        i.putExtra("month",binding.calendarView.getSelectedDate().getMonth());
+        i.putExtra("year",binding.calendarView.getSelectedDate().getYear());
+        i.putExtra("type","get");
+        startActivity(i);
+    }
+
     private void markAttendance() {
         Intent i = new Intent(this,admin_attendance.class);
         i.putExtra("date",binding.calendarView.getSelectedDate().getDay());
         i.putExtra("month",binding.calendarView.getSelectedDate().getMonth());
         i.putExtra("year",binding.calendarView.getSelectedDate().getYear());
+        i.putExtra("type","post");
         startActivity(i);
     }
 

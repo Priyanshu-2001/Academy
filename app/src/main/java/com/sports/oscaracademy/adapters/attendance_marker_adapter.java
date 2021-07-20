@@ -26,12 +26,15 @@ public class attendance_marker_adapter extends RecyclerView.Adapter<attendance_m
     public ArrayList<Attendance_list> newData = new ArrayList<>();
     public boolean isPresent , onLeave ;
     public int date, month , year;
-    public attendance_marker_adapter(ArrayList<Attendance_list> list, int date, int month, int year) {
+    public String type;
+    public attendance_marker_adapter(ArrayList<Attendance_list> list, int date, int month, int year,String type) {
         this.data = list;
         this.date = date;
         this.month = month;
         this.year = year;
+        this.type = type;
     }
+
 
     @NonNull
     @NotNull
@@ -57,6 +60,11 @@ public class attendance_marker_adapter extends RecyclerView.Adapter<attendance_m
         public Vholder(@NonNull @NotNull SingleAttendMarkerRcvBinding binding) {
             super(binding.getRoot());
             this.binding = binding;
+            if(type.equals("get")){
+                this.binding.leave.setClickable(false);
+                this.binding.absent.setClickable(false);
+                this.binding.present.setClickable(false);
+            }
             binding.radioGrp.setOnCheckedChangeListener(this);
         }
 
