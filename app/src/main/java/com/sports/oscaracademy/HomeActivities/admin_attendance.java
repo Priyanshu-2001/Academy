@@ -61,11 +61,17 @@ public class admin_attendance extends AppCompatActivity {
         students.getStudents().observe(this, new Observer<ArrayList<Studentdata>>() {
             @Override
             public void onChanged(ArrayList<Studentdata> studentdata) {
+
+
                 Log.d("TAG", "onChanged: " + studentdata.get(0));
                 progressBar.setVisibility(View.VISIBLE);
+
+
                 getAttend.getPreviousRecord(date + "-" + month + "-" + year).observe(binding.getLifecycleOwner(), new Observer<ArrayList<Attendance_list>>() {
                     @Override
                     public void onChanged(ArrayList<Attendance_list> studentAttendances) {
+
+
                         if (studentAttendances != null) {
                             for (int i = 0; i < studentdata.size(); i++) {
                                 if (studentAttendances.size() > 0) {
@@ -73,6 +79,7 @@ public class admin_attendance extends AppCompatActivity {
                                         if (studentAttendances.get(j).getRollNo().equals(studentdata.get(i).getRollno())) {
                                             list.add(new Attendance_list(studentdata.get(i).getRollno(), studentdata.get(i).getName(), studentAttendances.get(j).getOnLeave(), studentAttendances.get(j).getPresent()));
                                             studentdata.remove(i);
+                                            i--;
                                             studentAttendances.remove(j);
                                             isadded[0] = true;
                                             break;
@@ -82,11 +89,17 @@ public class admin_attendance extends AppCompatActivity {
                                         list.add(new Attendance_list(studentdata.get(i).getRollno(), studentdata.get(i).getName()));
                                         isadded[0] = false;
                                     }
+                                } else {
+                                    list.add(new Attendance_list(studentdata.get(i).getRollno(), studentdata.get(i).getName()));
+                                    studentdata.remove(i);
+                                    i--;
                                 }
-                                if (studentAttendances.size() > 0) {
-                                    for (int k = 0; k < studentAttendances.size(); k++) {
-                                        list.add(new Attendance_list(studentAttendances.get(k).getRollNo(), studentAttendances.get(k).getName(), studentAttendances.get(k).getOnLeave(), studentAttendances.get(k).getPresent()));
-                                    }
+                            }
+                            if (!studentdata.isEmpty()) {
+                                for (int i = 0; i < studentdata.size(); i++) {
+                                    list.add(new Attendance_list(studentdata.get(i).getRollno(), studentdata.get(i).getName()));
+                                    studentdata.remove(i);
+                                    i--;
                                 }
                             }
                             Log.d("TAG", "onCreate: " + list.get(0).getOnLeave());
@@ -104,12 +117,12 @@ public class admin_attendance extends AppCompatActivity {
                         adapter.notifyDataSetChanged();
                     }
                 });
-
-
             }
         });
 
-        adapter = new attendance_marker_adapter(list, date, month, year);
+        adapter = new
+
+                attendance_marker_adapter(list, date, month, year);
 
         rcv.setAdapter(adapter);
         progressBar = binding.progress;
