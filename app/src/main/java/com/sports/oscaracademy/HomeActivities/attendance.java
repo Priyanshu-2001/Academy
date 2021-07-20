@@ -1,4 +1,4 @@
-package com.sports.oscaracademy.dashboardAcivities;
+package com.sports.oscaracademy.HomeActivities;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
@@ -9,7 +9,6 @@ import androidx.databinding.DataBindingUtil;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
-import android.text.style.ForegroundColorSpan;
 import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
@@ -18,7 +17,6 @@ import android.widget.Toast;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.auth.FirebaseAuth;
-import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.SetOptions;
 import com.prolificinteractive.materialcalendarview.CalendarDay;
@@ -61,6 +59,8 @@ public class attendance extends AppCompatActivity {
     }
 
     public String role;
+
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

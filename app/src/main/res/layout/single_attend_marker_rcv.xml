@@ -71,12 +71,12 @@
 
                     <RadioButton
                         android:id="@+id/present"
-                        android:layout_width="24dp"
+                        android:layout_width="wrap_content"
                         android:layout_height="24dp"
                         android:layout_marginTop="5dp"
                         android:layout_marginEnd="15dp"
                         android:button="@drawable/absent_toggle"
-                        android:checked="@={dataModel.present}" />
+                        android:checked="@={dataModel.absent}" />
 
                     <RadioButton
                         android:id="@+id/leave"

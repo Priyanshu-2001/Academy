@@ -115,6 +115,6 @@ public class Dashboard extends AppCompatActivity {
             e.printStackTrace();
         }
         drawer.closeDrawer(GravityCompat.START);
-        getSupportFragmentManager().beginTransaction().replace(R.id.frameContainer, ProfileFragment.newInstance()).commit();
+        getSupportFragmentManager().beginTransaction().replace(R.id.frameContainer, ProfileFragment.newInstance(mAuth.getUid())).commit();
     }
 }

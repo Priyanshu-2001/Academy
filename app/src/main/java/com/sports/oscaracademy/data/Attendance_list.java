@@ -1,17 +1,45 @@
 package com.sports.oscaracademy.data;
 
-import androidx.lifecycle.MutableLiveData;
-
 public class Attendance_list {
-    String RollNo , Name ;
-    Boolean onLeave, isPresent;
+    String RollNo, Name;
+    Boolean onLeave, isPresent, isAbsent;
 
     public Attendance_list(String rollNo, String name, Boolean onLeave, Boolean isPresent) {
         RollNo = rollNo;
         Name = name;
         this.onLeave = onLeave;
-        this.isPresent = isPresent;
+        if(onLeave){
+            this.isPresent = false;
+            this.isAbsent = false;
+        }else {
+            this.isPresent = isPresent;
+            this.isAbsent = !isPresent;
+        }
     }
+
+    public Attendance_list(String rollNo, Boolean isPresent , Boolean onLeave) {
+        RollNo = rollNo;
+        this.onLeave = onLeave;
+        this.isPresent = isPresent;
+        this.isAbsent = !isPresent;
+    }
+
+    public Attendance_list(String rollNo, String name, Boolean onLeave) {
+        RollNo = rollNo;
+        Name = name;
+        this.onLeave = onLeave;
+        this.isPresent = false;
+        this.isAbsent = false;
+    }
+
+    public Attendance_list(String rollNo, String name) {
+        RollNo = rollNo;
+        Name = name;
+        this.isPresent = false;
+        this.onLeave = false;
+        this.isAbsent = false;
+    }
+
 
     public String getRollNo() {
         return RollNo;
@@ -39,6 +67,20 @@ public class Attendance_list {
 
     public Boolean getPresent() {
         return isPresent;
+    }
+
+    public Boolean getAbsent() {
+        return isAbsent;
+    }
+
+    public void setAbsent(Boolean absent) {
+        if (absent) {
+            isAbsent = true;
+            isPresent = false;
+        } else {
+            isAbsent = false;
+            isPresent = true;
+        }
     }
 
     public void setPresent(Boolean present) {

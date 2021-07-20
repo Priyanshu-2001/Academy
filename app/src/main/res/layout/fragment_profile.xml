@@ -1,14 +1,228 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    tools:context=".drawerFragments.ProfileFragment">
 
-    <!-- TODO: Update blank fragment layout -->
-    <TextView
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+        <variable
+            name="model"
+            type="com.sports.oscaracademy.data.Studentdata" />
+    </data>
+
+    <ScrollView
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:text="@string/hello_blank_fragment" />
+        android:layout_height="wrap_content">
 
-</FrameLayout>
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            tools:context=".drawerFragments.ProfileFragment">
+
+            <de.hdodenhof.circleimageview.CircleImageView
+                android:id="@+id/profilepic"
+                android:layout_width="150dp"
+                android:layout_height="150dp"
+                android:layout_marginTop="25dp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                android:src="@drawable/app_icon"/>
+
+
+            <AutoCompleteTextView
+                android:id="@+id/doctor_name"
+                android:layout_width="match_parent"
+                android:layout_height="50dp"
+                android:layout_marginHorizontal="25dp"
+                android:layout_marginVertical="20dp"
+                android:background="@drawable/text_field_1"
+                android:hint="Name"
+                android:inputType="text"
+                android:paddingStart="20dp"
+                android:text="@{model.name}"
+                android:paddingLeft="20dp"
+                android:paddingRight="20dp"
+                android:singleLine="true"
+                android:textColor="#8B91AB"
+                android:textColorHint="@color/black"
+                android:textSize="14sp"
+                android:theme="@style/EditTextTheme"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/profilepic" />
+
+
+            <AutoCompleteTextView
+                android:id="@+id/Email"
+                android:layout_width="match_parent"
+                android:layout_height="50dp"
+                android:layout_marginHorizontal="25dp"
+                android:layout_marginVertical="20dp"
+                android:background="@drawable/text_field_1"
+                android:text="@{model.email}"
+                android:hint="Email"
+                android:inputType="text"
+                android:paddingStart="20dp"
+                android:paddingLeft="20dp"
+                android:paddingRight="20dp"
+                android:singleLine="true"
+                android:textColor="#8B91AB"
+                android:textColorHint="@color/black"
+                android:textSize="14sp"
+                android:theme="@style/EditTextTheme"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/doctor_name" />
+
+            <AutoCompleteTextView
+                android:id="@+id/phone"
+                android:layout_width="match_parent"
+                android:layout_height="50dp"
+                android:layout_marginHorizontal="25dp"
+                android:layout_marginVertical="20dp"
+                android:text="@{model.phone}"
+                android:background="@drawable/text_field_1"
+                android:hint="Phone Number"
+                android:inputType="text"
+                android:paddingStart="20dp"
+                android:paddingLeft="20dp"
+                android:paddingRight="20dp"
+                android:singleLine="true"
+                android:textColor="#8B91AB"
+                android:textColorHint="@color/black"
+                android:textSize="14sp"
+                android:theme="@style/EditTextTheme"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/Email" />
+
+            <AutoCompleteTextView
+                android:id="@+id/Dob"
+                android:layout_width="match_parent"
+                android:layout_height="50dp"
+                android:layout_marginHorizontal="25dp"
+                android:layout_marginVertical="20dp"
+                android:text="@{model.DOB}"
+                android:background="@drawable/text_field_1"
+                android:hint="DOB"
+                android:inputType="text"
+                android:paddingStart="20dp"
+                android:paddingLeft="20dp"
+                android:paddingRight="20dp"
+                android:singleLine="true"
+                android:textColor="#8B91AB"
+                android:textColorHint="@color/black"
+                android:textSize="14sp"
+                android:theme="@style/EditTextTheme"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/phone" />
+
+            <AutoCompleteTextView
+                android:id="@+id/sex"
+                android:layout_width="match_parent"
+                android:layout_height="50dp"
+                android:layout_marginHorizontal="25dp"
+                android:layout_marginVertical="20dp"
+                android:background="@drawable/text_field_1"
+                android:hint="Sex"
+                android:text="@{model.sex}"
+                android:inputType="text"
+                android:paddingStart="20dp"
+                android:paddingLeft="20dp"
+                android:paddingRight="20dp"
+                android:singleLine="true"
+                android:textColor="#8B91AB"
+                android:textColorHint="@color/black"
+                android:textSize="14sp"
+                android:theme="@style/EditTextTheme"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.0"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/Dob" />
+
+            <AutoCompleteTextView
+                android:id="@+id/age"
+                android:layout_width="match_parent"
+                android:layout_height="50dp"
+                android:layout_marginHorizontal="25dp"
+                android:layout_marginVertical="20dp"
+                android:background="@drawable/text_field_1"
+                android:hint="Age"
+                android:text="@{model.age}"
+                android:inputType="text"
+                android:paddingStart="20dp"
+                android:paddingLeft="20dp"
+                android:paddingRight="20dp"
+                android:singleLine="true"
+                android:textColor="#8B91AB"
+                android:textColorHint="@color/black"
+                android:textSize="14sp"
+                android:theme="@style/EditTextTheme"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.0"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/sex" />
+
+            <AutoCompleteTextView
+                android:id="@+id/session"
+                android:layout_width="match_parent"
+                android:layout_height="50dp"
+                android:layout_marginHorizontal="25dp"
+                android:layout_marginVertical="20dp"
+                android:background="@drawable/text_field_1"
+                android:hint="Session"
+                android:text="Details Not Available Yet"
+                android:inputType="text"
+                android:paddingStart="20dp"
+                android:paddingLeft="20dp"
+                android:paddingRight="20dp"
+                android:singleLine="true"
+                android:textColor="#8B91AB"
+                android:textColorHint="@color/black"
+                android:textSize="14sp"
+                android:theme="@style/EditTextTheme"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="1.0"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/age" />
+
+            <AutoCompleteTextView
+                android:id="@+id/feesVaildity"
+                android:layout_width="match_parent"
+                android:layout_height="50dp"
+                android:layout_marginHorizontal="25dp"
+                android:layout_marginVertical="20dp"
+                android:background="@drawable/text_field_1"
+                android:hint="Valid Till"
+                android:text="@{model.validTo}"
+                android:inputType="text"
+                android:paddingStart="20dp"
+                android:paddingLeft="20dp"
+                android:paddingRight="20dp"
+                android:singleLine="true"
+                android:textColor="#8B91AB"
+                android:textColorHint="@color/black"
+                android:textSize="14sp"
+                android:theme="@style/EditTextTheme"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="1.0"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/session" />
+
+            <Button
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_margin="25dp"
+                android:text="Edit"
+                android:background="@drawable/btn_theme_2"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/feesVaildity" />
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+    </ScrollView>
+</layout>

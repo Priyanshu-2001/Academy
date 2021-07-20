@@ -14,6 +14,7 @@ import android.widget.Toast;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.Task;
+import com.google.firebase.Timestamp;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
@@ -78,7 +79,7 @@ public class signUpActivity extends AppCompatActivity {
                                                     if (task.isSuccessful()) {
                                                         Intent i = new Intent(signUpActivity.this, EmailVerification.class);
                                                         i.putExtra("email", mAuth.getCurrentUser().getEmail());
-                                                        saveInDB();
+                                                        saveInDB(data);
                                                         startActivity(i);
                                                         finishAffinity();
                                                     } else {
@@ -93,16 +94,15 @@ public class signUpActivity extends AppCompatActivity {
                                 }
                             }
 
-                            private void saveInDB() {
+                            private void saveInDB(signUpdata data) {
                                 Map<String, String> item = new HashMap<>();
-                                item.put("name", mAuth.getCurrentUser().getDisplayName());
+                                item.put("name", data.getUsername());
                                 item.put("isStudent", "false");
-                                item.put("email", mAuth.getCurrentUser().getEmail());
+                                item.put("email", data.getEmail());
                                 item.put("userID", mAuth.getCurrentUser().getUid());
                                 item.put("Phone Number", "Not Available");
                                 item.put("Age", "Not Available");
                                 item.put("Sex", "Not Available");
-                                item.put("DOB", "Not Available");
                                 store.collection("user").document(mAuth.getUid()).set(item).
                                         addOnCompleteListener(new OnCompleteListener<Void>() {
                                             @Override
@@ -115,7 +115,6 @@ public class signUpActivity extends AppCompatActivity {
                                                             .addOnCompleteListener(new OnCompleteListener<Void>() {
                                                                 @Override
                                                                 public void onComplete(@NonNull @NotNull Task<Void> task) {
-
                                                                 }
                                                             });
                                                 } else {

@@ -2,7 +2,6 @@ package com.sports.oscaracademy.adapters;
 
 import android.content.Context;
 import android.content.Intent;
-import android.media.MediaDrm;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -11,7 +10,8 @@ import android.view.ViewGroup;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.sports.oscaracademy.dashboardAcivities.attendance;
+import com.sports.oscaracademy.HomeActivities.Students;
+import com.sports.oscaracademy.HomeActivities.attendance;
 import com.sports.oscaracademy.data.DashBoardData;
 import com.sports.oscaracademy.databinding.SingleDashboardRcvBinding;
 
@@ -71,6 +71,7 @@ public class dashBoard_adapter extends RecyclerView.Adapter<dashBoard_adapter.ho
                 case "Schedule" :
                     break;
                 case "Students":
+                    context.startActivity(new Intent(context, Students.class));
                     break;
 
                 case "Add Student":
