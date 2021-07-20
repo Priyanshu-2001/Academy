@@ -102,6 +102,13 @@ public class admin_attendance extends AppCompatActivity {
                                     i--;
                                 }
                             }
+                            if(!studentAttendances.isEmpty()){
+                                for (int i=0 ; i<studentAttendances.size();i++){
+                                    list.add(new Attendance_list(studentAttendances.get(i).getRollNo(),studentAttendances.get(i).getPresent(),studentAttendances.get(i).getOnLeave()));
+                                    studentAttendances.remove(i);
+                                    i--;
+                                }
+                            }
                             Log.d("TAG", "onCreate: " + list.get(0).getOnLeave());
                             Log.d("TAG", "onCreate: " + list.get(0).getPresent());
                             progressBar.setVisibility(View.GONE);
