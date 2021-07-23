@@ -70,13 +70,9 @@ public class admin_attendance extends AppCompatActivity {
                 @Override
                 public void onChanged(ArrayList<Studentdata> studentdata) {
 
-                    Log.d("TAG", "onChanged: " + studentdata.get(0));
-
                     getAttend.getPreviousRecord(date + "-" + month + "-" + year).observe(binding.getLifecycleOwner(), new Observer<ArrayList<Attendance_list>>() {
                         @Override
                         public void onChanged(ArrayList<Attendance_list> studentAttendances) {
-
-
                             if (studentAttendances != null) {
                                 for (int i = 0; i < studentdata.size(); i++) {
                                     if (studentAttendances.size() > 0) {

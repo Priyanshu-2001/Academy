@@ -3,6 +3,9 @@ package com.sports.oscaracademy.data;
 import com.google.firebase.Timestamp;
 
 import java.text.SimpleDateFormat;
+import java.time.Instant;
+import java.time.LocalDate;
+import java.util.Date;
 import java.util.Locale;
 
 public class Studentdata {
@@ -34,6 +37,8 @@ public class Studentdata {
         this.email = email;
         this.sex = sex;
         Age = age;
+//        this.Dob = new Timestamp(new Date());
+//        end = new Timestamp(new Date());
     }
 
     public Studentdata(String name, String rollno, String phone, String userId, String email, Timestamp dob, String sex, String age, Timestamp start, Timestamp end) {
@@ -115,11 +120,23 @@ public class Studentdata {
 
     public String getDOB() {
         SimpleDateFormat sfd = new SimpleDateFormat("dd-MM-yyyy", Locale.getDefault());
-        return sfd.format(getDob().toDate()).toString();
+        String date = "NOT AVAILABLE";
+        try{
+            date = sfd.format(getDob().toDate());
+        }catch (Exception e){
+            e.printStackTrace();
+        }
+        return date;
     }
 
     public String getValidTo(){
         SimpleDateFormat sfd = new SimpleDateFormat("dd-MM-yyyy", Locale.getDefault());
-        return sfd.format(end.toDate()).toString();
+        String date = "NOT AVAILABLE";
+        try{
+            date = sfd.format(end.toDate());
+        }catch (Exception e){
+             e.printStackTrace();
+        }
+        return date;
     }
 }

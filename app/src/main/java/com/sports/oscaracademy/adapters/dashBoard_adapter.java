@@ -60,6 +60,7 @@ public class dashBoard_adapter extends RecyclerView.Adapter<dashBoard_adapter.ho
             });
         }
         public void nextScreen(String text){
+            Intent i;
             switch (text.trim()){
                 case "Fees & Payments":
                     break;
@@ -71,10 +72,15 @@ public class dashBoard_adapter extends RecyclerView.Adapter<dashBoard_adapter.ho
                 case "Schedule" :
                     break;
                 case "Students":
-                    context.startActivity(new Intent(context, Students.class));
+                    i =  new Intent(context,Students.class);
+                    i.putExtra("catcher", "0");
+                    context.startActivity(i);
                     break;
 
                 case "Add Student":
+                    i =  new Intent(context,Students.class);
+                    i.putExtra("catcher", "1");
+                    context.startActivity(i);
                     break;
 
                 case "Update Schedule":

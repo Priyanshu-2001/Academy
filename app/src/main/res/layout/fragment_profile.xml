@@ -17,7 +17,7 @@
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
+            android:layout_height="wrap_content"
             tools:context=".drawerFragments.ProfileFragment">
 
             <de.hdodenhof.circleimageview.CircleImageView
@@ -213,15 +213,59 @@
                 app:layout_constraintTop_toBottomOf="@+id/session" />
 
             <Button
+                android:id="@+id/editbtn"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_margin="25dp"
-                android:text="Edit"
                 android:background="@drawable/btn_theme_2"
+                android:padding="5dp"
+                android:text="Edit"
                 app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintEnd_toStartOf="@+id/deleteStudent"
+                app:layout_constraintStart_toEndOf="@+id/addStudent"
+                app:layout_constraintTop_toBottomOf="@+id/feesVaildity" />
+
+            <Button
+                android:id="@+id/savebtn"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_margin="25dp"
+                android:background="@drawable/btn_theme_1"
+                android:padding="5dp"
+                android:visibility="visible"
+                android:textColor="@color/white"
+                android:text="Save"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toStartOf="@+id/deleteStudent"
+                app:layout_constraintStart_toEndOf="@+id/addStudent"
+                app:layout_constraintTop_toBottomOf="@+id/feesVaildity" />
+
+            <Button
+                android:id="@+id/addStudent"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_margin="25dp"
+                android:background="@drawable/btn_theme_1"
+                android:padding="5dp"
+                android:text="Add To Student"
+                android:textColor="@color/white"
+                app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/feesVaildity" />
+
+            <Button
+                android:id="@+id/deleteStudent"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_margin="25dp"
+                android:background="@drawable/delete_btn"
+                android:padding="5dp"
+                android:text="Delete Student"
+                android:textColor="@color/white"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/feesVaildity"
+                app:layout_constraintVertical_bias="0.0" />
 
         </androidx.constraintlayout.widget.ConstraintLayout>
     </ScrollView>

@@ -40,14 +40,8 @@ public class studentsList {
             public void onComplete(@NonNull @NotNull Task<QuerySnapshot> task) {
                 if(task.isSuccessful()){
                     ArrayList<Studentdata> tempData = new ArrayList<>();
-                    String name;
-                    String rollno;
-                    String phone;
-                    String userId;
-                    String email;
+                    String name, rollno,phone, userId, email,sex,Age;
                     Timestamp Dob;
-                    String sex;
-                    String Age;
                     try {
                         for (int i = 0; i < task.getResult().getDocuments().size(); i++) {
                             name = task.getResult().getDocuments().get(i).getString("name");
@@ -71,7 +65,6 @@ public class studentsList {
 
                             tempData.add(new Studentdata(name,rollno,phone,userId,email,Dob,sex,Age,startDate,EndDate));
                         }
-
                     }catch (Exception e){
                         e.printStackTrace();
                     }
@@ -92,13 +85,8 @@ public class studentsList {
             public void onComplete(@NonNull @NotNull Task<QuerySnapshot> task) {
                 if(task.isSuccessful()){
                     ArrayList<Studentdata> tempData = new ArrayList<>();
-                    String name;
-                    String phone;
-                    String userId;
-                    String email;
+                    String name, phone , userId , email, sex , Age , isStudent;
                     Timestamp Dob;
-                    String sex;
-                    String Age;
                     try {
                         for (int i = 0; i < task.getResult().getDocuments().size(); i++) {
                             name = task.getResult().getDocuments().get(i).getString("name");
@@ -107,7 +95,8 @@ public class studentsList {
                             sex = task.getResult().getDocuments().get(i).getString("Sex");
                             email = task.getResult().getDocuments().get(i).getString("email");
                             Age = task.getResult().getDocuments().get(i).getString("Age");
-                            tempData.add(new Studentdata(name,phone,userId,email,sex,Age));
+                            if(task.getResult().getDocuments().get(i).getString("isStudent").equals("false"))
+                                tempData.add(new Studentdata(name,phone,userId,email,sex,Age));
                         }
                     }catch (Exception e){
                         e.printStackTrace();

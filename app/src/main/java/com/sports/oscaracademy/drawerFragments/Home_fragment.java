@@ -42,7 +42,6 @@ public class Home_fragment extends Fragment {
     private RecyclerView rcv;
     private dashBoard_adapter adapter;
     private FirebaseFirestore db;
-    private ArrayList<DashBoardData> datalist = new ArrayList<>();
     private ProgressBar progressBar;
     private FragmentHomeFragmentBinding binding;
 
@@ -95,6 +94,7 @@ public class Home_fragment extends Fragment {
                                 .addOnSuccessListener(new OnSuccessListener<QuerySnapshot>() {
                                     @Override
                                     public void onSuccess(QuerySnapshot queryDocumentSnapshots) {
+                                        ArrayList<DashBoardData> datalist = new ArrayList<>();
                                         ArrayList<String> arr = (ArrayList<String>) queryDocumentSnapshots.getDocuments().get(0).get("section");
                                         ArrayList<String> imgURL = (ArrayList<String>) queryDocumentSnapshots.getDocuments().get(0).get("sectionImg");
                                         Log.d("TAG", "onSuccess: " + arr);

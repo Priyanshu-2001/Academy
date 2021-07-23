@@ -14,6 +14,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.sports.oscaracademy.R;
 import com.sports.oscaracademy.data.Studentdata;
 import com.sports.oscaracademy.databinding.SingleStudentRcvBinding;
+import com.sports.oscaracademy.dialog.dialogs;
 import com.sports.oscaracademy.drawerFragments.profileActivity;
 
 import org.jetbrains.annotations.NotNull;
@@ -23,9 +24,11 @@ import java.util.ArrayList;
 public class studentList_adapter extends RecyclerView.Adapter<studentList_adapter.studentsHolder> {
     private ArrayList<Studentdata> data;
     private Context mContext;
-    public studentList_adapter(Context c, ArrayList<Studentdata> d) {
+    String isEditable;
+    public studentList_adapter(Context c, ArrayList<Studentdata> d , String editable) {
         data = d;
         mContext = c;
+        isEditable = editable;
     }
 
     @NonNull
@@ -44,7 +47,8 @@ public class studentList_adapter extends RecyclerView.Adapter<studentList_adapte
             public void onClick(View v) {
                 Intent i = new Intent(mContext, profileActivity.class);
                 i.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-                i.putExtra("UID" , data.get(position).getUserId());
+                i.putExtra("UID", data.get(position).getUserId());
+                i.putExtra("editable",isEditable);
                 mContext.startActivity(i);
             }
         });

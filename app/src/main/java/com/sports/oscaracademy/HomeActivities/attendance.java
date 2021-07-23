@@ -27,6 +27,7 @@ import com.prolificinteractive.materialcalendarview.OnDateSelectedListener;
 import com.prolificinteractive.materialcalendarview.spans.DotSpan;
 import com.sports.oscaracademy.R;
 import com.sports.oscaracademy.databinding.ActivityAttendanceBinding;
+import com.sports.oscaracademy.service.attendanceService;
 
 import org.jetbrains.annotations.NotNull;
 
@@ -78,6 +79,7 @@ public class attendance extends AppCompatActivity {
         if (role.equals("0")) {
             binding.studentScrollView.setVisibility(View.VISIBLE);
             binding.AdminScrollView.setVisibility(View.GONE);
+            highlightAttendance();
         }
         if (role.equals("1")) {
             binding.studentScrollView.setVisibility(View.GONE);
@@ -129,6 +131,10 @@ public class attendance extends AppCompatActivity {
         });
     }
 
+    private void highlightAttendance() {
+        attendanceService service = new attendanceService();
+    }
+
     private void getAttendance() {
         Intent i = new Intent(this,admin_attendance.class);
         i.putExtra("date",binding.calendarView.getSelectedDate().getDay());
@@ -157,6 +163,18 @@ public class attendance extends AppCompatActivity {
         binding.leaveButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+//                attendanceService service = new attendanceService();
+//                Map<String,Object> attend = new HashMap<>();
+//                for (int i=0; i<newData.size();i++){
+//                    if(!newData.get(i).getOnLeave())
+//                        if(newData.get(i).getPresent())
+//                            attend.put(newData.get(i).getRollNo(),"A");
+//                        else
+//                            attend.put(newData.get(i).getRollNo(),"P");
+//                    else
+//                        attend.put(newData.get(i).getRollNo(),"L");
+//                }
+//                service.Updatedatabase(attend , date , month , year , progressBar);
                 Map<String, String> map = new HashMap<>();
                 map.put("onLeave", "true");
                 map.put("date", String.valueOf(current_selection));

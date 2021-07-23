@@ -35,7 +35,6 @@ public class profileActivity extends AppCompatActivity {
         getSupportActionBar().setHomeButtonEnabled(true);
         getSupportActionBar().setDisplayShowTitleEnabled(false);
         binding.toolbar.topTitleName.setText("Student Profile");
-        getSupportFragmentManager().beginTransaction().replace(binding.framelayout.getId(), ProfileFragment.newInstance(userID), "2").commit();
-        getSupportFragmentManager().beginTransaction().replace(R.id.framelayout, ProfileFragment.newInstance(userID)).commit();
+        getSupportFragmentManager().beginTransaction().replace(R.id.framelayout, ProfileFragment.newInstance(userID , getIntent().getStringExtra("editable"))).commit();
     }
 }

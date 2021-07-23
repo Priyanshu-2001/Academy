@@ -9,6 +9,7 @@ import androidx.databinding.DataBindingUtil;
 import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.fragment.app.Fragment;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.view.MenuItem;
 import android.view.View;
@@ -16,9 +17,16 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.android.gms.tasks.Task;
 import com.google.android.material.navigation.NavigationView;
 import com.google.firebase.auth.FirebaseAuth;
 
+import com.google.firebase.firestore.DocumentSnapshot;
+import com.google.firebase.firestore.FirebaseFirestore;
+import com.sports.oscaracademy.dialog.dialogs;
 import com.sports.oscaracademy.drawerFragments.ContactAcademy;
 import com.sports.oscaracademy.drawerFragments.Home_fragment;
 import com.sports.oscaracademy.drawerFragments.ProfileFragment;
@@ -29,12 +37,14 @@ public class Dashboard extends AppCompatActivity {
     private FirebaseAuth mAuth;
     private DrawerLayout drawer;
     private NavigationView navView;
-
+    private FirebaseFirestore firestore;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         mAuth = FirebaseAuth.getInstance();
+        firestore = FirebaseFirestore.getInstance();
         com.sports.oscaracademy.databinding.ActivityDashboardBinding binding = DataBindingUtil.setContentView(this, R.layout.activity_dashboard);
+
 
         binding.setLifecycleOwner(Dashboard.this);
         Toolbar toolbar = binding.toolbar;
@@ -53,6 +63,26 @@ public class Dashboard extends AppCompatActivity {
         View header = navView.getHeaderView(0);
         ImageView imageView = header.findViewById(R.id.pImage);
         TextView name = header.findViewById(R.id.pName);
+        TextView profileEmail = header.findViewById(R.id.Profile_email);
+        SharedPreferences pref = getSharedPreferences("tokenFile",MODE_PRIVATE);
+        if(pref.getString("name", "NA").equals("NA")){
+
+            firestore.collection("user").document(mAuth.getUid()).get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
+                @Override
+                public void onComplete(@NonNull @NotNull Task<DocumentSnapshot> task) {
+                    if(task.isSuccessful()){
+                        String tempName ;
+                        tempName = task.getResult().getString("name");
+                        name.setText(tempName);
+                    }else {
+                        name.setText("NAME NOT AVAILABLE");
+                    }
+                }
+            });
+        }else{
+            name.setText(pref.getString("name", "NA"));
+        }
+        profileEmail.setText(pref.getString("email","NA"));
         imageView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -66,6 +96,7 @@ public class Dashboard extends AppCompatActivity {
             }
         });
 
+        CheckforStudent();
 
         navView.setNavigationItemSelectedListener(new NavigationView.OnNavigationItemSelectedListener() {
             @Override
@@ -108,6 +139,47 @@ public class Dashboard extends AppCompatActivity {
         });
     }
 
+    private void CheckforStudent() {
+        firestore.collection("user").document(mAuth.getUid()).get().addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
+            @Override
+            public void onSuccess(DocumentSnapshot documentSnapshot) {
+                String isStudent = documentSnapshot.getString("isStudent");
+                SharedPreferences.Editor pref = getSharedPreferences("tokenFile",MODE_PRIVATE).edit();
+                pref.putString("isStudent",isStudent);
+                if (isStudent.equals("true")){
+                    getRollNo();
+                }else{
+                    pref.putString("roll","-1");
+                }
+                pref.apply();
+            }
+        }).addOnFailureListener(new OnFailureListener() {
+            @Override
+            public void onFailure(@NonNull @NotNull Exception e) {
+                dialogs dialog = new dialogs();
+                dialog.displayDialog(e.getLocalizedMessage(),getApplicationContext());
+            }
+        });
+    }
+
+    private void getRollNo() {
+        firestore.collection("students").document(mAuth.getUid()).get().addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
+            @Override
+            public void onSuccess(DocumentSnapshot documentSnapshot) {
+                String rollNo = documentSnapshot.getString("RollNo");
+                SharedPreferences.Editor pref = getSharedPreferences("tokenFile",MODE_PRIVATE).edit();
+                pref.putString("roll",rollNo);
+                pref.apply();
+            }
+        }).addOnFailureListener(new OnFailureListener() {
+            @Override
+            public void onFailure(@NonNull @NotNull Exception e) {
+                dialogs dialog = new dialogs();
+                dialog.displayDialog(e.getLocalizedMessage(),getApplicationContext());
+            }
+        });
+    }
+
     private void openProfile() {
         try {
             navView.getCheckedItem().setChecked(false);
@@ -115,6 +187,6 @@ public class Dashboard extends AppCompatActivity {
             e.printStackTrace();
         }
         drawer.closeDrawer(GravityCompat.START);
-        getSupportFragmentManager().beginTransaction().replace(R.id.frameContainer, ProfileFragment.newInstance(mAuth.getUid())).commit();
+        getSupportFragmentManager().beginTransaction().replace(R.id.frameContainer, ProfileFragment.newInstance(mAuth.getUid(),"user")).addToBackStack(null).commit();
     }
 }

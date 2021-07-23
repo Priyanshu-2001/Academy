@@ -37,6 +37,8 @@ public class Students extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        String catcher = null;
+        try {catcher = getIntent().getStringExtra("catcher"); }catch (Exception e){e.printStackTrace(); }
         binding = DataBindingUtil.setContentView(this, R.layout.activity_students);
         setSupportActionBar(binding.topBar.getRoot());
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
@@ -45,12 +47,24 @@ public class Students extends AppCompatActivity {
         studentsList list = new studentsList(this);
         binding.topBar.topTitleName.setText("Students List");
         RecyclerView rcv = binding.studentrcv;
-        list.getStudents().observe(this, new Observer<ArrayList<Studentdata>>() {
-            @Override
-            public void onChanged(ArrayList<Studentdata> studentdata) {
-                adapter = new studentList_adapter(getApplicationContext(), studentdata);
-                rcv.setAdapter(adapter);
+        if(catcher!=null){
+            if (catcher.equals("0")) {
+                list.getStudents().observe(this, new Observer<ArrayList<Studentdata>>() {
+                    @Override
+                    public void onChanged(ArrayList<Studentdata> studentdata) {
+                        adapter = new studentList_adapter(getApplicationContext(), studentdata, "false");
+                        rcv.setAdapter(adapter);
+                    }
+                });
+            } else {
+                list.getUsers().observe(this, new Observer<ArrayList<Studentdata>>() {
+                    @Override
+                    public void onChanged(ArrayList<Studentdata> studentdata) {
+                        adapter = new studentList_adapter(getApplicationContext(), studentdata, "true");
+                        rcv.setAdapter(adapter);
+                    }
+                });
             }
-        });
+        }
     }
 }
