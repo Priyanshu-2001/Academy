@@ -2,6 +2,7 @@ package com.sports.oscaracademy.service;
 
 import android.content.Context;
 import android.util.Log;
+import android.view.View;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
@@ -10,6 +11,8 @@ import androidx.lifecycle.MutableLiveData;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.Timestamp;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.QuerySnapshot;
 import com.sports.oscaracademy.data.Studentdata;
@@ -19,6 +22,7 @@ import org.jetbrains.annotations.NotNull;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.Locale;
 import java.util.Map;
 import java.util.Objects;
@@ -27,8 +31,50 @@ public class studentsList {
     private MutableLiveData<ArrayList<Studentdata>> data = new MutableLiveData<>();
     private MutableLiveData<ArrayList<Studentdata>> users = new MutableLiveData<>();
     private FirebaseFirestore store = FirebaseFirestore.getInstance();
+    private FirebaseDatabase db= FirebaseDatabase.getInstance();
     private Context mContext;
+    private MutableLiveData<String> roll;
+    private String userID;
 
+
+    public MutableLiveData<String> getRoll(String userID){
+        if (roll==null){
+            roll = new MutableLiveData<>();
+            loadRoll();
+        }
+        this.userID = userID;
+        return roll;
+    }
+
+    private void loadRoll() {
+        db.getReference().get().addOnCompleteListener(new OnCompleteListener<DataSnapshot>() {
+            @Override
+            public void onComplete(@NonNull @NotNull Task<DataSnapshot> task) {
+                String rollNo = task.getResult().child("Last_RollNo").getValue().toString();
+                Log.e("ROllNumber", "onComplete: last "+rollNo );
+                updateRollList(Integer.parseInt(rollNo));
+            }
+        });
+    }
+
+    private void updateRollList(int rollNo) {
+        Map<String, Object > map = new HashMap<>();
+        map.put("Last_RollNo", (rollNo+1));
+        db.getReference().updateChildren(map).addOnCompleteListener(new OnCompleteListener<Void>() {
+            @Override
+            public void onComplete(@NonNull @NotNull Task<Void> task) {
+                Map<String , Object> updateROll = new HashMap<>();
+                updateROll.put("isStudent","true");
+                FirebaseFirestore.getInstance().collection("user").document(userID).update(updateROll).addOnCompleteListener(new OnCompleteListener<Void>() {
+                    @Override
+                    public void onComplete(@NonNull @NotNull Task<Void> task) {
+                        Log.e("ROllNumber", "onComplete: updated user "+rollNo );
+                        roll.setValue(String.valueOf(rollNo));
+                    }
+                });
+            }
+        });
+    }
 
     public studentsList(Context c) {
         this.mContext = c;

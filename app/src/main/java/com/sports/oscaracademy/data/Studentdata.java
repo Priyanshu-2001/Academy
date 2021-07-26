@@ -2,6 +2,7 @@ package com.sports.oscaracademy.data;
 
 import com.google.firebase.Timestamp;
 
+import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.time.Instant;
 import java.time.LocalDate;
@@ -14,7 +15,7 @@ public class Studentdata {
     String phone;
     String userId;
     String email;
-    Timestamp Dob;
+    Timestamp Dob = Timestamp.now();
     String sex;
     String Age;
     Timestamp start;
@@ -98,8 +99,17 @@ public class Studentdata {
         return Dob;
     }
 
-    public void setDob(Timestamp dob) {
-        Dob = dob;
+    public void setDob(String dob) {
+        DateFormat sfd = new SimpleDateFormat("dd-MM-yyyy", Locale.getDefault());
+        Date date = new Date();
+        Timestamp stamp  = Timestamp.now();
+        try{
+            date = sfd.parse(dob);
+             stamp = new Timestamp(date);
+        }catch (Exception e){
+            e.printStackTrace();
+        }
+        Dob = stamp;
     }
 
     public String getSex() {
