@@ -3,20 +3,18 @@ package com.sports.oscaracademy.drawerFragments;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.util.Log;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.view.ViewGroup;
+import android.widget.ArrayAdapter;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.databinding.DataBindingUtil;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.Observer;
-
-import android.provider.ContactsContract;
-import android.text.InputType;
-import android.util.Log;
-import android.view.LayoutInflater;
-import android.view.View;
-import android.view.ViewGroup;
-import android.widget.Toast;
 
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
@@ -30,13 +28,13 @@ import com.sports.oscaracademy.service.studentsList;
 
 import org.jetbrains.annotations.NotNull;
 
-import java.sql.Time;
 import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Locale;
 import java.util.Map;
 
@@ -50,6 +48,7 @@ public class ProfileFragment extends Fragment {
     private MutableLiveData<Studentdata> currentStudent = new MutableLiveData<>();
     private FragmentProfileBinding binding;
     FirebaseFirestore firestore = FirebaseFirestore.getInstance();
+
     public ProfileFragment() {
     }
 
@@ -80,7 +79,8 @@ public class ProfileFragment extends Fragment {
     @Override
     public View onCreateView(@NotNull LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        Log.e("Profile", "onCreateView: "+editable );
+
+        Log.e("Profile", "onCreateView: " + editable);
         // Inflate the layout for this fragment
         binding = DataBindingUtil.inflate(inflater, R.layout.fragment_profile, container, false);
         if (editable.equals("false")) { // list of present student is shown
@@ -90,8 +90,18 @@ public class ProfileFragment extends Fragment {
             binding.addStudent.setVisibility(View.VISIBLE);
 //                    binding.feesVaildity.setEnabled(true);
         }
-        if (editable.equals("user")) { //if clicked in profile
+        if (editable.equals("user")) {
+            //if clicked in profile
         }
+
+        List<String> gender = new ArrayList<>();
+        gender.add("Male");
+        gender.add("Female");
+        gender.add("Prefer Not To Say");
+        ArrayAdapter<String> arrayAdapter=new ArrayAdapter<>(getContext(), android.R.layout.simple_list_item_1, gender);
+        binding.studentGender.setAdapter(arrayAdapter);
+        binding.studentGender.setThreshold(0);
+        binding.studentGender.setDropDownBackgroundDrawable(getResources().getDrawable(R.drawable.text_field_1));
 
         binding.progress.setVisibility(View.GONE);
         binding.editbtn.setOnClickListener(new View.OnClickListener() {
@@ -99,6 +109,13 @@ public class ProfileFragment extends Fragment {
             public void onClick(View v) {
                 binding.editbtn.setVisibility(View.GONE);
                 binding.savebtn.setVisibility(View.VISIBLE);
+                if(editable.equals("false") || editable.equals("true")){
+                    enableAll();
+                }
+                if(editable.equals("user")){
+                    enableAll();
+                    disableAdminEditable();
+                }
             }
         });
         binding.savebtn.setOnClickListener(new View.OnClickListener() {
@@ -106,6 +123,7 @@ public class ProfileFragment extends Fragment {
             public void onClick(View v) {
                 binding.editbtn.setVisibility(View.VISIBLE);
                 binding.savebtn.setVisibility(View.GONE);
+                disableAll();
             }
         });
         binding.addStudent.setOnClickListener(new View.OnClickListener() {
@@ -181,35 +199,35 @@ public class ProfileFragment extends Fragment {
 
     private void AddStudentToAcademy() throws ParseException {
         binding.progress.setVisibility(View.VISIBLE);
-        Map<String,Object> ProfileData = new HashMap<>();
-        ProfileData.put("Age",binding.studentAge.getText().toString().trim());
-        ProfileData.put("name",binding.StudentName.getText().toString().trim());
-        ProfileData.put("Email",binding.studentMail.getText().toString().trim());
-        ProfileData.put("Sex",binding.studentGender.getText().toString().trim());
+        Map<String, Object> ProfileData = new HashMap<>();
+        ProfileData.put("Age", binding.studentAge.getText().toString().trim());
+        ProfileData.put("name", binding.StudentName.getText().toString().trim());
+        ProfileData.put("Email", binding.studentMail.getText().toString().trim());
+        ProfileData.put("Sex", binding.studentGender.getText().toString().trim());
 //        ProfileData.put("Dob",binding.studentDOB);
-        ProfileData.put("phone number",binding.phoneNumber.getText().toString().trim());
-        ProfileData.put("userID",currentStudent.getValue().getUserId());
-        Map<String,Object> validity = new HashMap<>();
+        ProfileData.put("phone number", binding.phoneNumber.getText().toString().trim());
+        ProfileData.put("userID", currentStudent.getValue().getUserId());
+        Map<String, Object> validity = new HashMap<>();
         validity.put("valid from", Timestamp.now());
         DateFormat format = new SimpleDateFormat("dd-MM-yyyy", Locale.getDefault());
-        Log.e("TAG", "AddStudentToAcademy: "+String.valueOf(binding.StudentMember.getText()) );
+        Log.e("TAG", "AddStudentToAcademy: " + String.valueOf(binding.StudentMember.getText()));
         Date date = format.parse(String.valueOf(binding.StudentMember.getText()));
         validity.put("valid to", new Timestamp(date));
-        ProfileData.put("fees",validity);
+        ProfileData.put("fees", validity);
         studentsList service = new studentsList(getContext());
         service.getRoll(userID).observe(requireActivity(), new Observer<String>() {
             @Override
             public void onChanged(String s) {
                 ProfileData.put("RollNo", s);
-               firestore.collection("students").document(userID).set(ProfileData, SetOptions.merge()).addOnCompleteListener(new OnCompleteListener<Void>() {
+                firestore.collection("students").document(userID).set(ProfileData, SetOptions.merge()).addOnCompleteListener(new OnCompleteListener<Void>() {
                     @Override
                     public void onComplete(@NonNull @NotNull Task<Void> task) {
-                        if(task.isSuccessful()){
+                        if (task.isSuccessful()) {
                             Toast.makeText(getContext(), "Student Added SucessFully", Toast.LENGTH_SHORT).show();
-                            Log.e("TAG", "onComplete: "+"validity added sucessfully" );
-                        }else{
-                            Log.e("TAG", "onComplete: eroor in adding student "+  task.getException());
-                            Toast.makeText(getContext(), "Some Error Occured "+ task.getException().getLocalizedMessage(), Toast.LENGTH_SHORT).show();
+                            Log.e("TAG", "onComplete: " + "validity added sucessfully");
+                        } else {
+                            Log.e("TAG", "onComplete: eroor in adding student " + task.getException());
+                            Toast.makeText(getContext(), "Some Error Occured " + task.getException().getLocalizedMessage(), Toast.LENGTH_SHORT).show();
                         }
                         binding.progress.setVisibility(View.GONE);
                     }
@@ -217,5 +235,36 @@ public class ProfileFragment extends Fragment {
 
             }
         });
+    }
+
+
+    public void disableAdminEditable(){
+        binding.studentSession.setEnabled(false);
+        binding.StudentRollNo.setEnabled(false);
+        binding.StudentMember.setEnabled(false);
+    }
+    public void enableAll(){
+        binding.StudentName.setEnabled(true);
+        binding.studentMail.setEnabled(true);
+        binding.phoneNumber.setEnabled(true);
+        binding.studentMail.setEnabled(true);
+        binding.studentDOB.setEnabled(true);
+        binding.studentGender.setEnabled(true);
+        binding.studentAge.setEnabled(true);
+        binding.studentSession.setEnabled(true);
+        binding.StudentRollNo.setEnabled(true);
+        binding.StudentMember.setEnabled(true);
+    }
+    public void disableAll(){
+        binding.StudentName.setEnabled(false);
+        binding.studentMail.setEnabled(false);
+        binding.phoneNumber.setEnabled(false);
+        binding.studentMail.setEnabled(false);
+        binding.studentDOB.setEnabled(false);
+        binding.studentGender.setEnabled(false);
+        binding.studentAge.setEnabled(false);
+        binding.studentSession.setEnabled(false);
+        binding.StudentRollNo.setEnabled(false);
+        binding.StudentMember.setEnabled(false);
     }
 }

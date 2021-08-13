@@ -22,4 +22,10 @@
     <string name="title_activity_profile">profileActivity</string>
     <string name="dismiss">Dismiss</string>
     <string name="addStudent">ADD STUDENT</string>
+
+    <string-array name="gender">
+        <item>Male</item>
+        <item>Female</item>
+        <item>Prefer Not To Say</item>
+    </string-array>
 </resources>
