@@ -83,7 +83,7 @@ public class ProfileFragment extends Fragment {
         Log.e("Profile", "onCreateView: " + editable);
         // Inflate the layout for this fragment
         binding = DataBindingUtil.inflate(inflater, R.layout.fragment_profile, container, false);
-        if (editable.equals("false")) { // list of present student is shown
+        if (editable.equals("false")) { // list of current student is shown
             binding.deleteStudent.setVisibility(View.VISIBLE);
         }
         if (editable.equals("true")) { // if its in add student sectoin i.e. users list is shown
@@ -241,17 +241,26 @@ public class ProfileFragment extends Fragment {
                 @Override
                 public void onChanged(String s) {
                     ProfileData.put("RollNo", s);
+                    studentAdder(ProfileData);
                 }
             });
         } else {
             ProfileData.put("RollNo", binding.StudentRollNo.getText().toString().trim());
+            studentAdder(ProfileData);
         }
+    }
+
+    public void studentAdder(Map<String, Object> ProfileData) {
+        Map<String, Object> Profile = new HashMap<>();
+        Profile.put("isStudent", "true");
+        firestore.collection("user").document(userID).set(Profile, SetOptions.merge());
         firestore.collection("students").document(userID).set(ProfileData, SetOptions.merge()).addOnCompleteListener(new OnCompleteListener<Void>() {
             @Override
             public void onComplete(@NonNull @NotNull Task<Void> task) {
                 if (task.isSuccessful()) {
                     Toast.makeText(getContext(), "Student Added SucessFully", Toast.LENGTH_SHORT).show();
                     Log.e("TAG", "onComplete: " + "validity added sucessfully");
+                    getActivity().finish();
                 } else {
                     Log.e("TAG", "onComplete: eroor in adding student " + task.getException());
                     Toast.makeText(getContext(), "Some Error Occured " + task.getException().getLocalizedMessage(), Toast.LENGTH_SHORT).show();
