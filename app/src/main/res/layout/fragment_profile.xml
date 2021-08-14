@@ -19,6 +19,7 @@
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:id="@+id/constrainLayout"
             tools:context=".drawerFragments.ProfileFragment">
 
             <com.github.ybq.android.spinkit.SpinKitView
@@ -27,10 +28,11 @@
                 android:layout_width="40dp"
                 android:layout_height="40dp"
                 android:layout_gravity="center"
-                android:visibility="gone"
+                android:elevation="20dp"
+                android:visibility="visible"
                 app:SpinKit_Color="@color/colorPrimary"
-                app:layout_constraintBottom_toBottomOf="@+id/sex"
-                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="@+id/constrainLayout"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/profilepic" />
 

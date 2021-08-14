@@ -4,11 +4,13 @@ import android.app.Activity;
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.util.Log;
+import android.view.View;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.lifecycle.MutableLiveData;
 
+import com.github.ybq.android.spinkit.SpinKitView;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.Timestamp;
@@ -158,7 +160,7 @@ public class studentsList {
                                 joinedTill = task.getResult().getDocuments().get(i).getString("joinedTill");
                                 SimpleDateFormat formatter = new SimpleDateFormat("dd-MM-yyyy", Locale.getDefault());
                                 if (joinedTill != null) {
-                                    Date date = (Date) formatter.parse(joinedTill);
+                                    Date date = formatter.parse(joinedTill);
                                     if (date != null) {
                                         data.setEnd(new Timestamp(date));
                                     }
@@ -206,5 +208,31 @@ public class studentsList {
                     }
                 }
         );
+    }
+
+    public void updateProfile(String isStudent, SpinKitView progress, String userId, Map<String, Object> dataFromTxtViews) {
+        if (isStudent.equals("true")) {
+            store.collection("students").document(userId).set(dataFromTxtViews, SetOptions.merge()).addOnCompleteListener(task -> {
+                dialogs dialogs = new dialogs();
+                if (task.isSuccessful()) {
+                    dialogs.displayDialog("Update Sucessfull..", mContext);
+                    progress.setVisibility(View.GONE);
+                } else {
+                    dialogs.displayDialog("Update Failed", mContext);
+                    progress.setVisibility(View.GONE);
+                }
+            });
+        } else {
+            store.collection("user").document(userId).set(dataFromTxtViews, SetOptions.merge()).addOnCompleteListener(task -> {
+                dialogs dialogs = new dialogs();
+                if (task.isSuccessful()) {
+                    dialogs.displayDialog("Update Sucessfull..", mContext);
+                    progress.setVisibility(View.GONE);
+                } else {
+                    dialogs.displayDialog("Update Failed !", mContext);
+                    progress.setVisibility(View.GONE);
+                }
+            });
+        }
     }
 }

@@ -16,6 +16,8 @@ import androidx.fragment.app.Fragment;
 import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.Observer;
 
+import com.github.ybq.android.spinkit.sprite.Sprite;
+import com.github.ybq.android.spinkit.style.WanderingCubes;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.Timestamp;
@@ -93,6 +95,8 @@ public class ProfileFragment extends Fragment {
         if (editable.equals("user")) {
             //if clicked in profile
         }
+        Sprite doubleBounce = new WanderingCubes();
+        binding.progress.setIndeterminateDrawable(doubleBounce);
 
         List<String> gender = new ArrayList<>();
         gender.add("Male");
@@ -123,6 +127,7 @@ public class ProfileFragment extends Fragment {
             public void onClick(View v) {
                 binding.editbtn.setVisibility(View.VISIBLE);
                 binding.savebtn.setVisibility(View.GONE);
+                UpdateDetails(prefs.getString("isStudent", "false"));
                 disableAll();
             }
         });
@@ -148,8 +153,8 @@ public class ProfileFragment extends Fragment {
         String isStudent = prefs.getString("isStudent", "false");
         Log.e("TAG", "onCreateView: " + isStudent);
         studentsList list = new studentsList(getActivity());
-        String role = prefs.getString("role", "0");
-        if ((isStudent.equals("true") || role.equals("1")) && editable.equals("false")) {
+        String role = prefs.getString("role", "0"); //(role.equals("1")) &&
+        if ((isStudent.equals("true") || editable.equals("false"))) {
             list.getStudents().observe(requireActivity(), new Observer<ArrayList<Studentdata>>() {
                 @Override
                 public void onChanged(ArrayList<Studentdata> studentdata) {
@@ -195,6 +200,12 @@ public class ProfileFragment extends Fragment {
         return binding.getRoot();
     }
 
+    private void UpdateDetails(String isStudent) {
+        binding.progress.setVisibility(View.VISIBLE);
+        studentsList service = new studentsList(getActivity());
+        service.updateProfile(isStudent, binding.progress, currentStudent.getValue().getUserId(), getDataFromTxtViews());
+    }
+
     private void deleteStudents() {
 //        dialogs dialogs = new dialogs();
 //        dialogs.
@@ -217,6 +228,8 @@ public class ProfileFragment extends Fragment {
         ProfileData.put("Session", binding.studentSession.getText().toString().trim());
         return ProfileData;
     }
+
+///
 
     private void AddStudentToAcademy() throws ParseException {
         binding.progress.setVisibility(View.VISIBLE);
@@ -272,6 +285,8 @@ public class ProfileFragment extends Fragment {
 
 
     public void disableAdminEditable() {
+        binding.studentMail.setEnabled(false);
+        binding.phoneNumber.setEnabled(false);
         binding.studentSession.setEnabled(false);
         binding.StudentRollNo.setEnabled(false);
         binding.StudentMember.setEnabled(false);
