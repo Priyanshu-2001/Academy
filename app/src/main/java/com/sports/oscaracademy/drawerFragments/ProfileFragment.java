@@ -45,7 +45,7 @@ public class ProfileFragment extends Fragment {
     private String userID;
     private String editable = "false";
     private SharedPreferences prefs;
-    private MutableLiveData<Studentdata> currentStudent = new MutableLiveData<>();
+    private final MutableLiveData<Studentdata> currentStudent = new MutableLiveData<>();
     private FragmentProfileBinding binding;
     FirebaseFirestore firestore = FirebaseFirestore.getInstance();
 
@@ -98,7 +98,7 @@ public class ProfileFragment extends Fragment {
         gender.add("Male");
         gender.add("Female");
         gender.add("Prefer Not To Say");
-        ArrayAdapter<String> arrayAdapter=new ArrayAdapter<>(getContext(), android.R.layout.simple_list_item_1, gender);
+        ArrayAdapter<String> arrayAdapter = new ArrayAdapter<>(getContext(), android.R.layout.simple_list_item_1, gender);
         binding.studentGender.setAdapter(arrayAdapter);
         binding.studentGender.setThreshold(0);
         binding.studentGender.setDropDownBackgroundDrawable(getResources().getDrawable(R.drawable.text_field_1));
@@ -109,10 +109,10 @@ public class ProfileFragment extends Fragment {
             public void onClick(View v) {
                 binding.editbtn.setVisibility(View.GONE);
                 binding.savebtn.setVisibility(View.VISIBLE);
-                if(editable.equals("false") || editable.equals("true")){
+                if (editable.equals("false") || editable.equals("true")) {
                     enableAll();
                 }
-                if(editable.equals("user")){
+                if (editable.equals("user")) {
                     enableAll();
                     disableAdminEditable();
                 }
@@ -175,8 +175,9 @@ public class ProfileFragment extends Fragment {
 
                         if (studentdata.get(i).getUserId().equals(userID)) {
                             Log.e("TAG", "onChanged: " + studentdata.get(i).getUserId());
-                            Log.e("TAG", "onChanged: " + studentdata.get(i).getName());
+                            Log.e("TAG", "onChanged: " + studentdata.get(i).getPhone());
                             binding.setModel(studentdata.get(i));
+                            disableAll();
                             currentStudent.setValue(studentdata.get(i));
                         }
                     }
@@ -195,6 +196,26 @@ public class ProfileFragment extends Fragment {
     }
 
     private void deleteStudents() {
+//        dialogs dialogs = new dialogs();
+//        dialogs.
+        studentsList service = new studentsList(getActivity());
+        Map<String, Object> data = getDataFromTxtViews();
+        service.deleteStudent(currentStudent.getValue().getUserId(), data);
+    }
+
+    public Map<String, Object> getDataFromTxtViews() {
+        Map<String, Object> ProfileData = new HashMap<>();
+        ProfileData.put("Age", binding.studentAge.getText().toString().trim());
+        ProfileData.put("name", binding.StudentName.getText().toString().trim());
+        ProfileData.put("Email", binding.studentMail.getText().toString().trim());
+        ProfileData.put("Sex", binding.studentGender.getText().toString().trim());
+//        ProfileData.put("Dob",binding.studentDOB);
+        ProfileData.put("userID", currentStudent.getValue().getUserId());
+        ProfileData.put("Phone Number", binding.phoneNumber.getText().toString().trim());
+        ProfileData.put("RollNo", binding.StudentRollNo.getText().toString().trim());
+        ProfileData.put("joinedTill", binding.StudentMember.getText().toString().trim());
+        ProfileData.put("Session", binding.studentSession.getText().toString().trim());
+        return ProfileData;
     }
 
     private void AddStudentToAcademy() throws ParseException {
@@ -210,40 +231,44 @@ public class ProfileFragment extends Fragment {
         Map<String, Object> validity = new HashMap<>();
         validity.put("valid from", Timestamp.now());
         DateFormat format = new SimpleDateFormat("dd-MM-yyyy", Locale.getDefault());
-        Log.e("TAG", "AddStudentToAcademy: " + String.valueOf(binding.StudentMember.getText()));
+        Log.e("TAG", "AddStudentToAcademy: " + binding.StudentMember.getText());
         Date date = format.parse(String.valueOf(binding.StudentMember.getText()));
         validity.put("valid to", new Timestamp(date));
         ProfileData.put("fees", validity);
-        studentsList service = new studentsList(getContext());
-        service.getRoll(userID).observe(requireActivity(), new Observer<String>() {
+        if (binding.StudentRollNo.getText().toString().isEmpty()) {
+            studentsList service = new studentsList(getContext());
+            service.getRoll(userID).observe(requireActivity(), new Observer<String>() {
+                @Override
+                public void onChanged(String s) {
+                    ProfileData.put("RollNo", s);
+                }
+            });
+        } else {
+            ProfileData.put("RollNo", binding.StudentRollNo.getText().toString().trim());
+        }
+        firestore.collection("students").document(userID).set(ProfileData, SetOptions.merge()).addOnCompleteListener(new OnCompleteListener<Void>() {
             @Override
-            public void onChanged(String s) {
-                ProfileData.put("RollNo", s);
-                firestore.collection("students").document(userID).set(ProfileData, SetOptions.merge()).addOnCompleteListener(new OnCompleteListener<Void>() {
-                    @Override
-                    public void onComplete(@NonNull @NotNull Task<Void> task) {
-                        if (task.isSuccessful()) {
-                            Toast.makeText(getContext(), "Student Added SucessFully", Toast.LENGTH_SHORT).show();
-                            Log.e("TAG", "onComplete: " + "validity added sucessfully");
-                        } else {
-                            Log.e("TAG", "onComplete: eroor in adding student " + task.getException());
-                            Toast.makeText(getContext(), "Some Error Occured " + task.getException().getLocalizedMessage(), Toast.LENGTH_SHORT).show();
-                        }
-                        binding.progress.setVisibility(View.GONE);
-                    }
-                });
-
+            public void onComplete(@NonNull @NotNull Task<Void> task) {
+                if (task.isSuccessful()) {
+                    Toast.makeText(getContext(), "Student Added SucessFully", Toast.LENGTH_SHORT).show();
+                    Log.e("TAG", "onComplete: " + "validity added sucessfully");
+                } else {
+                    Log.e("TAG", "onComplete: eroor in adding student " + task.getException());
+                    Toast.makeText(getContext(), "Some Error Occured " + task.getException().getLocalizedMessage(), Toast.LENGTH_SHORT).show();
+                }
+                binding.progress.setVisibility(View.GONE);
             }
         });
     }
 
 
-    public void disableAdminEditable(){
+    public void disableAdminEditable() {
         binding.studentSession.setEnabled(false);
         binding.StudentRollNo.setEnabled(false);
         binding.StudentMember.setEnabled(false);
     }
-    public void enableAll(){
+
+    public void enableAll() {
         binding.StudentName.setEnabled(true);
         binding.studentMail.setEnabled(true);
         binding.phoneNumber.setEnabled(true);
@@ -255,7 +280,8 @@ public class ProfileFragment extends Fragment {
         binding.StudentRollNo.setEnabled(true);
         binding.StudentMember.setEnabled(true);
     }
-    public void disableAll(){
+
+    public void disableAll() {
         binding.StudentName.setEnabled(false);
         binding.studentMail.setEnabled(false);
         binding.phoneNumber.setEnabled(false);

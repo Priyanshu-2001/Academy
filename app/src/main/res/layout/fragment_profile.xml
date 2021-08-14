@@ -303,7 +303,7 @@
                     android:background="@null"
                     android:enabled="false"
                     android:gravity="center"
-                    android:inputType="phone"
+                    android:inputType="number"
                     android:text="@{model.rollno}" />
 
             </com.google.android.material.textfield.TextInputLayout>

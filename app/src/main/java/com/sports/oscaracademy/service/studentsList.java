@@ -1,8 +1,9 @@
 package com.sports.oscaracademy.service;
 
+import android.app.Activity;
+import android.app.ProgressDialog;
 import android.content.Context;
 import android.util.Log;
-import android.view.View;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
@@ -15,7 +16,9 @@ import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.QuerySnapshot;
+import com.google.firebase.firestore.SetOptions;
 import com.sports.oscaracademy.data.Studentdata;
+import com.sports.oscaracademy.dialog.dialogs;
 
 import org.jetbrains.annotations.NotNull;
 
@@ -28,17 +31,17 @@ import java.util.Map;
 import java.util.Objects;
 
 public class studentsList {
-    private MutableLiveData<ArrayList<Studentdata>> data = new MutableLiveData<>();
-    private MutableLiveData<ArrayList<Studentdata>> users = new MutableLiveData<>();
-    private FirebaseFirestore store = FirebaseFirestore.getInstance();
-    private FirebaseDatabase db= FirebaseDatabase.getInstance();
-    private Context mContext;
+    private final MutableLiveData<ArrayList<Studentdata>> data = new MutableLiveData<>();
+    private final MutableLiveData<ArrayList<Studentdata>> users = new MutableLiveData<>();
+    private final FirebaseFirestore store = FirebaseFirestore.getInstance();
+    private final FirebaseDatabase db = FirebaseDatabase.getInstance();
+    private final Context mContext;
     private MutableLiveData<String> roll;
     private String userID;
 
 
-    public MutableLiveData<String> getRoll(String userID){
-        if (roll==null){
+    public MutableLiveData<String> getRoll(String userID) {
+        if (roll == null) {
             roll = new MutableLiveData<>();
             loadRoll();
         }
@@ -51,24 +54,24 @@ public class studentsList {
             @Override
             public void onComplete(@NonNull @NotNull Task<DataSnapshot> task) {
                 String rollNo = task.getResult().child("Last_RollNo").getValue().toString();
-                Log.e("ROllNumber", "onComplete: last "+rollNo );
+                Log.e("ROllNumber", "onComplete: last " + rollNo);
                 updateRollList(Integer.parseInt(rollNo));
             }
         });
     }
 
     private void updateRollList(int rollNo) {
-        Map<String, Object > map = new HashMap<>();
-        map.put("Last_RollNo", (rollNo+1));
+        Map<String, Object> map = new HashMap<>();
+        map.put("Last_RollNo", (rollNo + 1));
         db.getReference().updateChildren(map).addOnCompleteListener(new OnCompleteListener<Void>() {
             @Override
             public void onComplete(@NonNull @NotNull Task<Void> task) {
-                Map<String , Object> updateROll = new HashMap<>();
-                updateROll.put("isStudent","true");
+                Map<String, Object> updateROll = new HashMap<>();
+                updateROll.put("isStudent", "true");
                 FirebaseFirestore.getInstance().collection("user").document(userID).update(updateROll).addOnCompleteListener(new OnCompleteListener<Void>() {
                     @Override
                     public void onComplete(@NonNull @NotNull Task<Void> task) {
-                        Log.e("ROllNumber", "onComplete: updated user "+rollNo );
+                        Log.e("ROllNumber", "onComplete: updated user " + rollNo);
                         roll.setValue(String.valueOf(rollNo));
                     }
                 });
@@ -80,13 +83,13 @@ public class studentsList {
         this.mContext = c;
     }
 
-    public MutableLiveData<ArrayList<Studentdata>> getStudents(){
+    public MutableLiveData<ArrayList<Studentdata>> getStudents() {
         store.collection("students").get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
             @Override
             public void onComplete(@NonNull @NotNull Task<QuerySnapshot> task) {
-                if(task.isSuccessful()){
+                if (task.isSuccessful()) {
                     ArrayList<Studentdata> tempData = new ArrayList<>();
-                    String name, rollno,phone, userId, email,sex,Age;
+                    String name, rollno, phone, userId, email, sex, Age;
                     Timestamp Dob;
                     try {
                         for (int i = 0; i < task.getResult().getDocuments().size(); i++) {
@@ -101,21 +104,21 @@ public class studentsList {
                             Map<String, Object> feesObj = (Map<String, Object>) task.getResult().getDocuments().get(i).get("fees");
                             Timestamp startDate = (Timestamp) feesObj.get("valid from");
                             Timestamp EndDate = (Timestamp) feesObj.get("valid to");
-                            Log.e("TAG", "onComplete: "+ startDate);
-                            Log.e("TAG", "onComplete: "+ EndDate);
+                            Log.e("TAG", "onComplete: " + startDate);
+                            Log.e("TAG", "onComplete: " + EndDate);
                             assert EndDate != null;
-                            Date d=  startDate.toDate();
+                            Date d = startDate.toDate();
                             SimpleDateFormat sfd = new SimpleDateFormat("dd-MM-yyyy", Locale.getDefault());
-                            Log.e("TAG", "onComplete: "+ startDate.toDate());// Fri Jul 16 00:00:00 GMT+05:30 2021
-                            Log.e("TAG", "onComplete: "+ sfd.format(d)); //16-02-2021
+                            Log.e("TAG", "onComplete: " + startDate.toDate());// Fri Jul 16 00:00:00 GMT+05:30 2021
+                            Log.e("TAG", "onComplete: " + sfd.format(d)); //16-02-2021
 
-                            tempData.add(new Studentdata(name,rollno,phone,userId,email,Dob,sex,Age,startDate,EndDate));
+                            tempData.add(new Studentdata(name, rollno, phone, userId, email, Dob, sex, Age, startDate, EndDate));
                         }
-                    }catch (Exception e){
+                    } catch (Exception e) {
                         e.printStackTrace();
                     }
                     data.setValue(tempData);
-                }else{
+                } else {
                     data.setValue(null);
                     Toast.makeText(mContext, Objects.requireNonNull(task.getException()).getLocalizedMessage(), Toast.LENGTH_SHORT).show();
                 }
@@ -125,13 +128,13 @@ public class studentsList {
         return data;
     }
 
-    public MutableLiveData<ArrayList<Studentdata>> getUsers(){
+    public MutableLiveData<ArrayList<Studentdata>> getUsers() {
         store.collection("user").get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
             @Override
             public void onComplete(@NonNull @NotNull Task<QuerySnapshot> task) {
-                if(task.isSuccessful()){
+                if (task.isSuccessful()) {
                     ArrayList<Studentdata> tempData = new ArrayList<>();
-                    String name, phone , userId , email, sex , Age , isStudent;
+                    String name, phone, userId, email, sex, Age, isStudent, RollNo, joinedTill;
                     Timestamp Dob;
                     try {
                         for (int i = 0; i < task.getResult().getDocuments().size(); i++) {
@@ -141,14 +144,37 @@ public class studentsList {
                             sex = task.getResult().getDocuments().get(i).getString("Sex");
                             email = task.getResult().getDocuments().get(i).getString("email");
                             Age = task.getResult().getDocuments().get(i).getString("Age");
-                            if(task.getResult().getDocuments().get(i).getString("isStudent").equals("false"))
-                                tempData.add(new Studentdata(name,phone,userId,email,sex,Age));
+                            Studentdata data = new Studentdata(name, phone, userId, email, sex, Age);
+                            try {
+                                RollNo = task.getResult().getDocuments().get(i).getString("RollNo");
+                            } catch (Exception e) {
+                                RollNo = null;
+                            }
+                            if (RollNo != null) {
+                                data.setRollno(RollNo);
+                            }
+
+                            try {
+                                joinedTill = task.getResult().getDocuments().get(i).getString("joinedTill");
+                                SimpleDateFormat formatter = new SimpleDateFormat("dd-MM-yyyy", Locale.getDefault());
+                                if (joinedTill != null) {
+                                    Date date = (Date) formatter.parse(joinedTill);
+                                    if (date != null) {
+                                        data.setEnd(new Timestamp(date));
+                                    }
+                                }
+                            } catch (Exception e) {
+
+                            }
+
+                            if (task.getResult().getDocuments().get(i).getString("isStudent").equals("false"))
+                                tempData.add(data);
                         }
-                    }catch (Exception e){
+                    } catch (Exception e) {
                         e.printStackTrace();
                     }
                     users.setValue(tempData);
-                }else{
+                } else {
                     Toast.makeText(mContext, task.getException().getLocalizedMessage(), Toast.LENGTH_SHORT).show();
                 }
             }
@@ -157,7 +183,28 @@ public class studentsList {
         return users;
     }
 
-    public void deleteUser(){
+    public void deleteStudent(String userIDs, @NonNull Map<String, Object> profile) {
+        dialogs dialogs = new dialogs();
+        dialogs.alertDialogLogin(new ProgressDialog(mContext), "Removing Student");
+        profile.put("isStudent", "false");
+        store.collection("user").document(userIDs).set(profile, SetOptions.merge()).addOnCompleteListener(new OnCompleteListener<Void>() {
+            @Override
+            public void onComplete(@NonNull Task<Void> task) {
+                deleteStudentfromStudentList(userIDs, dialogs);
+            }
+        });
+    }
 
+    public void deleteStudentfromStudentList(String id, dialogs dialogs) {
+        store.collection("students").document(id).delete().addOnCompleteListener(
+                task -> {
+                    if (task.isSuccessful()) {
+                        ((Activity) mContext).finish();
+                        dialogs.dismissDialog(new ProgressDialog(mContext));
+                    } else {
+                        dialogs.displayDialog(task.getException().getLocalizedMessage(), mContext);
+                    }
+                }
+        );
     }
 }

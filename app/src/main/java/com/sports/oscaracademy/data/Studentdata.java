@@ -4,8 +4,6 @@ import com.google.firebase.Timestamp;
 
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
-import java.time.Instant;
-import java.time.LocalDate;
 import java.util.Date;
 import java.util.Locale;
 
@@ -131,21 +129,41 @@ public class Studentdata {
     public String getDOB() {
         SimpleDateFormat sfd = new SimpleDateFormat("dd-MM-yyyy", Locale.getDefault());
         String date = "NOT AVAILABLE";
-        try{
+        try {
             date = sfd.format(getDob().toDate());
-        }catch (Exception e){
+        } catch (Exception e) {
             e.printStackTrace();
         }
         return date;
     }
 
-    public String getValidTo(){
+    public void setDob(Timestamp dob) {
+        Dob = dob;
+    }
+
+    public Timestamp getStart() {
+        return start;
+    }
+
+    public void setStart(Timestamp start) {
+        this.start = start;
+    }
+
+    public Timestamp getEnd() {
+        return end;
+    }
+
+    public void setEnd(Timestamp end) {
+        this.end = end;
+    }
+
+    public String getValidTo() {
         SimpleDateFormat sfd = new SimpleDateFormat("dd-MM-yyyy", Locale.getDefault());
         String date = "NOT AVAILABLE";
-        try{
+        try {
             date = sfd.format(end.toDate());
-        }catch (Exception e){
-             e.printStackTrace();
+        } catch (Exception e) {
+            e.printStackTrace();
         }
         return date;
     }
