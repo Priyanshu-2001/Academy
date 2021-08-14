@@ -207,11 +207,9 @@ public class ProfileFragment extends Fragment {
     }
 
     private void deleteStudents() {
-//        dialogs dialogs = new dialogs();
-//        dialogs.
-        studentsList service = new studentsList(getActivity());
         Map<String, Object> data = getDataFromTxtViews();
-        service.deleteStudent(currentStudent.getValue().getUserId(), data);
+        displayConfirmationDialog("DELETE", "Please Connfirm Your Deletion", getContext(), data);
+
     }
 
     public Map<String, Object> getDataFromTxtViews() {
@@ -261,6 +259,22 @@ public class ProfileFragment extends Fragment {
             ProfileData.put("RollNo", binding.StudentRollNo.getText().toString().trim());
             studentAdder(ProfileData);
         }
+    }
+
+    public final void displayConfirmationDialog(String title, String str, Context context, Map<String, Object> data) {
+        androidx.appcompat.app.AlertDialog.Builder builder = new androidx.appcompat.app.AlertDialog.Builder(context, R.style.AlertDialog);
+        builder.setMessage(str);
+        builder.setTitle(title);
+        builder.setPositiveButton("Confirm", (dialog, which) -> {
+            studentsList service = new studentsList(getActivity());
+            service.deleteStudent(currentStudent.getValue().getUserId(), data);
+        });
+        builder.setNegativeButton("Dismiss", (dialog, which) -> {
+            Log.e("TAG", "displayConfirmationDialog: Canceled");
+        });
+        androidx.appcompat.app.AlertDialog alertDialog = builder.create();
+        alertDialog.show();
+        alertDialog.getWindow().getWindowStyle();
     }
 
     public void studentAdder(Map<String, Object> ProfileData) {
