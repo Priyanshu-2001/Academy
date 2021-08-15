@@ -211,7 +211,7 @@ public class studentsList {
     }
 
     public void updateProfile(String isStudent, SpinKitView progress, String userId, Map<String, Object> dataFromTxtViews) {
-        if (isStudent.equals("true")) {
+        if (isStudent.equals("student")) {
             store.collection("students").document(userId).set(dataFromTxtViews, SetOptions.merge()).addOnCompleteListener(task -> {
                 dialogs dialogs = new dialogs();
                 if (task.isSuccessful()) {

@@ -48,6 +48,7 @@ public class ProfileFragment extends Fragment {
     private String editable = "false";
     private SharedPreferences prefs;
     private final MutableLiveData<Studentdata> currentStudent = new MutableLiveData<>();
+    private String currentSelection;
     private FragmentProfileBinding binding;
     FirebaseFirestore firestore = FirebaseFirestore.getInstance();
 
@@ -167,6 +168,7 @@ public class ProfileFragment extends Fragment {
                             Log.e("TAG", "onChanged: " + studentdata.get(i).getName());
                             binding.setModel(studentdata.get(i));
                             currentStudent.setValue(studentdata.get(i));
+                            currentSelection = "student";
                         }
                     }
                 }
@@ -185,6 +187,7 @@ public class ProfileFragment extends Fragment {
                             binding.setModel(studentdata.get(i));
                             disableAll();
                             currentStudent.setValue(studentdata.get(i));
+                            currentSelection = "user";
                         }
                     }
                 }
@@ -204,7 +207,7 @@ public class ProfileFragment extends Fragment {
     private void UpdateDetails(String isStudent) {
         binding.progress.setVisibility(View.VISIBLE);
         studentsList service = new studentsList(getActivity());
-        service.updateProfile(isStudent, binding.progress, currentStudent.getValue().getUserId(), getDataFromTxtViews());
+        service.updateProfile(currentSelection, binding.progress, currentStudent.getValue().getUserId(), getDataFromTxtViews());
     }
 
     private void deleteStudents() {
@@ -286,9 +289,19 @@ public class ProfileFragment extends Fragment {
             @Override
             public void onComplete(@NonNull @NotNull Task<Void> task) {
                 if (task.isSuccessful()) {
-                    Toast.makeText(getContext(), "Student Added SucessFully", Toast.LENGTH_SHORT).show();
-                    Log.e("TAG", "onComplete: " + "validity added sucessfully");
-                    getActivity().finish();
+                    Toast.makeText(requireActivity().getApplicationContext(), "Student Added SucessFully", Toast.LENGTH_LONG).show();
+                    Thread thread = new Thread() {
+                        @Override
+                        public void run() {
+                            try {
+                                Thread.sleep(Toast.LENGTH_LONG); // As I am using LENGTH_LONG in Toast
+                                requireActivity().finish();
+                            } catch (Exception e) {
+                                e.printStackTrace();
+                            }
+                        }
+                    };
+                    thread.start();
                 } else {
                     Log.e("TAG", "onComplete: eroor in adding student " + task.getException());
                     Toast.makeText(getContext(), "Some Error Occured " + task.getException().getLocalizedMessage(), Toast.LENGTH_SHORT).show();
