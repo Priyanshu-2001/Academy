@@ -1,18 +1,16 @@
 package com.sports.oscaracademy.HomeActivities;
 
+import android.os.Bundle;
+import android.view.MenuItem;
+import android.view.View;
+
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.appcompat.widget.Toolbar;
 import androidx.databinding.DataBindingUtil;
 import androidx.lifecycle.Observer;
-import androidx.recyclerview.widget.RecyclerView;
 
-import android.os.Bundle;
-import android.util.Log;
-import android.view.MenuItem;
-import android.widget.TextView;
-
-import com.google.firebase.database.DataSnapshot;
+import com.github.ybq.android.spinkit.sprite.Sprite;
+import com.github.ybq.android.spinkit.style.WanderingCubes;
 import com.sports.oscaracademy.R;
 import com.sports.oscaracademy.adapters.studentList_adapter;
 import com.sports.oscaracademy.data.Studentdata;
@@ -34,26 +32,51 @@ public class Students extends AppCompatActivity {
 
     ActivityStudentsBinding binding;
 
+    String catcher = null;
+    studentsList list = new studentsList(this);
+
+    @Override
+    protected void onRestart() {
+        super.onRestart();
+        binding.progress.setVisibility(View.VISIBLE);
+        updateData();
+    }
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        String catcher = null;
-        try {catcher = getIntent().getStringExtra("catcher"); }catch (Exception e){e.printStackTrace(); }
+        Sprite doubleBounce = new WanderingCubes();
+
+        try {
+            catcher = getIntent().getStringExtra("catcher");
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
         binding = DataBindingUtil.setContentView(this, R.layout.activity_students);
         setSupportActionBar(binding.topBar.getRoot());
+        binding.progress.setIndeterminateDrawable(doubleBounce);
+        binding.progress.setVisibility(View.VISIBLE);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setHomeButtonEnabled(true);
         getSupportActionBar().setDisplayShowTitleEnabled(false);
-        studentsList list = new studentsList(this);
+
         binding.topBar.topTitleName.setText("Students List");
-        RecyclerView rcv = binding.studentrcv;
-        if(catcher!=null){
+
+        if (catcher != null) {
+            updateData();
+        }
+
+    }
+
+    public void updateData() {
+        if (catcher != null) {
             if (catcher.equals("0")) {
                 list.getStudents().observe(this, new Observer<ArrayList<Studentdata>>() {
                     @Override
                     public void onChanged(ArrayList<Studentdata> studentdata) {
                         adapter = new studentList_adapter(getApplicationContext(), studentdata, "false");
-                        rcv.setAdapter(adapter);
+                        binding.studentrcv.setAdapter(adapter);
+                        binding.progress.setVisibility(View.GONE);
                     }
                 });
             } else {
@@ -61,7 +84,8 @@ public class Students extends AppCompatActivity {
                     @Override
                     public void onChanged(ArrayList<Studentdata> studentdata) {
                         adapter = new studentList_adapter(getApplicationContext(), studentdata, "true");
-                        rcv.setAdapter(adapter);
+                        binding.studentrcv.setAdapter(adapter);
+                        binding.progress.setVisibility(View.GONE);
                     }
                 });
             }

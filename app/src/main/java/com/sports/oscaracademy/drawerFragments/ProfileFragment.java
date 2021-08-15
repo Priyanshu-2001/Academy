@@ -153,8 +153,9 @@ public class ProfileFragment extends Fragment {
         String isStudent = prefs.getString("isStudent", "false");
         Log.e("TAG", "onCreateView: " + isStudent);
         studentsList list = new studentsList(getActivity());
-        String role = prefs.getString("role", "0"); //(role.equals("1")) &&
-        if ((isStudent.equals("true") || editable.equals("false"))) {
+
+        String role = prefs.getString("role", "0"); //(role.equals("1")) is admin
+        if ((isStudent.equals("true") && prefs.getString("role", "0").equals("0") || editable.equals("false"))) {
             list.getStudents().observe(requireActivity(), new Observer<ArrayList<Studentdata>>() {
                 @Override
                 public void onChanged(ArrayList<Studentdata> studentdata) {

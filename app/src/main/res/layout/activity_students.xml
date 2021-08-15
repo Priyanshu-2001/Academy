@@ -73,6 +73,20 @@
 
         </androidx.constraintlayout.widget.ConstraintLayout>
 
+        <com.github.ybq.android.spinkit.SpinKitView
+            android:id="@+id/progress"
+            style="@style/SpinKitView.Large.Circle"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:layout_gravity="center"
+            android:visibility="gone"
+            app:SpinKit_Color="@color/colorPrimary"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.5"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="@+id/studentrcv" />
+
         <androidx.recyclerview.widget.RecyclerView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
