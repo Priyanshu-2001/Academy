@@ -24,7 +24,7 @@
         android:layout_height="23dp"
         android:layout_gravity="center"
         android:layout_marginTop="10dp"
-        android:textColor="@color/black"
+        android:textColor="@color/app.compat.light"
         android:fontFamily="@font/rubik_bold"
         android:text="Profile Name"
         android:textSize="21sp" />
@@ -35,6 +35,7 @@
         android:layout_height="wrap_content"
         android:layout_gravity="center"
         android:layout_marginTop="5dp"
+        android:textColor="@color/white"
         android:fontFamily="@font/rubik"
         android:text="sample@gmail.com"
         android:textSize="12sp" />

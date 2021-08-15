@@ -10,6 +10,7 @@
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:background="@drawable/app_back"
         tools:context=".HomeActivities.Students">
 
         <include
@@ -35,6 +36,8 @@
                 android:text="Roll No"
                 android:id="@+id/roll"
                 android:textSize="16dp"
+                android:fontFamily="@font/rubik_medium"
+                android:textColor="@color/textColor"
                 android:layout_marginHorizontal="10dp"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
@@ -46,6 +49,8 @@
                 android:layout_height="match_parent"
                 android:text="Students Name"
                 android:textSize="16dp"
+                android:fontFamily="@font/rubik_medium"
+                android:textColor="@color/textColor"
                 android:layout_marginHorizontal="20dp"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintStart_toEndOf="@+id/roll"
@@ -57,7 +62,9 @@
                 android:layout_height="match_parent"
                 android:layout_marginHorizontal="20dp"
                 android:text="Contact Details"
+                android:fontFamily="@font/rubik_medium"
                 android:textSize="16dp"
+                android:textColor="@color/textColor"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toEndOf="@+id/name"

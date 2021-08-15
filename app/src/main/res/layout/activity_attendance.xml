@@ -10,6 +10,7 @@
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:background="@drawable/app_back"
         tools:context=".HomeActivities.attendance">
 
         <androidx.appcompat.widget.Toolbar xmlns:android="http://schemas.android.com/apk/res/android"
@@ -29,7 +30,7 @@
                 android:fadingEdge="horizontal"
                 android:gravity="center"
                 android:marqueeRepeatLimit="2"
-                android:textColor="#000000"
+                android:textColor="@color/textColor"
                 android:textSize="20sp"
                 android:textStyle="bold" />
         </androidx.appcompat.widget.Toolbar>
@@ -39,8 +40,13 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             app:layout_constraintEnd_toEndOf="parent"
+            android:layout_marginTop="30dp"
             app:layout_constraintStart_toStartOf="parent"
+            android:background="#43FFFFFF"
+            app:mcv_dateTextAppearance="@style/CalendarWidgetdate"
+            app:mcv_headerTextAppearance="@style/CalendarWidgetHeader"
             app:layout_constraintTop_toBottomOf="@+id/toolbar"
+            app:mcv_weekDayTextAppearance="@style/CalendarWidgetDay"
             app:mcv_firstDayOfWeek="monday"
             app:mcv_selectionColor="@color/colorPrimary"
             app:mcv_showOtherDates="all" />

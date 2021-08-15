@@ -1,11 +1,11 @@
 package com.sports.oscaracademy;
 
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.appcompat.app.AppCompatDelegate;
-
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
+
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.app.AppCompatDelegate;
 
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
@@ -22,7 +22,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void updateUI(FirebaseUser currentUser) {
-        getWindow().setStatusBarColor(getColor(R.color.app_compat_light));
+//        getWindow().setStatusBarColor(getColor(R.color.app_compat_light));
         Handler mHandeler = new Handler();
         mHandeler.postDelayed(new Runnable() {
             @Override

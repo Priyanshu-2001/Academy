@@ -20,6 +20,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:id="@+id/constrainLayout"
+            android:background="@drawable/app_back"
             tools:context=".drawerFragments.ProfileFragment">
 
             <com.github.ybq.android.spinkit.SpinKitView
@@ -201,7 +202,7 @@
 
                 <AutoCompleteTextView
                     android:id="@+id/studentGender"
-                    android:layout_width="90dp"
+                    android:layout_width="110dp"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="40dp"
                     android:background="@null"
@@ -234,7 +235,7 @@
 
                 <com.google.android.material.textfield.TextInputEditText
                     android:id="@+id/studentAge"
-                    android:layout_width="130dp"
+                    android:layout_width="110dp"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="40dp"
                     android:background="@null"

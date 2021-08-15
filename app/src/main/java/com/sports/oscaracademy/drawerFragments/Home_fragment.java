@@ -2,22 +2,19 @@ package com.sports.oscaracademy.drawerFragments;
 
 import android.content.Context;
 import android.content.SharedPreferences;
-import android.os.Build;
 import android.os.Bundle;
+import android.util.Log;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.view.ViewGroup;
+import android.widget.ProgressBar;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.databinding.DataBindingUtil;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
-
-import android.util.Log;
-import android.view.LayoutInflater;
-import android.view.View;
-import android.view.ViewGroup;
-import android.view.Window;
-import android.widget.ProgressBar;
-import android.widget.Toast;
 
 import com.github.ybq.android.spinkit.sprite.Sprite;
 import com.github.ybq.android.spinkit.style.WanderingCubes;
@@ -31,7 +28,6 @@ import com.sports.oscaracademy.R;
 import com.sports.oscaracademy.adapters.dashBoard_adapter;
 import com.sports.oscaracademy.data.DashBoardData;
 import com.sports.oscaracademy.databinding.FragmentHomeFragmentBinding;
-import com.sports.oscaracademy.viewModel.HomeModel;
 
 import org.jetbrains.annotations.NotNull;
 
@@ -62,11 +58,11 @@ public class Home_fragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {
-            requireActivity().getWindow().setStatusBarColor(getResources().getColor(R.color.white,getContext().getTheme()));
-            requireActivity().getWindow().getDecorView().setSystemUiVisibility(View.SYSTEM_UI_FLAG_LIGHT_STATUS_BAR);
-        }
-        binding = DataBindingUtil.inflate(inflater,R.layout.fragment_home_fragment,null,false);
+//        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {
+//            requireActivity().getWindow().setStatusBarColor(getResources().getColor(R.color.black,getContext().getTheme()));
+//            requireActivity().getWindow().getDecorView().setSystemUiVisibility(View.SYSTEM_UI_FLAG_LIGHT_STATUS_BAR);
+//        }
+        binding = DataBindingUtil.inflate(inflater, R.layout.fragment_home_fragment, null, false);
         progressBar = binding.progress;
         rcv = binding.MainRCV;
         Sprite doubleBounce = new WanderingCubes();

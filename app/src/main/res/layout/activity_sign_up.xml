@@ -12,6 +12,7 @@
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:background="@drawable/app_back"
         tools:context=".signUpActivity">
 
 
@@ -35,7 +36,7 @@
                 android:fontFamily="@font/rubik_bold"
                 android:padding="60dp"
                 android:text="WELCOME"
-                android:textColor="@color/black"
+                android:textColor="@color/app.compat.light"
                 android:textSize="20dp"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
@@ -80,7 +81,7 @@
             android:gravity="center"
             android:padding="15dp"
             android:text="Sign up with your Email"
-            android:textColor="@color/black"
+            android:textColor="@color/app.compat.light"
             android:textSize="16sp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
@@ -239,7 +240,7 @@
                 android:gravity="center"
                 android:paddingTop="15dp"
                 android:text="Already have an account"
-                android:textColor="@color/black"
+                android:textColor="@color/app.compat.light"
                 android:textSize="14sp"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toStartOf="@id/tv_sign_in"

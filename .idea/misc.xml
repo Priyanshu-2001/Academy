@@ -4,9 +4,24 @@
     <option name="filePathToZoomLevelMap">
       <map>
         <entry key="..\:/OscarAcademy/app/src/main/res/drawable-v24/text_field_1.xml" value="0.25277777777777777" />
+        <entry key="..\:/OscarAcademy/app/src/main/res/drawable/app_back.xml" value="0.24074074074074073" />
+        <entry key="..\:/OscarAcademy/app/src/main/res/drawable/calederb.xml" value="0.23692307692307693" />
+        <entry key="..\:/OscarAcademy/app/src/main/res/drawable/header_bg.xml" value="0.136" />
         <entry key="..\:/OscarAcademy/app/src/main/res/layout/activity_admin_attendance.xml" value="0.15833333333333333" />
-        <entry key="..\:/OscarAcademy/app/src/main/res/layout/fragment_profile.xml" value="0.2" />
+        <entry key="..\:/OscarAcademy/app/src/main/res/layout/activity_attendance.xml" value="0.19814814814814816" />
+        <entry key="..\:/OscarAcademy/app/src/main/res/layout/activity_dashboard.xml" value="0.128" />
+        <entry key="..\:/OscarAcademy/app/src/main/res/layout/activity_login.xml" value="0.19537037037037036" />
+        <entry key="..\:/OscarAcademy/app/src/main/res/layout/activity_main.xml" value="0.17760416666666667" />
+        <entry key="..\:/OscarAcademy/app/src/main/res/layout/activity_sign_up.xml" value="0.19537037037037036" />
+        <entry key="..\:/OscarAcademy/app/src/main/res/layout/activity_students.xml" value="0.264" />
+        <entry key="..\:/OscarAcademy/app/src/main/res/layout/app_top_bar.xml" value="0.17760416666666667" />
+        <entry key="..\:/OscarAcademy/app/src/main/res/layout/fragment_home_fragment.xml" value="0.17760416666666667" />
+        <entry key="..\:/OscarAcademy/app/src/main/res/layout/fragment_profile.xml" value="0.16799999999999998" />
+        <entry key="..\:/OscarAcademy/app/src/main/res/layout/fragment_verify_contact_details.xml" value="0.2" />
+        <entry key="..\:/OscarAcademy/app/src/main/res/layout/header.xml" value="0.19537037037037036" />
+        <entry key="..\:/OscarAcademy/app/src/main/res/layout/profile_activity.xml" value="0.17760416666666667" />
         <entry key="..\:/OscarAcademy/app/src/main/res/layout/single_student_rcv.xml" value="0.4" />
+        <entry key="..\:/OscarAcademy/app/src/main/res/layout/topbar.xml" value="0.17760416666666667" />
         <entry key="..\:/OscarAcademy/app/src/main/res/menu/drawer.xml" value="0.13958333333333334" />
       </map>
     </option>
