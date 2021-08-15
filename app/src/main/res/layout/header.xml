@@ -8,22 +8,26 @@
     android:orientation="vertical"
     android:padding="25dp">
 
-    <de.hdodenhof.circleimageview.CircleImageView
+    <com.airbnb.lottie.LottieAnimationView
         android:layout_width="75dp"
         android:layout_height="75dp"
         android:layout_gravity="center"
-        android:layout_margin="25dp"
         android:id="@+id/pImage"
-        android:src="@drawable/app_icon"
-        app:civ_border_color="@color/white"
-        app:civ_border_width="2dp" />
+        android:layout_marginTop="25dp"
+        android:layout_marginBottom="15dp"
+        app:lottie_autoPlay="true"
+        app:lottie_loop="false"
+        app:lottie_progress="60"
+        app:lottie_rawRes="@raw/profile_animation"
+        app:lottie_repeatCount="3"
+        app:lottie_speed="0.75" />
 
     <TextView
         android:id="@+id/pName"
         android:layout_width="wrap_content"
         android:layout_height="23dp"
         android:layout_gravity="center"
-        android:layout_marginTop="10dp"
+        android:layout_marginTop="5dp"
         android:textColor="@color/app.compat.light"
         android:fontFamily="@font/rubik_bold"
         android:text="Profile Name"
@@ -37,6 +41,6 @@
         android:layout_marginTop="5dp"
         android:textColor="@color/white"
         android:fontFamily="@font/rubik"
-        android:text="sample@gmail.com"
+        android:text="Email"
         android:textSize="12sp" />
 </LinearLayout>
