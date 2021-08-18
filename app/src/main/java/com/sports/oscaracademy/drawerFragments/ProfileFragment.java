@@ -56,7 +56,7 @@ public class ProfileFragment extends Fragment {
     }
 
 
-    public static Fragment newInstance(String userID, String editable) {
+    public static ProfileFragment newInstance(String userID, String editable) {
         ProfileFragment fragment = new ProfileFragment();
         Bundle args = new Bundle();
         args.putString(UID, userID);

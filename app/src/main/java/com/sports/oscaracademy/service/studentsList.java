@@ -19,6 +19,7 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.QuerySnapshot;
 import com.google.firebase.firestore.SetOptions;
+import com.sports.oscaracademy.R;
 import com.sports.oscaracademy.data.Studentdata;
 import com.sports.oscaracademy.dialog.dialogs;
 
@@ -141,7 +142,7 @@ public class studentsList {
                     try {
                         for (int i = 0; i < task.getResult().getDocuments().size(); i++) {
                             name = task.getResult().getDocuments().get(i).getString("name");
-                            phone = task.getResult().getDocuments().get(i).getString("Phone Number");
+                            phone = task.getResult().getDocuments().get(i).getString("phone number");
                             userId = task.getResult().getDocuments().get(i).getString("userID");
                             sex = task.getResult().getDocuments().get(i).getString("Sex");
                             email = task.getResult().getDocuments().get(i).getString("email");
@@ -187,7 +188,7 @@ public class studentsList {
 
     public void deleteStudent(String userIDs, @NonNull Map<String, Object> profile) {
         dialogs dialogs = new dialogs();
-        dialogs.alertDialogLogin(new ProgressDialog(mContext), "Removing Student");
+        dialogs.alertDialogLogin(new ProgressDialog(mContext, R.style.AlertDialog), "Removing Student");
         profile.put("isStudent", "false");
         store.collection("user").document(userIDs).set(profile, SetOptions.merge()).addOnCompleteListener(new OnCompleteListener<Void>() {
             @Override
@@ -202,7 +203,7 @@ public class studentsList {
                 task -> {
                     if (task.isSuccessful()) {
                         ((Activity) mContext).finish();
-                        dialogs.dismissDialog(new ProgressDialog(mContext));
+                        dialogs.dismissDialog(new ProgressDialog(mContext, R.style.AlertDialog));
                     } else {
                         dialogs.displayDialog(task.getException().getLocalizedMessage(), mContext);
                     }

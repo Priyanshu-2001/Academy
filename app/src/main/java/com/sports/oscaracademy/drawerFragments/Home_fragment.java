@@ -1,7 +1,5 @@
 package com.sports.oscaracademy.drawerFragments;
 
-import android.content.Context;
-import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -43,10 +41,13 @@ public class Home_fragment extends Fragment {
 
     public Home_fragment() {
     }
+
     public static Home_fragment newInstance() {
         Home_fragment fragment = new Home_fragment();
         return fragment;
     }
+
+    String collection = "Student_dashboard";
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -58,10 +59,6 @@ public class Home_fragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-//        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {
-//            requireActivity().getWindow().setStatusBarColor(getResources().getColor(R.color.black,getContext().getTheme()));
-//            requireActivity().getWindow().getDecorView().setSystemUiVisibility(View.SYSTEM_UI_FLAG_LIGHT_STATUS_BAR);
-//        }
         binding = DataBindingUtil.inflate(inflater, R.layout.fragment_home_fragment, null, false);
         progressBar = binding.progress;
         rcv = binding.MainRCV;
@@ -70,8 +67,8 @@ public class Home_fragment extends Fragment {
         getItem();
         return binding.getRoot();
     }
+
     public void getItem() {
-        final String[] collection = {"Student_dashboard"};
         progressBar.setVisibility(View.VISIBLE);
         db.collection("userType_private").document(mAuth.getCurrentUser().getUid()).get()
                 .addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
@@ -79,14 +76,8 @@ public class Home_fragment extends Fragment {
                     public void onSuccess(DocumentSnapshot documentSnapshot) {
                         Log.d("TAG", "onSuccess: document snapshot" + documentSnapshot);
                         Log.d("TAG", "onSuccess: document role" + documentSnapshot.get("role"));
-                        collection[0] = String.valueOf(documentSnapshot.get("role"));
-                        SharedPreferences.Editor editor = requireContext().getSharedPreferences("tokenFile", Context.MODE_PRIVATE).edit();
-                        if(collection[0].equals("Student_dashboard"))
-                            editor.putString("role","0");
-                        else
-                            editor.putString("role","1");
-                        editor.apply();
-                        db.collection(collection[0]).get()
+                        collection = String.valueOf(documentSnapshot.get("role"));
+                        db.collection(collection).get()
                                 .addOnSuccessListener(new OnSuccessListener<QuerySnapshot>() {
                                     @Override
                                     public void onSuccess(QuerySnapshot queryDocumentSnapshots) {
@@ -101,9 +92,9 @@ public class Home_fragment extends Fragment {
                                             datalist.add(new DashBoardData(imgURL.get(i), s));
                                             i++;
                                         }
-                                        adapter = new dashBoard_adapter(datalist, requireContext()); // need data over here from firebase server
+                                        adapter = new dashBoard_adapter(datalist, getActivity()); // need data over here from firebase server
                                         Log.d("TAG", "onCreate: " + datalist.get(1).getFieldname());
-                                        rcv.setLayoutManager(new GridLayoutManager(getContext(), 2));
+                                        rcv.setLayoutManager(new GridLayoutManager(getActivity(), 2));
                                         rcv.setAdapter(adapter);
                                         i = 0;
                                         progressBar.setVisibility(View.GONE);
@@ -123,8 +114,6 @@ public class Home_fragment extends Fragment {
                 Toast.makeText(getContext(), "invalid user", Toast.LENGTH_SHORT).show();
             }
         });
-
-
 
     }
 }
