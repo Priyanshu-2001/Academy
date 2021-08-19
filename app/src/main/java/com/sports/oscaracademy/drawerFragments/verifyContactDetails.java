@@ -99,7 +99,8 @@ public class verifyContactDetails extends Fragment {
         phoneNumber = v.findViewById(R.id.phoneNumber);
         final CharSequence userPhoneNumber = FirebaseAuth.getInstance().getCurrentUser().getPhoneNumber();
         if (userPhoneNumber != null) {
-            phoneNumber.setText(FirebaseAuth.getInstance().getCurrentUser().getPhoneNumber().substring(3));
+            if (FirebaseAuth.getInstance().getCurrentUser().getPhoneNumber().length() != 0)
+                phoneNumber.setText(FirebaseAuth.getInstance().getCurrentUser().getPhoneNumber().substring(3));
         }
         if (userPhoneNumber != null) {
             button.setEnabled(userPhoneNumber == phoneNumber.getText().toString().trim());

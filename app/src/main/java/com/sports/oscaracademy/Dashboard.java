@@ -72,7 +72,7 @@ public class Dashboard extends AppCompatActivity implements bottomSheetOtpVerifi
         toggle.getDrawerArrowDrawable().setColor(getColor(R.color.white));
 
         navView.getMenu().getItem(0).setChecked(true);
-        profileFragment = ProfileFragment.newInstance(mAuth.getUid(), "user");
+        Log.e("TAG", "onCreate: uid " + mAuth.getUid());
         View header = navView.getHeaderView(0);
         ImageView imageView = header.findViewById(R.id.pImage);
         TextView name = header.findViewById(R.id.pName);
@@ -109,7 +109,7 @@ public class Dashboard extends AppCompatActivity implements bottomSheetOtpVerifi
         });
 
         CheckforStudent();
-
+        profileFragment = ProfileFragment.newInstance(mAuth.getUid(), "user");
         manager.beginTransaction().add(R.id.frameContainer, HomeFragment, "home").commit();
         manager.beginTransaction().add(R.id.frameContainer, verifyContactFragment, "verify").hide(verifyContactFragment).commit();
         manager.beginTransaction().add(R.id.frameContainer, contactAcademy, "contactUs").hide(contactAcademy).commit();
@@ -141,7 +141,6 @@ public class Dashboard extends AppCompatActivity implements bottomSheetOtpVerifi
                         temp = contactAcademy;
                         getSupportActionBar().setTitle("Contact Us");
                         navView.getMenu().getItem(1).setChecked(true);
-                        Toast.makeText(Dashboard.this, "Meeting Coach", Toast.LENGTH_SHORT).show();
                         break;
 
                     case R.id.privacy_policy:
@@ -156,6 +155,7 @@ public class Dashboard extends AppCompatActivity implements bottomSheetOtpVerifi
                         break;
                 }
                 homeFrag = temp instanceof Home_fragment;
+//                homeFrag = temp instanceof Home_fragment;
                 Log.e("TAG", "onNavigationItemSelected: " + temp);
                 drawer.closeDrawer(GravityCompat.START);
                 return true;
@@ -209,6 +209,7 @@ public class Dashboard extends AppCompatActivity implements bottomSheetOtpVerifi
             navView.getCheckedItem().setChecked(false);
             manager.beginTransaction().hide(temp).show(profileFragment).commit();
             temp = profileFragment;
+            homeFrag = false;
             Log.e("TAG", "openProfile: " + temp);
         } catch (Exception e) {
             e.printStackTrace();
@@ -252,15 +253,17 @@ public class Dashboard extends AppCompatActivity implements bottomSheetOtpVerifi
         } else {
             // If not in Home, move back to Home.
             if (!homeFrag) {
-                onNavigationDrawerItemSelected(0);
+                onNavigationDrawerItemSelected();
             } else
                 super.onBackPressed();
         }
     }
 
-    private void onNavigationDrawerItemSelected(int i) {
+
+    private void onNavigationDrawerItemSelected() {
         manager.beginTransaction().show(HomeFragment).hide(temp).commit();
         temp = HomeFragment;
+        homeFrag = true;
         navView.getMenu().getItem(0).setChecked(true);
     }
 
