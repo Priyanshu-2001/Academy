@@ -108,6 +108,7 @@ public class Dashboard extends AppCompatActivity implements bottomSheetOtpVerifi
             }
         });
 
+        homeFrag = true;
         CheckforStudent();
         profileFragment = ProfileFragment.newInstance(mAuth.getUid(), "user");
         manager.beginTransaction().add(R.id.frameContainer, HomeFragment, "home").commit();
@@ -122,7 +123,6 @@ public class Dashboard extends AppCompatActivity implements bottomSheetOtpVerifi
                     case R.id.Home:
                         Log.e("TAG", "onNavigationItemSelected: " + temp);
                         manager.beginTransaction().hide(temp).show(HomeFragment).commit();
-                        manager.popBackStack();
                         temp = HomeFragment;
                         navView.getMenu().getItem(0).setChecked(true);
                         getSupportActionBar().setTitle("");
@@ -217,50 +217,24 @@ public class Dashboard extends AppCompatActivity implements bottomSheetOtpVerifi
         drawer.closeDrawer(GravityCompat.START);
     }
 
-//    @Override
-//    public void onBackPressed() {
-//        super.onBackPressed();
-//        if(drawer.isOpen()){
-//            drawer.closeDrawer(GravityCompat.START);
-//
-//        }
-//    }
-
-//    @Override
-//    public void onBackPressed() {
-////
-////        int count = manager.getBackStackEntryCount();
-////
-////        if (count == 1) {
-////            super.onBackPressed();
-////            if(drawer.isOpen())
-////                drawer.closeDrawer(GravityCompat.START);
-////        } else {
-////            manager.popBackStack();
-////        }
-//
-////        super.onBackPressed();
-////        if (temp instanceof Home_fragment) {
-////            manager.popBackStackImmediate();
-////        }
-//    }
-
     @Override
     public void onBackPressed() {
+        Log.e("TAG", "onBackPressed: " + homeFrag);
         // Close navigation drawer if open
         if (drawer.isOpen()) {
             drawer.closeDrawer(GravityCompat.START);
         } else {
-            // If not in Home, move back to Home.
             if (!homeFrag) {
-                onNavigationDrawerItemSelected();
-            } else
+                SetHomeAsPrimary();
+            } else {
                 super.onBackPressed();
+                finishAffinity();
+            }
         }
     }
 
 
-    private void onNavigationDrawerItemSelected() {
+    private void SetHomeAsPrimary() {
         manager.beginTransaction().show(HomeFragment).hide(temp).commit();
         temp = HomeFragment;
         homeFrag = true;
@@ -271,8 +245,5 @@ public class Dashboard extends AppCompatActivity implements bottomSheetOtpVerifi
     public void getOTP(String OTP) {
         otp = OTP;
         ((verifyContactDetails) temp).otpReciever(OTP);
-
-//        if (temp instanceof verifyContactDetails) {
-//        }
     }
 }
