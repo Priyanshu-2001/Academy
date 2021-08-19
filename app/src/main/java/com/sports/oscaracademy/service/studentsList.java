@@ -92,7 +92,7 @@ public class studentsList {
             public void onComplete(@NonNull @NotNull Task<QuerySnapshot> task) {
                 if (task.isSuccessful()) {
                     ArrayList<Studentdata> tempData = new ArrayList<>();
-                    String name, rollno, phone, userId, email, sex, Age;
+                    String name, rollno, phone, userId, email, sex, Age, session;
                     Timestamp Dob;
                     try {
                         for (int i = 0; i < task.getResult().getDocuments().size(); i++) {
@@ -101,12 +101,17 @@ public class studentsList {
                             userId = task.getResult().getDocuments().get(i).getString("userID");
                             rollno = task.getResult().getDocuments().get(i).getString("RollNo");
                             sex = task.getResult().getDocuments().get(i).getString("Sex");
-                            email = task.getResult().getDocuments().get(i).getString("Email");
+                            email = task.getResult().getDocuments().get(i).getString("email");
                             Dob = task.getResult().getDocuments().get(i).getTimestamp("Dob");
                             Age = task.getResult().getDocuments().get(i).getString("Age");
                             Map<String, Object> feesObj = (Map<String, Object>) task.getResult().getDocuments().get(i).get("fees");
                             Timestamp startDate = (Timestamp) feesObj.get("valid from");
                             Timestamp EndDate = (Timestamp) feesObj.get("valid to");
+                            try {
+                                session = task.getResult().getDocuments().get(i).getString("session");
+                            } catch (Exception e) {
+                                session = "N/A";
+                            }
                             Log.e("TAG", "onComplete: " + startDate);
                             Log.e("TAG", "onComplete: " + EndDate);
                             assert EndDate != null;
@@ -114,8 +119,7 @@ public class studentsList {
                             SimpleDateFormat sfd = new SimpleDateFormat("dd-MM-yyyy", Locale.getDefault());
                             Log.e("TAG", "onComplete: " + startDate.toDate());// Fri Jul 16 00:00:00 GMT+05:30 2021
                             Log.e("TAG", "onComplete: " + sfd.format(d)); //16-02-2021
-
-                            tempData.add(new Studentdata(name, rollno, phone, userId, email, Dob, sex, Age, startDate, EndDate));
+                            tempData.add(new Studentdata(name, rollno, phone, userId, email, Dob, sex, Age, startDate, EndDate, session));
                         }
                     } catch (Exception e) {
                         e.printStackTrace();
@@ -137,7 +141,7 @@ public class studentsList {
             public void onComplete(@NonNull @NotNull Task<QuerySnapshot> task) {
                 if (task.isSuccessful()) {
                     ArrayList<Studentdata> tempData = new ArrayList<>();
-                    String name, phone, userId, email, sex, Age, isStudent, RollNo, joinedTill;
+                    String name, phone, userId, email, sex, Age, session, RollNo, joinedTill;
                     Timestamp Dob;
                     try {
                         for (int i = 0; i < task.getResult().getDocuments().size(); i++) {
@@ -153,6 +157,12 @@ public class studentsList {
                             } catch (Exception e) {
                                 RollNo = null;
                             }
+                            try {
+                                session = task.getResult().getDocuments().get(i).getString("session");
+                            } catch (Exception e) {
+                                session = "N/A";
+                            }
+                            data.setSession(session);
                             if (RollNo != null) {
                                 data.setRollno(RollNo);
                             }

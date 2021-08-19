@@ -19,6 +19,26 @@ public class Studentdata {
     Timestamp start;
     Timestamp end;
 
+    String session;
+
+    public Studentdata(String name, String rollno, String phone, String userId, String email, Timestamp dob, String sex, String age, Timestamp start, Timestamp end, String session) {
+        this.name = name;
+        this.rollno = rollno;
+        this.phone = phone;
+        this.userId = userId;
+        this.email = email;
+        this.Dob = dob;
+        this.sex = sex;
+        Age = age;
+        this.start = start;
+        this.end = end;
+        this.session = session;
+    }
+
+    public String getSession() {
+        return session;
+    }
+
     public Studentdata(String name, String phone, String userId, String email, Timestamp dob, String sex, String age) {
         this.name = name;
         this.phone = phone;
@@ -40,17 +60,8 @@ public class Studentdata {
 //        end = new Timestamp(new Date());
     }
 
-    public Studentdata(String name, String rollno, String phone, String userId, String email, Timestamp dob, String sex, String age, Timestamp start, Timestamp end) {
-        this.name = name;
-        this.rollno = rollno;
-        this.phone = phone;
-        this.userId = userId;
-        this.email = email;
-        this.Dob = dob;
-        this.sex = sex;
-        Age = age;
-        this.start = start;
-        this.end = end;
+    public void setSession(String session) {
+        this.session = session;
     }
 
     public String getName() {

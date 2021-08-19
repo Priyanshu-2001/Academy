@@ -220,14 +220,14 @@ public class ProfileFragment extends Fragment {
         Map<String, Object> ProfileData = new HashMap<>();
         ProfileData.put("Age", binding.studentAge.getText().toString().trim());
         ProfileData.put("name", binding.StudentName.getText().toString().trim());
-        ProfileData.put("Email", binding.studentMail.getText().toString().trim());
+        ProfileData.put("email", binding.studentMail.getText().toString().trim());
         ProfileData.put("Sex", binding.studentGender.getText().toString().trim());
 //        ProfileData.put("Dob",binding.studentDOB);
         ProfileData.put("userID", currentStudent.getValue().getUserId());
         ProfileData.put("Phone Number", binding.phoneNumber.getText().toString().trim());
         ProfileData.put("RollNo", binding.StudentRollNo.getText().toString().trim());
         ProfileData.put("joinedTill", binding.StudentMember.getText().toString().trim());
-        ProfileData.put("Session", binding.studentSession.getText().toString().trim());
+        ProfileData.put("session", binding.studentSession.getText().toString().trim());
         return ProfileData;
     }
 
@@ -238,13 +238,14 @@ public class ProfileFragment extends Fragment {
         Map<String, Object> ProfileData = new HashMap<>();
         ProfileData.put("Age", binding.studentAge.getText().toString().trim());
         ProfileData.put("name", binding.StudentName.getText().toString().trim());
-        ProfileData.put("Email", binding.studentMail.getText().toString().trim());
+        ProfileData.put("email", binding.studentMail.getText().toString().trim());
         ProfileData.put("Sex", binding.studentGender.getText().toString().trim());
 //        ProfileData.put("Dob",binding.studentDOB);
         ProfileData.put("phone number", binding.phoneNumber.getText().toString().trim());
         ProfileData.put("userID", currentStudent.getValue().getUserId());
         Map<String, Object> validity = new HashMap<>();
         validity.put("valid from", Timestamp.now());
+        ProfileData.put("session", binding.studentSession.getText().toString().trim());
         DateFormat format = new SimpleDateFormat("dd-MM-yyyy", Locale.getDefault());
         Log.e("TAG", "AddStudentToAcademy: " + binding.StudentMember.getText());
         Date date = format.parse(String.valueOf(binding.StudentMember.getText()));

@@ -99,7 +99,7 @@ public class verifyContactDetails extends Fragment {
         phoneNumber = v.findViewById(R.id.phoneNumber);
         final CharSequence userPhoneNumber = FirebaseAuth.getInstance().getCurrentUser().getPhoneNumber();
         if (userPhoneNumber != null) {
-            if (FirebaseAuth.getInstance().getCurrentUser().getPhoneNumber().length() != 0)
+            if (userPhoneNumber.length() != 0)
                 phoneNumber.setText(FirebaseAuth.getInstance().getCurrentUser().getPhoneNumber().substring(3));
         }
         if (userPhoneNumber != null) {
@@ -112,9 +112,17 @@ public class verifyContactDetails extends Fragment {
 
             @Override
             public void onTextChanged(CharSequence s, int start, int before, int count) {
+                button.setEnabled(s.length() == 10);
+
                 if (userPhoneNumber != null) {
-                    button.setEnabled(!userPhoneNumber.toString().trim().substring(3).contentEquals(s));
+                    if (userPhoneNumber.length() > 9) {
+                        if (s.length() == 10)
+                            button.setEnabled(!userPhoneNumber.toString().trim().substring(3).contentEquals(s));
+                        else
+                            button.setEnabled(false);
+                    }
                 }
+
             }
 
             @Override
