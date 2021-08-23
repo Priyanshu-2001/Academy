@@ -1,11 +1,5 @@
 package com.sports.oscaracademy;
 
-import androidx.annotation.NonNull;
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.databinding.DataBindingUtil;
-import androidx.lifecycle.Observer;
-import androidx.lifecycle.ViewModelProvider;
-
 import android.app.ProgressDialog;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -13,6 +7,12 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.Toast;
+
+import androidx.annotation.NonNull;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.databinding.DataBindingUtil;
+import androidx.lifecycle.Observer;
+import androidx.lifecycle.ViewModelProvider;
 
 import com.google.android.gms.auth.api.signin.GoogleSignIn;
 import com.google.android.gms.auth.api.signin.GoogleSignInAccount;
@@ -28,9 +28,7 @@ import com.google.android.material.snackbar.BaseTransientBottomBar;
 import com.google.android.material.snackbar.Snackbar;
 import com.google.firebase.auth.AuthCredential;
 import com.google.firebase.auth.AuthResult;
-import com.google.firebase.auth.EmailAuthCredential;
 import com.google.firebase.auth.FirebaseAuth;
-import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.auth.GoogleAuthProvider;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
@@ -211,8 +209,8 @@ public class LoginActivity extends AppCompatActivity {
         item.put("name" ,mAuth.getCurrentUser().getDisplayName() );
         item.put("isStudent" , "false");
         item.put("email" , mAuth.getCurrentUser().getEmail());
-        item.put("userID",mAuth.getCurrentUser().getUid());
-        item.put("Phone Number", "Not Available");
+        item.put("userID", mAuth.getCurrentUser().getUid());
+        item.put("phone number", "Not Available");
         item.put("Age", "Not Available");
         item.put("Sex", "Not Available");
         item.put("DOB", "Not Available");
@@ -257,7 +255,7 @@ public class LoginActivity extends AppCompatActivity {
         editor.apply();
     }
     private String getUserType(){
-        DocumentReference doc = FirebaseFirestore.getInstance().collection("userType_private").document(mAuth.getUid().toString());
+        DocumentReference doc = FirebaseFirestore.getInstance().collection("userType_private").document(mAuth.getUid());
         final String[] temp = new String[1];
         doc.get().addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
             @Override

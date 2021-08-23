@@ -214,7 +214,7 @@ public class verifyContactDetails extends Fragment {
         });
         SharedPreferences preferences = getContext().getSharedPreferences("tokenFile", Context.MODE_PRIVATE);
 
-        if (preferences.getString("isString", "false").equals("true")) {
+        if (preferences.getString("isStudent", "false").equals("true")) {
             FirebaseFirestore.getInstance().collection("students").document(FirebaseAuth.getInstance().getUid()).set(phone, SetOptions.merge()).addOnCompleteListener(new OnCompleteListener<Void>() {
                 @Override
                 public void onComplete(@NonNull Task<Void> task) {

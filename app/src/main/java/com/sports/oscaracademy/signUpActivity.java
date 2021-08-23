@@ -1,20 +1,18 @@
 package com.sports.oscaracademy;
 
+import android.app.ProgressDialog;
+import android.content.Intent;
+import android.os.Bundle;
+import android.widget.Toast;
+
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.databinding.DataBindingUtil;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
 
-import android.app.ProgressDialog;
-import android.content.Intent;
-import android.os.Bundle;
-import android.widget.Toast;
-
 import com.google.android.gms.tasks.OnCompleteListener;
-import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.Task;
-import com.google.firebase.Timestamp;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
@@ -100,7 +98,7 @@ public class signUpActivity extends AppCompatActivity {
                                 item.put("isStudent", "false");
                                 item.put("email", data.getEmail());
                                 item.put("userID", mAuth.getCurrentUser().getUid());
-                                item.put("Phone Number", "Not Available");
+                                item.put("phone number", "Not Available");
                                 item.put("Age", "Not Available");
                                 item.put("Sex", "Not Available");
                                 store.collection("user").document(mAuth.getUid()).set(item).
