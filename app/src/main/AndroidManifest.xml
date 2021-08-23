@@ -6,12 +6,12 @@
 
     <application
         android:allowBackup="true"
-        android:icon="@drawable/app_icon"
+        android:icon="@drawable/app_icon_main"
         android:label="@string/app_name"
-        android:roundIcon="@drawable/app_icon"
+        android:roundIcon="@mipmap/transparent_black"
         android:supportsRtl="true"
         android:theme="@style/Theme.OscarAcademy">
-        <activity android:name=".drawerFragments.profileActivity"></activity>
+        <activity android:name=".drawerFragments.profileActivity" />
         <activity android:name=".HomeActivities.Students" />
         <activity android:name=".HomeActivities.admin_attendance" />
         <activity android:name=".HomeActivities.attendance" />
