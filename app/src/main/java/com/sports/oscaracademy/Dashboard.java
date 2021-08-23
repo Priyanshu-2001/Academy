@@ -110,11 +110,10 @@ public class Dashboard extends AppCompatActivity implements bottomSheetOtpVerifi
 
         homeFrag = true;
         CheckforStudent();
-        profileFragment = ProfileFragment.newInstance(mAuth.getUid(), "user");
         manager.beginTransaction().add(R.id.frameContainer, HomeFragment, "home").commit();
         manager.beginTransaction().add(R.id.frameContainer, verifyContactFragment, "verify").hide(verifyContactFragment).commit();
         manager.beginTransaction().add(R.id.frameContainer, contactAcademy, "contactUs").hide(contactAcademy).commit();
-        manager.beginTransaction().add(R.id.frameContainer, profileFragment, "profile").hide(profileFragment).commit();
+//        manager.beginTransaction().add(R.id.frameContainer, profileFragment, "profile").hide(profileFragment).commit();
         navView.setNavigationItemSelectedListener(new NavigationView.OnNavigationItemSelectedListener() {
             @Override
             public boolean onNavigationItemSelected(@NonNull MenuItem item) {
@@ -207,7 +206,9 @@ public class Dashboard extends AppCompatActivity implements bottomSheetOtpVerifi
     private void openProfile() {
         try {
             navView.getCheckedItem().setChecked(false);
-            manager.beginTransaction().hide(temp).show(profileFragment).commit();
+            profileFragment = ProfileFragment.newInstance(mAuth.getUid(), "user");
+            manager.beginTransaction().add(R.id.frameContainer, profileFragment, "profile").hide(temp).commit();
+            manager.beginTransaction().show(profileFragment).commit();
             temp = profileFragment;
             homeFrag = false;
             Log.e("TAG", "openProfile: " + temp);

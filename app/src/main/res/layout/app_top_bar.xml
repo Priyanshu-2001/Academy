@@ -13,6 +13,5 @@
         android:textStyle="bold"
         android:textSize="20sp"
         android:layout_gravity="center"
-        android:marqueeRepeatLimit="2"
         android:fadingEdge="horizontal"/>
 </androidx.appcompat.widget.Toolbar>

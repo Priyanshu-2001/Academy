@@ -12,6 +12,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.sports.oscaracademy.HomeActivities.Students;
 import com.sports.oscaracademy.HomeActivities.attendance;
+import com.sports.oscaracademy.HomeActivities.upcoming_tournament;
 import com.sports.oscaracademy.data.DashBoardData;
 import com.sports.oscaracademy.databinding.SingleDashboardRcvBinding;
 
@@ -20,7 +21,7 @@ import org.jetbrains.annotations.NotNull;
 import java.util.ArrayList;
 
 public class dashBoard_adapter extends RecyclerView.Adapter<dashBoard_adapter.holder> {
-    private ArrayList<DashBoardData> data;
+    private final ArrayList<DashBoardData> data;
     Context context;
     public dashBoard_adapter(ArrayList<DashBoardData> data, Context context) {
         this.data = data;
@@ -48,7 +49,7 @@ public class dashBoard_adapter extends RecyclerView.Adapter<dashBoard_adapter.ho
     }
 
     public class holder extends RecyclerView.ViewHolder{
-        private SingleDashboardRcvBinding binding;
+        private final SingleDashboardRcvBinding binding;
         public holder(@NonNull @NotNull SingleDashboardRcvBinding binding) {
             super(binding.getRoot());
             this.binding = binding;
@@ -61,18 +62,20 @@ public class dashBoard_adapter extends RecyclerView.Adapter<dashBoard_adapter.ho
         }
         public void nextScreen(String text){
             Intent i;
-            switch (text.trim()){
+            switch (text.trim()) {
                 case "Fees & Payments":
                     break;
                 case "Attendance":
                     context.startActivity(new Intent(context, attendance.class));
                     break;
-                case "Upcoming Tournament": //for both admin and students
+                case "Upcoming Tournaments": //for both admin and students
+                    i = new Intent(context, upcoming_tournament.class);
+                    context.startActivity(i);
                     break;
-                case "Schedule" :
+                case "Schedule":
                     break;
                 case "Students":
-                    i =  new Intent(context,Students.class);
+                    i = new Intent(context, Students.class);
                     i.putExtra("catcher", "0");
                     context.startActivity(i);
                     break;

@@ -11,6 +11,9 @@
         android:roundIcon="@mipmap/transparent_black"
         android:supportsRtl="true"
         android:theme="@style/Theme.OscarAcademy">
+        <activity
+            android:name=".HomeActivities.upcoming_tournament"
+            android:exported="true" />
         <activity android:name=".drawerFragments.profileActivity" />
         <activity android:name=".HomeActivities.Students" />
         <activity android:name=".HomeActivities.admin_attendance" />
