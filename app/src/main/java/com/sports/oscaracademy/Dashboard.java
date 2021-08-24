@@ -57,7 +57,7 @@ public class Dashboard extends AppCompatActivity implements bottomSheetOtpVerifi
         mAuth = FirebaseAuth.getInstance();
         firestore = FirebaseFirestore.getInstance();
         com.sports.oscaracademy.databinding.ActivityDashboardBinding binding = DataBindingUtil.setContentView(this, R.layout.activity_dashboard);
-
+        getuserType();
 
         binding.setLifecycleOwner(Dashboard.this);
         Toolbar toolbar = binding.toolbar;
@@ -149,6 +149,7 @@ public class Dashboard extends AppCompatActivity implements bottomSheetOtpVerifi
 
                     case R.id.Log_out:
                         mAuth.signOut();
+                        pref.edit().clear().apply();
                         finishAffinity();
                         startActivity(new Intent(Dashboard.this, LoginActivity.class));
                         break;
@@ -183,6 +184,25 @@ public class Dashboard extends AppCompatActivity implements bottomSheetOtpVerifi
                 dialog.displayDialog(e.getLocalizedMessage(), getApplicationContext());
             }
         });
+    }
+
+    public void getuserType() {
+
+        firestore.collection("userType_private").document(mAuth.getCurrentUser().getUid()).get()
+                .addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
+                    @Override
+                    public void onSuccess(DocumentSnapshot documentSnapshot) {
+                        SharedPreferences.Editor pref = getSharedPreferences("tokenFile", MODE_PRIVATE).edit();
+                        if (documentSnapshot.get("role").equals("Student_dashboard")) {
+                            pref.putString("userType", "1");
+                        }
+                        if (documentSnapshot.get("role").equals("admin_dashboard")) {
+                            pref.putString("userType", "-2");
+                        }
+                        pref.apply();
+                    }
+                });
+
     }
 
     private void getRollNo() {

@@ -16,6 +16,7 @@ import com.google.android.gms.tasks.Task;
 import com.google.firebase.Timestamp;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.QuerySnapshot;
 import com.google.firebase.firestore.SetOptions;
@@ -42,6 +43,8 @@ public class studentsList {
     private MutableLiveData<String> roll;
     private String userID;
 
+    ArrayList<String> adminID = new ArrayList<>();
+    ArrayList<String> coachesID = new ArrayList<>();
 
     public MutableLiveData<String> getRoll(String userID) {
         if (roll == null) {
@@ -245,5 +248,39 @@ public class studentsList {
                 }
             });
         }
+    }
+
+    MutableLiveData<Map<String, ArrayList<String>>> finalList = new MutableLiveData<>();
+
+    public MutableLiveData<Map<String, ArrayList<String>>> getchatusers() {
+        Map<String, ArrayList<String>> temp = new HashMap<>();
+        store.collection("chatResponders").document("Admin").get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
+            @Override
+            public void onComplete(@NonNull Task<DocumentSnapshot> task) {
+                if (task.isSuccessful()) {
+                    if (task.getResult().exists()) {
+                        DocumentSnapshot document = task.getResult();
+                        adminID = (ArrayList<String>) document.get("adminID");
+                        temp.put("admin", adminID);
+                    }
+                }
+
+                store.collection("chatResponders").document("coaches").get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
+                    @Override
+                    public void onComplete(@NonNull Task<DocumentSnapshot> task) {
+                        if (task.isSuccessful()) {
+                            if (task.getResult().exists()) {
+                                DocumentSnapshot document = task.getResult();
+                                coachesID = (ArrayList<String>) document.get("coachesList");
+                                temp.put("coach", coachesID);
+                            }
+                            finalList.setValue(temp);
+                        }
+                    }
+                });
+            }
+        });
+
+        return finalList;
     }
 }
