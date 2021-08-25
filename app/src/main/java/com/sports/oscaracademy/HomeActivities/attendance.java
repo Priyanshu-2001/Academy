@@ -1,11 +1,5 @@
 package com.sports.oscaracademy.HomeActivities;
 
-import androidx.annotation.NonNull;
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.appcompat.content.res.AppCompatResources;
-import androidx.appcompat.widget.Toolbar;
-import androidx.databinding.DataBindingUtil;
-
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
@@ -13,6 +7,11 @@ import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Toast;
+
+import androidx.annotation.NonNull;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.content.res.AppCompatResources;
+import androidx.databinding.DataBindingUtil;
 
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
@@ -30,6 +29,7 @@ import com.sports.oscaracademy.databinding.ActivityAttendanceBinding;
 import com.sports.oscaracademy.service.attendanceService;
 
 import org.jetbrains.annotations.NotNull;
+import org.threeten.bp.LocalDate;
 
 import java.text.DateFormat;
 import java.text.DecimalFormat;
@@ -41,8 +41,6 @@ import java.util.HashMap;
 import java.util.Locale;
 import java.util.Map;
 import java.util.Objects;
-
-import org.threeten.bp.LocalDate;
 
 public class attendance extends AppCompatActivity {
 
@@ -68,20 +66,21 @@ public class attendance extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         Calendar calendar = Calendar.getInstance();
         binding = DataBindingUtil.setContentView(this, R.layout.activity_attendance);
-        setSupportActionBar((Toolbar) binding.toolbar);
+        setSupportActionBar(binding.toolbar);
         pref = getSharedPreferences("tokenFile", MODE_PRIVATE);
         db = FirebaseFirestore.getInstance();
 
         binding.topTitleName.setText("Attendance");
         Objects.requireNonNull(getSupportActionBar()).setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setDisplayShowTitleEnabled(false);
-        role = pref.getString("role", "-1");
-        if (role.equals("0")) {
+        role = pref.getString("userType", "-1");
+        Log.e("TAG", "onCreate: attendance role " + role);
+        if (role.equals("1")) {
             binding.studentScrollView.setVisibility(View.VISIBLE);
             binding.AdminScrollView.setVisibility(View.GONE);
             highlightAttendance();
         }
-        if (role.equals("1")) {
+        if (role.equals("-2")) {
             binding.studentScrollView.setVisibility(View.GONE);
             binding.AdminScrollView.setVisibility(View.VISIBLE);
             binding.markAttendance.setOnClickListener(new View.OnClickListener() {

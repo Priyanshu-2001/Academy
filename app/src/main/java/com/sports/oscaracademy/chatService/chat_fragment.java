@@ -1,4 +1,4 @@
-package com.sports.oscaracademy.drawerFragments;
+package com.sports.oscaracademy.chatService;
 
 import android.content.Context;
 import android.content.SharedPreferences;
@@ -76,7 +76,7 @@ public class chat_fragment extends Fragment {
     }
 
     private void showStudents(ArrayList<Studentdata> studentdata) {
-        chat_profile_adapter adapter = new chat_profile_adapter();
+        chat_profile_adapter adapter = new chat_profile_adapter(getContext());
         binding.rcvProfiles.setAdapter(adapter);
         adapter.setData(studentdata);
     }
@@ -92,20 +92,20 @@ public class chat_fragment extends Fragment {
                 for (Studentdata data : studentdata) {
                     if (adminID != null) {
                         if (adminID.contains(data.getUserId())) {
-                            Log.e("TAG", "onChanged: " + data.getName());
                             admin.add(data);
+                            Log.e("TAG", "onChanged: adminID" + data.getUserId());
                             adminID.remove(data.getUserId());
                         }
                     }
                     if (coachesID != null) {
                         if (coachesID.contains(data.getUserId())) {
                             coach.add(data);
-                            Log.e("TAG", "onChanged: " + data.getName());
+                            Log.e("TAG", "onChanged: coachID" + data.getUserId());
                             coachesID.remove(data.getUserId());
                         }
                     }
                 }
-                chat_profile_adapter adapter = new chat_profile_adapter();
+                chat_profile_adapter adapter = new chat_profile_adapter(getContext());
                 binding.rcvProfiles.setAdapter(adapter);
                 adapter.setData(coach, admin);
             }

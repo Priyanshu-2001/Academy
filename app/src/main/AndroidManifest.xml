@@ -12,6 +12,9 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.OscarAcademy">
         <activity
+            android:name=".chatService.chat_activty"
+            android:exported="true" />
+        <activity
             android:name=".HomeActivities.upcoming_tournament"
             android:exported="true" />
         <activity android:name=".drawerFragments.profileActivity" />
