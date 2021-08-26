@@ -26,6 +26,7 @@ import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 import com.google.android.material.navigation.NavigationView;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.sports.oscaracademy.dialog.dialogs;
@@ -148,6 +149,7 @@ public class Dashboard extends AppCompatActivity implements bottomSheetOtpVerifi
                         break;
 
                     case R.id.Log_out:
+                        FirebaseDatabase.getInstance().getReference().child("presence").child(mAuth.getUid()).setValue("offline");
                         mAuth.signOut();
                         pref.edit().clear().apply();
                         finishAffinity();
@@ -161,6 +163,25 @@ public class Dashboard extends AppCompatActivity implements bottomSheetOtpVerifi
                 return true;
             }
         });
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        FirebaseDatabase.getInstance().getReference().child("presence").child(mAuth.getUid()).setValue("Online");
+    }
+
+    @Override
+    public void onPause() {
+        super.onPause();
+        FirebaseDatabase.getInstance().getReference().child("presence").child(mAuth.getUid()).setValue("offline");
+    }
+
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        FirebaseDatabase.getInstance().getReference().child("presence").child(mAuth.getUid()).setValue("offline");
     }
 
     private void CheckforStudent() {

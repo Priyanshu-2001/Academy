@@ -12,6 +12,8 @@ import androidx.databinding.DataBindingUtil;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.Observer;
 
+import com.github.ybq.android.spinkit.sprite.Sprite;
+import com.github.ybq.android.spinkit.style.WanderingCubes;
 import com.sports.oscaracademy.R;
 import com.sports.oscaracademy.adapters.chat_profile_adapter;
 import com.sports.oscaracademy.data.Studentdata;
@@ -49,6 +51,10 @@ public class chat_fragment extends Fragment {
         Map<String, ArrayList<String>> chatusers = new HashMap<>();
         final ArrayList[] chatStudentsList = new ArrayList[]{new ArrayList<>()};
 
+        Sprite doubleBounce = new WanderingCubes();
+        binding.progress.setIndeterminateDrawable(doubleBounce);
+        binding.progress.setVisibility(View.VISIBLE);
+
         String role = preferences.getString("userType", "0");
         Log.e("role", "onCreateView: " + role);
         if (preferences.getString("isStudent", "false").equals("true") && role.equals("1")) {
@@ -79,6 +85,7 @@ public class chat_fragment extends Fragment {
         chat_profile_adapter adapter = new chat_profile_adapter(getContext());
         binding.rcvProfiles.setAdapter(adapter);
         adapter.setData(studentdata);
+        binding.progress.setVisibility(View.GONE);
     }
 
     private void showAllAdminAndCoaches(Map<String, ArrayList<String>> chatusers) {
@@ -110,5 +117,6 @@ public class chat_fragment extends Fragment {
                 adapter.setData(coach, admin);
             }
         });
+        binding.progress.setVisibility(View.GONE);
     }
 }

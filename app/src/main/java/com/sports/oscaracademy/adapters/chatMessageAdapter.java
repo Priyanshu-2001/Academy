@@ -62,10 +62,10 @@ public class chatMessageAdapter extends RecyclerView.Adapter {
 
         if (holder.getClass() == SentViewHolder.class) {
             SentViewHolder viewHolder = (SentViewHolder) holder;
-            viewHolder.binding.message.setText(messages.get(position).getMessage());
+            viewHolder.binding.message.setText(message.getMessage());
         } else {
             ReceiverViewHolder viewHolder = (ReceiverViewHolder) holder;
-            viewHolder.binding.message.setText(messages.get(position).getMessage());
+            viewHolder.binding.message.setText(message.getMessage());
         }
     }
 
@@ -84,7 +84,7 @@ public class chatMessageAdapter extends RecyclerView.Adapter {
         }
     }
 
-    public class SentViewHolder extends RecyclerView.ViewHolder {
+    public static class SentViewHolder extends RecyclerView.ViewHolder {
 
         ItemSentBinding binding;
 
@@ -94,7 +94,7 @@ public class chatMessageAdapter extends RecyclerView.Adapter {
         }
     }
 
-    public class ReceiverViewHolder extends RecyclerView.ViewHolder {
+    public static class ReceiverViewHolder extends RecyclerView.ViewHolder {
 
         ItemReceiveBinding binding;
 
