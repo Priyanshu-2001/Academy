@@ -33,6 +33,8 @@ import com.google.firebase.auth.GoogleAuthProvider;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.SetOptions;
+import com.google.firebase.messaging.FirebaseMessaging;
 import com.sports.oscaracademy.data.loginData;
 import com.sports.oscaracademy.databinding.ActivityLoginBinding;
 import com.sports.oscaracademy.dialog.dialogs;
@@ -243,16 +245,40 @@ public class LoginActivity extends AppCompatActivity {
         SharedPreferences.Editor editor = getSharedPreferences("tokenFile", MODE_PRIVATE).edit();
         editor.putString("uid",mAuth.getCurrentUser().getUid());
         editor.putString("email",mAuth.getCurrentUser().getEmail());
-        editor.putString("name",mAuth.getCurrentUser().getDisplayName());
+        editor.putString("name", mAuth.getCurrentUser().getDisplayName());
 
-        try{
-        editor.putString("photoUrl", String.valueOf(mAuth.getCurrentUser().getPhotoUrl()));
-        editor.putString("phoneNumber", mAuth.getCurrentUser().getPhoneNumber());
-        }catch (Exception e){
+        try {
+            editor.putString("photoUrl", String.valueOf(mAuth.getCurrentUser().getPhotoUrl()));
+            editor.putString("phoneNumber", mAuth.getCurrentUser().getPhoneNumber());
+        } catch (Exception e) {
             editor.putString("photoUrl", "-1");
             editor.putString("phoneNumber", "-1");
         }
         editor.apply();
+
+        FirebaseMessaging.getInstance().getToken()
+                .addOnCompleteListener(new OnCompleteListener<String>() {
+                    @Override
+                    public void onComplete(@NonNull Task<String> task) {
+                        if (!task.isSuccessful()) {
+                            Log.w("TAG", "Fetching FCM registration token failed", task.getException());
+                            return;
+                        }
+
+                        // Get new FCM registration token
+                        Map<String, Object> token = new HashMap<>();
+                        token.put("token", task.getResult());
+                        FirebaseFirestore.getInstance().collection("token").document(FirebaseAuth.getInstance().getUid()).set(token, SetOptions.merge()).addOnCompleteListener(new OnCompleteListener<Void>() {
+                            @Override
+                            public void onComplete(@NonNull Task<Void> task) {
+                                if (task.isSuccessful()) {
+                                    Toast.makeText(getApplicationContext(), "Setup Completed Successfully", Toast.LENGTH_SHORT).show();
+                                }
+                            }
+                        });
+                    }
+                });
+
     }
     private String getUserType(){
         DocumentReference doc = FirebaseFirestore.getInstance().collection("userType_private").document(mAuth.getUid());

@@ -50,6 +50,7 @@ public class Dashboard extends AppCompatActivity implements bottomSheetOtpVerifi
     FragmentManager manager = getSupportFragmentManager();
     ProfileFragment profileFragment;
     String otp;
+    String currentuserID;
     private boolean homeFrag;
 
     @Override
@@ -57,6 +58,7 @@ public class Dashboard extends AppCompatActivity implements bottomSheetOtpVerifi
         super.onCreate(savedInstanceState);
         mAuth = FirebaseAuth.getInstance();
         firestore = FirebaseFirestore.getInstance();
+        currentuserID = mAuth.getUid();
         com.sports.oscaracademy.databinding.ActivityDashboardBinding binding = DataBindingUtil.setContentView(this, R.layout.activity_dashboard);
         getuserType();
 
@@ -152,8 +154,8 @@ public class Dashboard extends AppCompatActivity implements bottomSheetOtpVerifi
                         FirebaseDatabase.getInstance().getReference().child("presence").child(mAuth.getUid()).setValue("offline");
                         mAuth.signOut();
                         pref.edit().clear().apply();
-                        finishAffinity();
                         startActivity(new Intent(Dashboard.this, LoginActivity.class));
+                        finishAffinity();
                         break;
                 }
                 homeFrag = temp instanceof Home_fragment;
@@ -167,25 +169,25 @@ public class Dashboard extends AppCompatActivity implements bottomSheetOtpVerifi
 
     @Override
     public void onResume() {
+        FirebaseDatabase.getInstance().getReference().child("presence").child(currentuserID).setValue("Online");
         super.onResume();
-        FirebaseDatabase.getInstance().getReference().child("presence").child(mAuth.getUid()).setValue("Online");
     }
 
     @Override
     public void onPause() {
+        FirebaseDatabase.getInstance().getReference().child("presence").child(currentuserID).setValue("offline");
         super.onPause();
-        FirebaseDatabase.getInstance().getReference().child("presence").child(mAuth.getUid()).setValue("offline");
     }
 
 
     @Override
     protected void onDestroy() {
+        FirebaseDatabase.getInstance().getReference().child("presence").child(currentuserID).setValue("offline");
         super.onDestroy();
-        FirebaseDatabase.getInstance().getReference().child("presence").child(mAuth.getUid()).setValue("offline");
     }
 
     private void CheckforStudent() {
-        firestore.collection("user").document(mAuth.getUid()).get().addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
+        firestore.collection("user").document(currentuserID).get().addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
             @Override
             public void onSuccess(DocumentSnapshot documentSnapshot) {
                 String isStudent = documentSnapshot.getString("isStudent");
@@ -209,7 +211,7 @@ public class Dashboard extends AppCompatActivity implements bottomSheetOtpVerifi
 
     public void getuserType() {
 
-        firestore.collection("userType_private").document(mAuth.getCurrentUser().getUid()).get()
+        firestore.collection("userType_private").document(currentuserID).get()
                 .addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
                     @Override
                     public void onSuccess(DocumentSnapshot documentSnapshot) {
@@ -227,7 +229,7 @@ public class Dashboard extends AppCompatActivity implements bottomSheetOtpVerifi
     }
 
     private void getRollNo() {
-        firestore.collection("students").document(mAuth.getUid()).get().addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
+        firestore.collection("students").document(currentuserID).get().addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
             @Override
             public void onSuccess(DocumentSnapshot documentSnapshot) {
                 String rollNo = documentSnapshot.getString("RollNo");

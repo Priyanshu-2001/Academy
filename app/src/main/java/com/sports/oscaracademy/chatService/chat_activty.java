@@ -1,32 +1,52 @@
 package com.sports.oscaracademy.chatService;
 
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.os.Handler;
 import android.text.Editable;
 import android.text.TextWatcher;
+import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.databinding.DataBindingUtil;
+import androidx.lifecycle.Observer;
 
+import com.android.volley.AuthFailureError;
+import com.android.volley.Request;
+import com.android.volley.RequestQueue;
+import com.android.volley.Response;
+import com.android.volley.VolleyError;
+import com.android.volley.toolbox.JsonObjectRequest;
+import com.android.volley.toolbox.Volley;
 import com.github.ybq.android.spinkit.sprite.Sprite;
 import com.github.ybq.android.spinkit.style.WanderingCubes;
+import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
+import com.google.firebase.firestore.DocumentSnapshot;
+import com.google.firebase.firestore.FirebaseFirestore;
 import com.sports.oscaracademy.R;
 import com.sports.oscaracademy.adapters.chatMessageAdapter;
 import com.sports.oscaracademy.data.Message;
+import com.sports.oscaracademy.data.Studentdata;
 import com.sports.oscaracademy.databinding.ActivityChatActivtyBinding;
+import com.sports.oscaracademy.service.studentsList;
+
+import org.json.JSONObject;
 
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
+import java.util.Map;
 
 public class chat_activty extends AppCompatActivity {
     ActivityChatActivtyBinding binding;
@@ -37,6 +57,8 @@ public class chat_activty extends AppCompatActivity {
     String senderUid = FirebaseAuth.getInstance().getUid();
     String senderRoom;
     String receiverRoom;
+    String receiverToken;
+    SharedPreferences pref;
 
     @Override
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
@@ -47,6 +69,7 @@ public class chat_activty extends AppCompatActivity {
         return super.onOptionsItemSelected(item);
     }
 
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -54,9 +77,18 @@ public class chat_activty extends AppCompatActivity {
         String receiverName = getIntent().getStringExtra("name");
         receiverUid = getIntent().getStringExtra("uid");
         setSupportActionBar(binding.toolbar.getRoot());
-
+        pref = getSharedPreferences("tokenFile", MODE_PRIVATE);
         receiverRoom = receiverUid + senderUid;
         senderRoom = senderUid + receiverUid;
+        getuserName();
+        FirebaseFirestore.getInstance().collection("token").document(receiverUid).get()
+                .addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
+                    @Override
+                    public void onComplete(@NonNull Task<DocumentSnapshot> task) {
+                        receiverToken = task.getResult().get("token", String.class);
+                        Log.e("TAG", "onComplete: token" + receiverToken);
+                    }
+                });
 
         Sprite doubleBounce = new WanderingCubes();
         binding.progress.setIndeterminateDrawable(doubleBounce);
@@ -91,6 +123,7 @@ public class chat_activty extends AppCompatActivity {
 
             }
         });
+
 
         database.getReference().child("chats")
                 .child(senderRoom)
@@ -131,7 +164,7 @@ public class chat_activty extends AppCompatActivity {
 
             @Override
             public void onTextChanged(CharSequence s, int start, int before, int count) {
-
+                binding.sendBtn.setEnabled(count != 0);
             }
 
             @Override
@@ -175,7 +208,7 @@ public class chat_activty extends AppCompatActivity {
                                 .setValue(message).addOnSuccessListener(new OnSuccessListener<Void>() {
                             @Override
                             public void onSuccess(Void aVoid) {
-//                                sendNotification(name, message.getMessage(), token);
+                                sendNotification(pref.getString("userName", FirebaseAuth.getInstance().getCurrentUser().getDisplayName()), message.getMessage(), receiverToken);
                             }
                         });
                     }
@@ -183,6 +216,80 @@ public class chat_activty extends AppCompatActivity {
 
             }
         });
+    }
+
+    private void getuserName() {
+        studentsList list = new studentsList(this);
+        SharedPreferences.Editor editor = getSharedPreferences("tokenFile", MODE_PRIVATE).edit();
+        if (pref.getString("isStudent", "false").equals("true")) {
+            list.getStudents().observeForever(new Observer<ArrayList<Studentdata>>() {
+                @Override
+                public void onChanged(ArrayList<Studentdata> studentdata) {
+                    for (Studentdata data : studentdata)
+                        if (FirebaseAuth.getInstance().getUid().equals(data.getUserId())) {
+                            editor.putString("userName", data.getName());
+                            editor.apply();
+                        }
+                }
+            });
+        } else {
+            list.getUsers().observeForever(new Observer<ArrayList<Studentdata>>() {
+                @Override
+                public void onChanged(ArrayList<Studentdata> studentdata) {
+                    for (Studentdata data : studentdata)
+                        if (FirebaseAuth.getInstance().getUid().equals(data.getUserId())) {
+                            editor.putString("userName", data.getName());
+                            editor.apply();
+                        }
+                }
+            });
+        }
+    }
+
+    void sendNotification(String name, String message, String token) {
+        try {
+            RequestQueue queue = Volley.newRequestQueue(this);
+
+            String url = "https://fcm.googleapis.com/fcm/send";
+
+            JSONObject data = new JSONObject();
+            data.put("title", name);
+            data.put("body", message);
+            JSONObject notificationData = new JSONObject();
+            notificationData.put("notification", data);
+            notificationData.put("to", token);
+
+            JsonObjectRequest request = new JsonObjectRequest(Request.Method.POST, url, notificationData
+                    , new Response.Listener<JSONObject>() {
+                @Override
+                public void onResponse(JSONObject response) {
+                    // Toast.makeText(ChatActivity.this, "success", Toast.LENGTH_SHORT).show();
+                }
+            }, new Response.ErrorListener() {
+                @Override
+                public void onErrorResponse(VolleyError error) {
+                    Toast.makeText(chat_activty.this, error.getLocalizedMessage(), Toast.LENGTH_SHORT).show();
+                }
+            }) {
+                @Override
+                public Map<String, String> getHeaders() throws AuthFailureError {
+                    HashMap<String, String> map = new HashMap<>();
+                    String key = "Key=AAAAbf9g9hw:APA91bGO2qax6-20o-PAlCUDiG0DUOFL3aOz6u9__m5tVj-smkX3nEwwYA7wfyfz5kBLmbTKHPqTXdgtuMXVGPFGklLvw_jfqIwKYehw7PlTI7QZqdVXV5ppvMbl8VCnMKV5WTE7Wq5c";
+                    map.put("Content-Type", "application/json");
+                    map.put("Authorization", key);
+
+                    return map;
+                }
+            };
+
+            queue.add(request);
+
+
+        } catch (Exception ex) {
+
+        }
+
+
     }
 
     @Override

@@ -8,10 +8,8 @@ import android.widget.Toast;
 import androidx.annotation.NonNull;
 import androidx.lifecycle.MutableLiveData;
 
-import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
-import com.google.android.gms.tasks.Task;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.firestore.FirebaseFirestore;
@@ -50,11 +48,11 @@ public class attendanceService {
     public MutableLiveData<ArrayList<Attendance_list>> data = new MutableLiveData<>();
     public MutableLiveData<ArrayList<Attendance_list>> getPreviousRecord(String getdate) {
         ArrayList<Attendance_list> templist = new ArrayList<>();
-        db.getReference().child(getdate).child("attendance").get().addOnSuccessListener(new OnSuccessListener<DataSnapshot>() {
+        db.getReference().child("attendance").child(getdate).child("attendance").get().addOnSuccessListener(new OnSuccessListener<DataSnapshot>() {
             @Override
             public void onSuccess(DataSnapshot dataSnapshot) {
-                if(dataSnapshot.exists()){
-                    for (DataSnapshot snap: dataSnapshot.getChildren()) {
+                if (dataSnapshot.exists()) {
+                    for (DataSnapshot snap : dataSnapshot.getChildren()) {
                         String roll = snap.getKey();
                         String status = (String) snap.getValue();
                         Log.d("TAG", "onSuccess: " + status);
@@ -118,7 +116,7 @@ public class attendanceService {
 
     public void Updatedatabase(Map<String, Object> attend, int date, int month, int year, ProgressBar progressBar) {
         String updateDate = date + "-" + month + "-" + year;
-        db.getReference()
+        db.getReference().child("attendance")
                 .child(updateDate)
                 .child("attendance")
                 .updateChildren(attend)
