@@ -179,6 +179,7 @@ public class Dashboard extends AppCompatActivity implements bottomSheetOtpVerifi
                     manager.beginTransaction().hide(temp).show(contactAcademy).commit();
                     temp = contactAcademy;
                     homeFrag = false;
+                    getIntent().removeExtra("notification");
                 }
             } catch (Exception e) {
                 e.printStackTrace();
