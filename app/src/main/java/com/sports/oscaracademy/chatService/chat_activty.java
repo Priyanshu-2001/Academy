@@ -139,8 +139,13 @@ public class chat_activty extends AppCompatActivity {
                         }
 
                         adapter.notifyDataSetChanged();
-                        binding.recyclerView.smoothScrollToPosition(adapter.getItemCount() - 1);
-//                        binding.recyclerView.smoothScrollToPosition(-1);
+                        try {
+                            binding.recyclerView.smoothScrollToPosition(adapter.getItemCount() - 1);
+                        } catch (Exception e) {
+                            e.printStackTrace();
+                        }
+
+                        //                        binding.recyclerView.smoothScrollToPosition(-1);
                         binding.progress.setVisibility(View.GONE);
                     }
 
