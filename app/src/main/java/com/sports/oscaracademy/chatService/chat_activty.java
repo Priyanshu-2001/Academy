@@ -166,7 +166,7 @@ public class chat_activty extends AppCompatActivity {
 
             @Override
             public void beforeTextChanged(CharSequence s, int start, int count, int after) {
-
+                binding.sendBtn.setEnabled(count != 0);
             }
 
             @Override

@@ -34,6 +34,7 @@ public class chat_fragment extends Fragment {
     SharedPreferences preferences;
     studentsList service;
     MutableLiveData<String> userCategory = new MutableLiveData<>();
+
     public chat_fragment() {
         // Required empty public constructor
     }
