@@ -52,6 +52,7 @@ public class Dashboard extends AppCompatActivity implements bottomSheetOtpVerifi
     String otp;
     String currentuserID;
     private boolean homeFrag;
+    SharedPreferences.Editor prefEditor;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -60,8 +61,7 @@ public class Dashboard extends AppCompatActivity implements bottomSheetOtpVerifi
         firestore = FirebaseFirestore.getInstance();
         currentuserID = mAuth.getUid();
         com.sports.oscaracademy.databinding.ActivityDashboardBinding binding = DataBindingUtil.setContentView(this, R.layout.activity_dashboard);
-        getuserType();
-
+        prefEditor = getSharedPreferences("tokenFile", MODE_PRIVATE).edit();
         binding.setLifecycleOwner(Dashboard.this);
         Toolbar toolbar = binding.toolbar;
         drawer = binding.drawer;
@@ -171,10 +171,24 @@ public class Dashboard extends AppCompatActivity implements bottomSheetOtpVerifi
     public void onResume() {
         FirebaseDatabase.getInstance().getReference().child("presence").child(currentuserID).setValue("Online");
         super.onResume();
+        if (getIntent().getExtras() != null) {
+            Log.e("TAG", "onResume: " + "getintent not null");
+            try {
+                Log.e("TAG", "onResume: " + "getIntent" + getIntent().getExtras().getBoolean("notification"));
+                if (getIntent().getExtras().getBoolean("notification")) {
+                    manager.beginTransaction().hide(temp).show(contactAcademy).commit();
+                    temp = contactAcademy;
+                    homeFrag = false;
+                }
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        }
     }
 
     @Override
     public void onPause() {
+        prefEditor.putBoolean("isAppOpened", false);
         FirebaseDatabase.getInstance().getReference().child("presence").child(currentuserID).setValue("offline");
         super.onPause();
     }
@@ -182,6 +196,7 @@ public class Dashboard extends AppCompatActivity implements bottomSheetOtpVerifi
 
     @Override
     protected void onDestroy() {
+        prefEditor.putBoolean("isAppOpened", false);
         FirebaseDatabase.getInstance().getReference().child("presence").child(currentuserID).setValue("offline");
         super.onDestroy();
     }
@@ -207,25 +222,6 @@ public class Dashboard extends AppCompatActivity implements bottomSheetOtpVerifi
                 dialog.displayDialog(e.getLocalizedMessage(), getApplicationContext());
             }
         });
-    }
-
-    public void getuserType() {
-
-        firestore.collection("userType_private").document(currentuserID).get()
-                .addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
-                    @Override
-                    public void onSuccess(DocumentSnapshot documentSnapshot) {
-                        SharedPreferences.Editor pref = getSharedPreferences("tokenFile", MODE_PRIVATE).edit();
-                        if (documentSnapshot.get("role").equals("Student_dashboard")) {
-                            pref.putString("userType", "1");
-                        }
-                        if (documentSnapshot.get("role").equals("admin_dashboard")) {
-                            pref.putString("userType", "-2");
-                        }
-                        pref.apply();
-                    }
-                });
-
     }
 
     private void getRollNo() {

@@ -8,6 +8,7 @@ import android.app.NotificationManager;
 import android.app.PendingIntent;
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.media.RingtoneManager;
 import android.net.Uri;
 import android.os.Build;
@@ -17,8 +18,9 @@ import androidx.core.app.NotificationCompat;
 
 import com.google.firebase.messaging.FirebaseMessagingService;
 import com.google.firebase.messaging.RemoteMessage;
+import com.sports.oscaracademy.Dashboard;
+import com.sports.oscaracademy.MainActivity;
 import com.sports.oscaracademy.R;
-import com.sports.oscaracademy.drawerFragments.ContactAcademy;
 
 import org.jetbrains.annotations.NotNull;
 
@@ -34,11 +36,20 @@ public class MyFirstbaseService extends FirebaseMessagingService {
 
     }
 
+    SharedPreferences preferences;
     private void sendNotification(String title, String messageBody) {
-        Intent intent = new Intent(this, ContactAcademy.class);
-        intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+        preferences = getSharedPreferences("tokenFile", MODE_PRIVATE);
+        Intent intent;
+        if (preferences.getBoolean("isAppOpened", false))
+            intent = new Intent(this, Dashboard.class);
+        else
+            intent = new Intent(this, MainActivity.class);
+
+        intent.addFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT);
+        intent.putExtra("notification", true);
+
         PendingIntent pendingIntent = PendingIntent.getActivity(this, 0 /* Request code */, intent,
-                PendingIntent.FLAG_ONE_SHOT);
+                PendingIntent.FLAG_UPDATE_CURRENT);
 
 //        String channelId = getString(R.string.default_notification_channel_id);
         String channelId = "1";

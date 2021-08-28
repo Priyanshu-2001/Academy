@@ -1,8 +1,10 @@
 package com.sports.oscaracademy;
 
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.os.Handler;
+import android.util.Log;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.app.AppCompatDelegate;
@@ -12,13 +14,17 @@ import com.google.firebase.auth.FirebaseUser;
 
 public class MainActivity extends AppCompatActivity {
     private FirebaseAuth mAuth;
+    SharedPreferences.Editor prefEditor;
+    Intent i;
 
     @Override
     protected void onStart() {
         AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO);
         super.onStart();
         FirebaseUser currentUser = mAuth.getCurrentUser();
+
         updateUI(currentUser);
+
     }
 
     private void updateUI(FirebaseUser currentUser) {
@@ -27,10 +33,21 @@ public class MainActivity extends AppCompatActivity {
         mHandeler.postDelayed(new Runnable() {
             @Override
             public void run() {
-                Intent i;
+                prefEditor = getSharedPreferences("tokenFile", MODE_PRIVATE).edit();
+                prefEditor.putBoolean("isAppOpened", true);
+                prefEditor.commit();
                 if (currentUser != null) {
-                    if (currentUser.isEmailVerified())
+                    if (currentUser.isEmailVerified()) {
                         i = new Intent(MainActivity.this, Dashboard.class);
+                        if (getIntent().getExtras() != null) {
+                            try {
+                                i.putExtra("notification", true);
+                                Log.e("TAG", "run: getintent main " + getIntent().getExtras().getBoolean("notification"));
+                            } catch (Exception e) {
+                                e.printStackTrace();
+                            }
+                        }
+                    }
                     else{
                         i = new Intent(MainActivity.this, EmailVerification.class);
                         i.putExtra("email" ,currentUser.getEmail());
