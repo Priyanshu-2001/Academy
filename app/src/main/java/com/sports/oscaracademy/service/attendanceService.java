@@ -8,8 +8,10 @@ import android.widget.Toast;
 import androidx.annotation.NonNull;
 import androidx.lifecycle.MutableLiveData;
 
+import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.android.gms.tasks.Task;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.firestore.FirebaseFirestore;
@@ -20,6 +22,7 @@ import com.sports.oscaracademy.data.Studentdata;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.Map;
 
 public class attendanceService {
@@ -48,7 +51,7 @@ public class attendanceService {
     public MutableLiveData<ArrayList<Attendance_list>> data = new MutableLiveData<>();
     public MutableLiveData<ArrayList<Attendance_list>> getPreviousRecord(String getdate) {
         ArrayList<Attendance_list> templist = new ArrayList<>();
-        db.getReference().child("attendance").child(getdate).child("attendance").get().addOnSuccessListener(new OnSuccessListener<DataSnapshot>() {
+        db.getReference().child("CombinedAttendance").child(getdate).get().addOnSuccessListener(new OnSuccessListener<DataSnapshot>() {
             @Override
             public void onSuccess(DataSnapshot dataSnapshot) {
                 if (dataSnapshot.exists()) {
@@ -116,15 +119,13 @@ public class attendanceService {
 
     public void Updatedatabase(Map<String, Object> attend, int date, int month, int year, ProgressBar progressBar) {
         String updateDate = date + "-" + month + "-" + year;
-        db.getReference().child("attendance")
+        db.getReference().child("CombinedAttendance")
                 .child(updateDate)
-                .child("attendance")
                 .updateChildren(attend)
                 .addOnSuccessListener(new OnSuccessListener<Void>() {
                     @Override
                     public void onSuccess(Void unused) {
-                        progressBar.setVisibility(View.GONE);
-                        Toast.makeText(progressBar.getContext(), "Attendance Submitted", Toast.LENGTH_SHORT).show();
+                        addToSpecificStudentRecord(updateDate, attend, progressBar);
                     }
                 })
                 .addOnFailureListener(new OnFailureListener() {
@@ -135,4 +136,32 @@ public class attendanceService {
                     }
                 });
     }
+
+    public void addToSpecificStudentRecord(String updateDate, Map<String, Object> attend, ProgressBar progressBar) {
+        Map<String, Object> map = new HashMap<>();
+        for (Map.Entry<String, Object> iterator : attend.entrySet()) {
+            map.put(updateDate, iterator.getValue());
+            db.getReference().child("individualAttendance").child(iterator.getKey()).updateChildren(map).addOnCompleteListener(new OnCompleteListener<Void>() {
+                @Override
+                public void onComplete(@NonNull Task<Void> task) {
+                    if (task.isSuccessful()) {
+                        progressBar.setVisibility(View.GONE);
+                        Toast.makeText(progressBar.getContext(), "Attendance Submitted", Toast.LENGTH_SHORT).show();
+                    } else {
+                        Toast.makeText(progressBar.getContext(), "Error Occured", Toast.LENGTH_SHORT).show();
+                    }
+                }
+            });
+        }
+    }
+
+    public void addToSpecificStudentRecord(String updateDate, Map<String, Object> attend) {
+        Map<String, Object> map = new HashMap<>();
+        for (Map.Entry<String, Object> iterator : attend.entrySet()) {
+            map.put(updateDate, iterator.getValue());
+            db.getReference().child("individualAttendance").child(iterator.getKey()).updateChildren(map);
+        }
+    }
+
+
 }

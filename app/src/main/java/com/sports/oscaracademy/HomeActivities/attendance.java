@@ -6,18 +6,18 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.content.res.AppCompatResources;
 import androidx.databinding.DataBindingUtil;
 
-import com.google.android.gms.tasks.OnFailureListener;
-import com.google.android.gms.tasks.OnSuccessListener;
-import com.google.firebase.auth.FirebaseAuth;
-import com.google.firebase.firestore.FirebaseFirestore;
-import com.google.firebase.firestore.SetOptions;
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
+import com.google.android.material.snackbar.BaseTransientBottomBar;
+import com.google.android.material.snackbar.Snackbar;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.FirebaseDatabase;
 import com.prolificinteractive.materialcalendarview.CalendarDay;
 import com.prolificinteractive.materialcalendarview.DayViewDecorator;
 import com.prolificinteractive.materialcalendarview.DayViewFacade;
@@ -35,6 +35,7 @@ import java.text.DateFormat;
 import java.text.DecimalFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.HashMap;
@@ -46,7 +47,9 @@ public class attendance extends AppCompatActivity {
 
     ActivityAttendanceBinding binding;
     SharedPreferences pref;
-    private FirebaseFirestore db;
+    attendanceService service = new attendanceService();
+    ArrayList<CalendarDay> leaveDay = new ArrayList<>();
+    private FirebaseDatabase db;
 
     @Override
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
@@ -59,8 +62,6 @@ public class attendance extends AppCompatActivity {
 
     public String role;
 
-
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -68,7 +69,7 @@ public class attendance extends AppCompatActivity {
         binding = DataBindingUtil.setContentView(this, R.layout.activity_attendance);
         setSupportActionBar(binding.toolbar);
         pref = getSharedPreferences("tokenFile", MODE_PRIVATE);
-        db = FirebaseFirestore.getInstance();
+        db = FirebaseDatabase.getInstance();
 
         binding.topTitleName.setText("Attendance");
         Objects.requireNonNull(getSupportActionBar()).setDisplayHomeAsUpEnabled(true);
@@ -113,7 +114,15 @@ public class attendance extends AppCompatActivity {
                     if (current_selection != null) {
                         if (current_selection.after(calendar.getTime())) {
                             Log.e("TAG", "onDateSelected: " + "ahead");
-                            applyLeave(date);
+                            int date_ = binding.calendarView.getSelectedDate().getDay();
+                            int month = binding.calendarView.getSelectedDate().getMonth();
+                            int year = binding.calendarView.getSelectedDate().getYear();
+                            String newDate = date_ + "-" + month + "-" + year;
+                            if (!leaveDay.contains(date))
+                                applyLeave(newDate, date);
+                            else {
+                                cancelLeave(newDate, date);
+                            }
                             binding.markAttendance.setVisibility(View.GONE);
                             binding.getAttend.setVisibility(View.GONE);
                         } else {
@@ -130,25 +139,125 @@ public class attendance extends AppCompatActivity {
         });
     }
 
+    private void cancelLeave(String newDate, CalendarDay date) {
+        binding.cancelLeave.setVisibility(View.VISIBLE);
+        binding.leaveButton.setVisibility(View.GONE);
+        String roll = pref.getString("roll", "-1");
+        binding.cancelLeave.setOnClickListener(v -> {
+            db.getReference().child("CombinedAttendance").child(newDate).child(roll).removeValue();
+            db.getReference().child("individualAttendance").child(roll).child(newDate).removeValue();
+            DecorateView(date, -1);
+            leaveDay.remove(date);
+            Log.e("TAG", "cancelLeave: " + date);
+            Log.e("TAG", "cancelLeave: " + leaveDay);
+            binding.leaveButton.setVisibility(View.VISIBLE);
+            binding.cancelLeave.setVisibility(View.GONE);
+            Snackbar.make(v, "Leave Canceled for " + newDate, Snackbar.LENGTH_LONG).setDuration(5000).setBackgroundTint(getResources().getColor(R.color.black)).setAnimationMode(BaseTransientBottomBar.ANIMATION_MODE_SLIDE).show();
+        });
+    }
+
     private void highlightAttendance() {
-        attendanceService service = new attendanceService();
+        String roll = pref.getString("roll", "-1");
+        if (!roll.equals("-1")) {
+            db.getReference().child("individualAttendance").child(roll).get().addOnCompleteListener(new OnCompleteListener<DataSnapshot>() {
+                @Override
+                public void onComplete(@NonNull Task<DataSnapshot> task) {
+                    if (task.isSuccessful()) {
+                        Log.e("TAG", "onComplete: " + task.getResult());
+                        DataSnapshot snaps = task.getResult();
+                        for (DataSnapshot snap : snaps.getChildren()) {
+                            switch (snap.getValue(String.class)) {
+                                case "A":
+                                    DecorateView(getCalenderDate(snap.getKey()), 1);
+                                    break;
+                                case "P":
+                                    DecorateView(getCalenderDate(snap.getKey()), 2);
+                                    break;
+                                case "L":
+                                    DecorateView(getCalenderDate(snap.getKey()), 3);
+                                    leaveDay.add(getCalenderDate(snap.getKey()));
+                                    break;
+                            }
+                        }
+                    }
+                }
+            });
+        } else {
+
+        }
+
+    }
+
+    public CalendarDay getCalenderDate(String date) {
+        int count = 0;
+        StringBuilder temp = new StringBuilder();
+        int day = 0, mon = 0, year = 0;
+        for (int i = 0; i < date.length(); i++) {
+            if (date.charAt(i) == '-') {
+//                Log.e("TAG", "getCalenderDate: " +temp );
+                if (count == 0)
+                    day = Integer.parseInt(String.valueOf(temp));
+                else if (count == 1)
+                    mon = Integer.parseInt(String.valueOf(temp));
+                count++;
+                temp.delete(0, temp.length());
+                continue;
+            }
+            temp.append(date.charAt(i));
+        }
+        year = Integer.parseInt(String.valueOf(temp));
+        Log.e("TAG", "getCalenderDate: " + CalendarDay.from(year, mon, day));
+        return CalendarDay.from(year, mon, day);
+    }
+
+    private void DecorateView(CalendarDay date, int i) {
+        DayViewDecorator decorator = new DayViewDecorator() {
+            @Override
+            public boolean shouldDecorate(CalendarDay day) {
+                return day.equals(date);
+            }
+
+            @Override
+            public void decorate(DayViewFacade view) {
+                DotSpan span;
+                switch (i) {
+                    case 1:
+                        span = new DotSpan(getColor(R.color.absent_span));
+                        view.setBackgroundDrawable(AppCompatResources.getDrawable(attendance.this, R.drawable.absent_span));
+                        break;
+                    case 2:
+                        span = new DotSpan(getColor(R.color.present_spam));
+                        view.setBackgroundDrawable(AppCompatResources.getDrawable(attendance.this, R.drawable.present_span));
+                        break;
+                    case 3:
+                        span = new DotSpan(getColor(R.color.leave_span));
+                        view.setBackgroundDrawable(AppCompatResources.getDrawable(attendance.this, R.drawable.leave_span));
+                        break;
+                    default:
+                        span = new DotSpan(getColor(R.color.colorPrimaryDarker));
+                        view.setBackgroundDrawable(AppCompatResources.getDrawable(attendance.this, R.drawable.circle));
+                }
+                view.addSpan(span);
+            }
+        };
+        binding.calendarView.addDecorators(decorator);
     }
 
     private void getAttendance() {
-        Intent i = new Intent(this,admin_attendance.class);
-        i.putExtra("date",binding.calendarView.getSelectedDate().getDay());
-        i.putExtra("month",binding.calendarView.getSelectedDate().getMonth());
-        i.putExtra("year",binding.calendarView.getSelectedDate().getYear());
-        i.putExtra("type","get");
+        Intent i = new Intent(this, admin_attendance.class);
+        i.putExtra("date", binding.calendarView.getSelectedDate().getDay());
+        i.putExtra("month", binding.calendarView.getSelectedDate().getMonth());
+        i.putExtra("year", binding.calendarView.getSelectedDate().getYear());
+        i.putExtra("type", "get");
         startActivity(i);
     }
 
     private void markAttendance() {
-        Intent i = new Intent(this,admin_attendance.class);
-        i.putExtra("date",binding.calendarView.getSelectedDate().getDay());
-        i.putExtra("month",binding.calendarView.getSelectedDate().getMonth());
-        i.putExtra("year",binding.calendarView.getSelectedDate().getYear());
-        i.putExtra("type","post");
+        Intent i = new Intent(this, admin_attendance.class);
+        i.putExtra("date", binding.calendarView.getSelectedDate().getDay());
+        i.putExtra("month", binding.calendarView.getSelectedDate().getMonth());
+        i.putExtra("year", binding.calendarView.getSelectedDate().getYear());
+        i.putExtra("type", "post");
         startActivity(i);
     }
 
@@ -157,37 +266,30 @@ public class attendance extends AppCompatActivity {
     }
 
 
-    private void applyLeave(@NotNull CalendarDay current_selection) {
+    private void applyLeave(String current_selection, @NotNull CalendarDay date) {
         binding.leaveButton.setVisibility(View.VISIBLE);
+        binding.cancelLeave.setVisibility(View.GONE);
         binding.leaveButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-//                attendanceService service = new attendanceService();
-//                Map<String,Object> attend = new HashMap<>();
-//                for (int i=0; i<newData.size();i++){
-//                    if(!newData.get(i).getOnLeave())
-//                        if(newData.get(i).getPresent())
-//                            attend.put(newData.get(i).getRollNo(),"A");
-//                        else
-//                            attend.put(newData.get(i).getRollNo(),"P");
-//                    else
-//                        attend.put(newData.get(i).getRollNo(),"L");
-//                }
-//                service.Updatedatabase(attend , date , month , year , progressBar);
-                Map<String, String> map = new HashMap<>();
-                map.put("onLeave", "true");
-                map.put("date", String.valueOf(current_selection));
-                db.collection("attendance")
-                        .document(FirebaseAuth.getInstance().getCurrentUser().getUid())
-                        .set(map, SetOptions.merge())
-                        .addOnSuccessListener(new OnSuccessListener<Void>() {
-                            @Override
-                            public void onSuccess(Void unused) {
+                String roll = pref.getString("roll", "-1");
+                Map<String, Object> map = new HashMap<>();
+                if (!roll.equals("-1"))
+                    map.put(roll, "L");
+                Log.e("TAG", "onClick: rool " + map);
+                Log.e("TAG", "onClick: currentSecetio " + current_selection);
+                db.getReference().child("CombinedAttendance").child(current_selection).updateChildren(map)
+                        .addOnCompleteListener(task -> {
+                            if (task.isSuccessful()) {
+                                binding.cancelLeave.setVisibility(View.VISIBLE);
+                                binding.leaveButton.setVisibility(View.GONE);
+                                leaveDay.add(getCalenderDate(current_selection));
+                                service.addToSpecificStudentRecord(current_selection, map);
                                 DayViewDecorator decorator = new DayViewDecorator() {
                                     @Override
                                     public boolean shouldDecorate(CalendarDay day) {
-                                        if (day.equals(current_selection)) {
-                                            Toast.makeText(attendance.this, "should", Toast.LENGTH_SHORT).show();
+                                        if (day.equals(date)) {
+                                            Log.e("TAG", "shouldDecorate: " + date);
                                             return true;
                                         } else {
                                             return false;
@@ -197,17 +299,13 @@ public class attendance extends AppCompatActivity {
                                     @Override
                                     public void decorate(DayViewFacade view) {
                                         view.addSpan(new DotSpan(getColor(R.color.scnd_grey)));
-                                        Toast.makeText(attendance.this, "decorate", Toast.LENGTH_SHORT).show();
                                         view.setBackgroundDrawable(AppCompatResources.getDrawable(attendance.this, R.drawable.leave_span));
                                     }
                                 };
+                                Snackbar.make(v, "Leave applied for " + current_selection, Snackbar.LENGTH_LONG).setDuration(5000).setBackgroundTint(getResources().getColor(R.color.black)).setAnimationMode(BaseTransientBottomBar.ANIMATION_MODE_SLIDE).show();
                                 binding.calendarView.addDecorators(decorator);
-                            }
-                        })
-                        .addOnFailureListener(new OnFailureListener() {
-                            @Override
-                            public void onFailure(@NonNull @NotNull Exception e) {
-
+                            } else {
+                                Snackbar.make(v, "failed", Snackbar.LENGTH_LONG).show();
                             }
                         });
             }

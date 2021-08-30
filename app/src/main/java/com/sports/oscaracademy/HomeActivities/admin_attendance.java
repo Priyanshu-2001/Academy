@@ -1,21 +1,17 @@
 package com.sports.oscaracademy.HomeActivities;
 
-import androidx.annotation.NonNull;
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.appcompat.content.res.AppCompatResources;
-import androidx.databinding.DataBindingUtil;
-import androidx.lifecycle.LifecycleOwner;
-import androidx.lifecycle.MutableLiveData;
-import androidx.lifecycle.Observer;
-import androidx.recyclerview.widget.RecyclerView;
-
 import android.os.Bundle;
 import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
-import android.view.ViewParent;
 import android.widget.ProgressBar;
-import android.widget.Toast;
+
+import androidx.annotation.NonNull;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.content.res.AppCompatResources;
+import androidx.databinding.DataBindingUtil;
+import androidx.lifecycle.Observer;
+import androidx.recyclerview.widget.RecyclerView;
 
 import com.github.ybq.android.spinkit.sprite.Sprite;
 import com.github.ybq.android.spinkit.style.WanderingCubes;
@@ -69,7 +65,6 @@ public class admin_attendance extends AppCompatActivity {
             students.getStudents().observe(this, new Observer<ArrayList<Studentdata>>() {
                 @Override
                 public void onChanged(ArrayList<Studentdata> studentdata) {
-
                     getAttend.getPreviousRecord(date + "-" + month + "-" + year).observe(binding.getLifecycleOwner(), new Observer<ArrayList<Attendance_list>>() {
                         @Override
                         public void onChanged(ArrayList<Attendance_list> studentAttendances) {
