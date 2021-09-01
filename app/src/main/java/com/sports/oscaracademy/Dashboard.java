@@ -29,11 +29,11 @@ import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
+import com.sports.oscaracademy.bottomSheet.bottomSheetOtpVerification;
 import com.sports.oscaracademy.dialog.dialogs;
 import com.sports.oscaracademy.drawerFragments.ContactAcademy;
 import com.sports.oscaracademy.drawerFragments.Home_fragment;
 import com.sports.oscaracademy.drawerFragments.ProfileFragment;
-import com.sports.oscaracademy.drawerFragments.bottomSheetOtpVerification;
 import com.sports.oscaracademy.drawerFragments.verifyContactDetails;
 
 import org.jetbrains.annotations.NotNull;

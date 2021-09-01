@@ -1,4 +1,4 @@
-package com.sports.oscaracademy.drawerFragments;
+package com.sports.oscaracademy.bottomSheet;
 
 import android.app.Activity;
 import android.content.Context;

@@ -15,7 +15,7 @@
             android:name=".chatService.chat_activty"
             android:exported="true" />
         <activity
-            android:name=".HomeActivities.upcoming_tournament"
+            android:name=".HomeActivities.news_feeds"
             android:exported="true" />
         <activity android:name=".drawerFragments.profileActivity" />
         <activity android:name=".HomeActivities.Students" />
@@ -47,6 +47,9 @@
         <meta-data
             android:name="com.google.firebase.messaging.default_notification_color"
             android:resource="@color/colorPrimary" />
+        <meta-data
+            android:name="preloaded_fonts"
+            android:resource="@array/preloaded_fonts" />
 
         <service
             android:name=".service.MyFirstbaseService"
