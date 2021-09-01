@@ -1,30 +1,31 @@
 package com.sports.oscaracademy.data;
 
 public class Attendance_list {
-    String RollNo, Name;
+    String Name;
+    Integer RollNo;
     Boolean onLeave, isPresent, isAbsent;
 
-    public Attendance_list(String rollNo, String name, Boolean onLeave, Boolean isPresent) {
+    public Attendance_list(Integer rollNo, String name, Boolean onLeave, Boolean isPresent) {
         RollNo = rollNo;
         Name = name;
         this.onLeave = onLeave;
-        if(onLeave){
+        if (onLeave) {
             this.isPresent = false;
             this.isAbsent = false;
-        }else {
+        } else {
             this.isPresent = isPresent;
             this.isAbsent = !isPresent;
         }
     }
 
-    public Attendance_list(String rollNo, Boolean isPresent , Boolean onLeave) {
+    public Attendance_list(Integer rollNo, Boolean isPresent, Boolean onLeave) {
         RollNo = rollNo;
         this.onLeave = onLeave;
         this.isPresent = isPresent;
         this.isAbsent = !isPresent;
     }
 
-    public Attendance_list(String rollNo, String name, Boolean onLeave) {
+    public Attendance_list(Integer rollNo, String name, Boolean onLeave) {
         RollNo = rollNo;
         Name = name;
         this.onLeave = onLeave;
@@ -32,7 +33,7 @@ public class Attendance_list {
         this.isAbsent = false;
     }
 
-    public Attendance_list(String rollNo, String name) {
+    public Attendance_list(Integer rollNo, String name) {
         RollNo = rollNo;
         Name = name;
         this.isPresent = false;
@@ -42,10 +43,10 @@ public class Attendance_list {
 
 
     public String getRollNo() {
-        return RollNo;
+        return String.valueOf(RollNo);
     }
 
-    public void setRollNo(String rollNo) {
+    public void setRollNo(Integer rollNo) {
         RollNo = rollNo;
     }
 

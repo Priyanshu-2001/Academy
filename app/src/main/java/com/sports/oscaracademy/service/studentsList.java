@@ -18,6 +18,7 @@ import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.Query;
 import com.google.firebase.firestore.QuerySnapshot;
 import com.google.firebase.firestore.SetOptions;
 import com.sports.oscaracademy.R;
@@ -40,13 +41,13 @@ public class studentsList {
     private final FirebaseFirestore store = FirebaseFirestore.getInstance();
     private final FirebaseDatabase db = FirebaseDatabase.getInstance();
     private final Context mContext;
-    private MutableLiveData<String> roll;
+    private MutableLiveData<Integer> roll;
     private String userID;
 
     ArrayList<String> adminID = new ArrayList<>();
     ArrayList<String> coachesID = new ArrayList<>();
 
-    public MutableLiveData<String> getRoll(String userID) {
+    public MutableLiveData<Integer> getRoll(String userID) {
         if (roll == null) {
             roll = new MutableLiveData<>();
             loadRoll();
@@ -78,7 +79,7 @@ public class studentsList {
                     @Override
                     public void onComplete(@NonNull @NotNull Task<Void> task) {
                         Log.e("ROllNumber", "onComplete: updated user " + rollNo);
-                        roll.setValue(String.valueOf(rollNo));
+                        roll.setValue(rollNo);
                     }
                 });
             }
@@ -90,19 +91,20 @@ public class studentsList {
     }
 
     public MutableLiveData<ArrayList<Studentdata>> getStudents() {
-        store.collection("students").get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+        store.collection("students").orderBy("RollNo", Query.Direction.ASCENDING).get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
             @Override
             public void onComplete(@NonNull @NotNull Task<QuerySnapshot> task) {
                 if (task.isSuccessful()) {
                     ArrayList<Studentdata> tempData = new ArrayList<>();
-                    String name, rollno, phone, userId, email, sex, Age, session;
+                    String name, phone, userId, email, sex, Age, session;
+                    Integer rollno;
                     Timestamp Dob;
                     try {
                         for (int i = 0; i < task.getResult().getDocuments().size(); i++) {
                             name = task.getResult().getDocuments().get(i).getString("name");
                             phone = task.getResult().getDocuments().get(i).getString("phone number");
                             userId = task.getResult().getDocuments().get(i).getString("userID");
-                            rollno = task.getResult().getDocuments().get(i).getString("RollNo");
+                            rollno = task.getResult().getDocuments().get(i).get("RollNo", Integer.class);
                             sex = task.getResult().getDocuments().get(i).getString("Sex");
                             email = task.getResult().getDocuments().get(i).getString("email");
                             Dob = task.getResult().getDocuments().get(i).getTimestamp("Dob");
@@ -139,12 +141,13 @@ public class studentsList {
     }
 
     public MutableLiveData<ArrayList<Studentdata>> getUsers() {
-        store.collection("user").get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+        store.collection("user").orderBy("RollNo", Query.Direction.DESCENDING).get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
             @Override
             public void onComplete(@NonNull @NotNull Task<QuerySnapshot> task) {
                 if (task.isSuccessful()) {
                     ArrayList<Studentdata> tempData = new ArrayList<>();
-                    String name, phone, userId, email, sex, Age, session, RollNo, joinedTill;
+                    String name, phone, userId, email, sex, Age, session, joinedTill;
+                    Integer RollNo;
                     Timestamp Dob;
                     try {
                         for (int i = 0; i < task.getResult().getDocuments().size(); i++) {
@@ -156,7 +159,7 @@ public class studentsList {
                             Age = task.getResult().getDocuments().get(i).getString("Age");
                             Studentdata data = new Studentdata(name, phone, userId, email, sex, Age);
                             try {
-                                RollNo = task.getResult().getDocuments().get(i).getString("RollNo");
+                                RollNo = task.getResult().getDocuments().get(i).get("RollNo", Integer.class);
                             } catch (Exception e) {
                                 RollNo = null;
                             }
@@ -201,11 +204,13 @@ public class studentsList {
 
     public void deleteStudent(String userIDs, @NonNull Map<String, Object> profile) {
         dialogs dialogs = new dialogs();
-        dialogs.alertDialogLogin(new ProgressDialog(mContext, R.style.AlertDialog), "Removing Student");
+        ProgressDialog pd = new ProgressDialog(mContext, R.style.AlertDialog);
+        dialogs.alertDialogLogin(pd, "Removing Student");
         profile.put("isStudent", "false");
         store.collection("user").document(userIDs).set(profile, SetOptions.merge()).addOnCompleteListener(new OnCompleteListener<Void>() {
             @Override
             public void onComplete(@NonNull Task<Void> task) {
+                dialogs.dismissDialog(pd);
                 deleteStudentfromStudentList(userIDs, dialogs);
             }
         });
@@ -214,9 +219,9 @@ public class studentsList {
     public void deleteStudentfromStudentList(String id, dialogs dialogs) {
         store.collection("students").document(id).delete().addOnCompleteListener(
                 task -> {
+                    dialogs.dismissDialog(new ProgressDialog(mContext, R.style.AlertDialog));
                     if (task.isSuccessful()) {
                         ((Activity) mContext).finish();
-                        dialogs.dismissDialog(new ProgressDialog(mContext, R.style.AlertDialog));
                     } else {
                         dialogs.displayDialog(task.getException().getLocalizedMessage(), mContext);
                     }

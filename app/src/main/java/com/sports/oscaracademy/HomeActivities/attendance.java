@@ -142,7 +142,7 @@ public class attendance extends AppCompatActivity {
     private void cancelLeave(String newDate, CalendarDay date) {
         binding.cancelLeave.setVisibility(View.VISIBLE);
         binding.leaveButton.setVisibility(View.GONE);
-        String roll = pref.getString("roll", "-1");
+        String roll = String.valueOf(pref.getInt("roll", -1));
         binding.cancelLeave.setOnClickListener(v -> {
             db.getReference().child("CombinedAttendance").child(newDate).child(roll).removeValue();
             db.getReference().child("individualAttendance").child(roll).child(newDate).removeValue();
@@ -157,9 +157,9 @@ public class attendance extends AppCompatActivity {
     }
 
     private void highlightAttendance() {
-        String roll = pref.getString("roll", "-1");
-        if (!roll.equals("-1")) {
-            db.getReference().child("individualAttendance").child(roll).get().addOnCompleteListener(new OnCompleteListener<DataSnapshot>() {
+        Integer roll = pref.getInt("roll", -1);
+        if (roll != -1) {
+            db.getReference().child("individualAttendance").child(String.valueOf(roll)).get().addOnCompleteListener(new OnCompleteListener<DataSnapshot>() {
                 @Override
                 public void onComplete(@NonNull Task<DataSnapshot> task) {
                     if (task.isSuccessful()) {
@@ -272,10 +272,10 @@ public class attendance extends AppCompatActivity {
         binding.leaveButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                String roll = pref.getString("roll", "-1");
+                Integer roll = pref.getInt("roll", -1);
                 Map<String, Object> map = new HashMap<>();
-                if (!roll.equals("-1"))
-                    map.put(roll, "L");
+                if (roll != -1)
+                    map.put(String.valueOf(roll), "L");
                 Log.e("TAG", "onClick: rool " + map);
                 Log.e("TAG", "onClick: currentSecetio " + current_selection);
                 db.getReference().child("CombinedAttendance").child(current_selection).updateChildren(map)

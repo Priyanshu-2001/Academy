@@ -229,9 +229,9 @@ public class Dashboard extends AppCompatActivity implements bottomSheetOtpVerifi
         firestore.collection("students").document(currentuserID).get().addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
             @Override
             public void onSuccess(DocumentSnapshot documentSnapshot) {
-                String rollNo = documentSnapshot.getString("RollNo");
+                Integer rollNo = documentSnapshot.get("RollNo", Integer.class);
                 SharedPreferences.Editor pref = getSharedPreferences("tokenFile", MODE_PRIVATE).edit();
-                pref.putString("roll", rollNo);
+                pref.putInt("roll", rollNo);
                 pref.apply();
             }
         }).addOnFailureListener(new OnFailureListener() {

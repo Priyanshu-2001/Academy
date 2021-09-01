@@ -1,6 +1,5 @@
 package com.sports.oscaracademy.adapters;
 
-import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.ViewGroup;
 import android.widget.ProgressBar;
@@ -55,12 +54,28 @@ public class attendance_marker_adapter extends RecyclerView.Adapter<attendance_m
         return data.size();
     }
 
+    public void UpdateDB(ProgressBar progressBar) {
+        attendanceService service = new attendanceService();
+        Map<String, Object> attend = new HashMap<>();
+        for (int i = 0; i < newData.size(); i++) {
+            if (!newData.get(i).getOnLeave())
+                if (newData.get(i).getPresent())
+                    attend.put(String.valueOf(newData.get(i).getRollNo()), "A");
+                else
+                    attend.put(String.valueOf(newData.get(i).getRollNo()), "P");
+            else
+                attend.put(String.valueOf(newData.get(i).getRollNo()), "L");
+        }
+        service.Updatedatabase(attend, date, month, year, progressBar);
+    }
+
     public class Vholder extends RecyclerView.ViewHolder implements RadioGroup.OnCheckedChangeListener {
         SingleAttendMarkerRcvBinding binding;
+
         public Vholder(@NonNull @NotNull SingleAttendMarkerRcvBinding binding) {
             super(binding.getRoot());
             this.binding = binding;
-            if(type.equals("get")){
+            if (type.equals("get")) {
                 this.binding.leave.setClickable(false);
                 this.binding.absent.setClickable(false);
                 this.binding.present.setClickable(false);
@@ -70,22 +85,7 @@ public class attendance_marker_adapter extends RecyclerView.Adapter<attendance_m
 
         @Override
         public void onCheckedChanged(RadioGroup group, int checkedId) {
-            newData.add(new Attendance_list(binding.StudentID.getText().toString(),binding.StudentName.getText().toString(),binding.leave.isChecked(),binding.present.isChecked()));
+            newData.add(new Attendance_list(Integer.parseInt(binding.StudentID.getText().toString()), binding.StudentName.getText().toString(), binding.leave.isChecked(), binding.present.isChecked()));
         }
-    }
-
-    public void UpdateDB(ProgressBar progressBar){
-        attendanceService service = new attendanceService();
-        Map<String,Object> attend = new HashMap<>();
-       for (int i=0; i<newData.size();i++){
-           if(!newData.get(i).getOnLeave())
-               if(newData.get(i).getPresent())
-                    attend.put(newData.get(i).getRollNo(),"A");
-               else
-                   attend.put(newData.get(i).getRollNo(),"P");
-           else
-               attend.put(newData.get(i).getRollNo(),"L");
-       }
-        service.Updatedatabase(attend , date , month , year , progressBar);
     }
 }

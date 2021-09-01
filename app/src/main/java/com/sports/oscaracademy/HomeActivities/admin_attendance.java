@@ -73,7 +73,7 @@ public class admin_attendance extends AppCompatActivity {
                                     if (studentAttendances.size() > 0) {
                                         for (int j = 0; j < studentAttendances.size(); j++) {
                                             if (studentAttendances.get(j).getRollNo().equals(studentdata.get(i).getRollno())) {
-                                                list.add(new Attendance_list(studentdata.get(i).getRollno(), studentdata.get(i).getName(), studentAttendances.get(j).getOnLeave(), studentAttendances.get(j).getPresent()));
+                                                list.add(new Attendance_list(Integer.valueOf(studentdata.get(i).getRollno()), studentdata.get(i).getName(), studentAttendances.get(j).getOnLeave(), studentAttendances.get(j).getPresent()));
                                                 studentdata.remove(i);
                                                 i--;
                                                 studentAttendances.remove(j);
@@ -82,25 +82,25 @@ public class admin_attendance extends AppCompatActivity {
                                             }
                                         }
                                         if (!isadded[0]) {
-                                            list.add(new Attendance_list(studentdata.get(i).getRollno(), studentdata.get(i).getName()));
+                                            list.add(new Attendance_list(Integer.valueOf(studentdata.get(i).getRollno()), studentdata.get(i).getName()));
                                             isadded[0] = false;
                                         }
                                     } else {
-                                        list.add(new Attendance_list(studentdata.get(i).getRollno(), studentdata.get(i).getName()));
+                                        list.add(new Attendance_list(Integer.valueOf(studentdata.get(i).getRollno()), studentdata.get(i).getName()));
                                         studentdata.remove(i);
                                         i--;
                                     }
                                 }
                                 if (!studentdata.isEmpty()) {
                                     for (int i = 0; i < studentdata.size(); i++) {
-                                        list.add(new Attendance_list(studentdata.get(i).getRollno(), studentdata.get(i).getName()));
+                                        list.add(new Attendance_list(Integer.valueOf(studentdata.get(i).getRollno()), studentdata.get(i).getName()));
                                         studentdata.remove(i);
                                         i--;
                                     }
                                 }
                                 if (!studentAttendances.isEmpty()) {
                                     for (int i = 0; i < studentAttendances.size(); i++) {
-                                        list.add(new Attendance_list(studentAttendances.get(i).getRollNo(), studentAttendances.get(i).getPresent(), studentAttendances.get(i).getOnLeave()));
+                                        list.add(new Attendance_list(Integer.valueOf(studentAttendances.get(i).getRollNo()), studentAttendances.get(i).getPresent(), studentAttendances.get(i).getOnLeave()));
                                         studentAttendances.remove(i);
                                         i--;
                                     }
@@ -111,7 +111,7 @@ public class admin_attendance extends AppCompatActivity {
                             } else {
                                 if (studentdata.size() > 0) {
                                     for (int i = 0; i < studentdata.size(); i++) {
-                                        list.add(new Attendance_list(studentdata.get(i).getRollno(), studentdata.get(i).getName()));
+                                        list.add(new Attendance_list(Integer.valueOf(studentdata.get(i).getRollno()), studentdata.get(i).getName()));
                                     }
                                     adapter.notifyDataSetChanged();
                                     progressBar.setVisibility(View.GONE);
@@ -139,7 +139,7 @@ public class admin_attendance extends AppCompatActivity {
                                 for (int i = 0; i < studentAttendances.size(); i++) {
                                     for (int j = 0; j < studentdata.size(); j++) {
                                         if (studentAttendances.get(i).getRollNo().equals(studentdata.get(j).getRollno())) {
-                                            list.add(new Attendance_list(studentdata.get(j).getRollno(), studentdata.get(j).getName(), studentAttendances.get(i).getOnLeave(), studentAttendances.get(i).getPresent()));
+                                            list.add(new Attendance_list(Integer.valueOf(studentdata.get(j).getRollno()), studentdata.get(j).getName(), studentAttendances.get(i).getOnLeave(), studentAttendances.get(i).getPresent()));
                                             studentAttendances.remove(i);
                                             i--;
                                             break;
@@ -148,7 +148,7 @@ public class admin_attendance extends AppCompatActivity {
                                 }
                                 if (!studentAttendances.isEmpty()) {
                                     for (int i = 0; i < studentAttendances.size(); i++) {
-                                        list.add(new Attendance_list(studentdata.get(i).getRollno(), studentAttendances.get(i).getOnLeave(), studentAttendances.get(i).getPresent()));
+                                        list.add(new Attendance_list(Integer.valueOf(studentdata.get(i).getRollno()), studentAttendances.get(i).getOnLeave(), studentAttendances.get(i).getPresent()));
                                     }
                                 }
                             } else {

@@ -56,7 +56,7 @@ public class attendanceService {
             public void onSuccess(DataSnapshot dataSnapshot) {
                 if (dataSnapshot.exists()) {
                     for (DataSnapshot snap : dataSnapshot.getChildren()) {
-                        String roll = snap.getKey();
+                        Integer roll = Integer.valueOf(snap.getKey());
                         String status = (String) snap.getValue();
                         Log.d("TAG", "onSuccess: " + status);
                         boolean isPresent = false;

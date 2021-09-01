@@ -9,7 +9,7 @@ import java.util.Locale;
 
 public class Studentdata {
     String name;
-    String rollno;
+    Integer rollno;
     String phone;
     String userId;
     String email;
@@ -21,7 +21,7 @@ public class Studentdata {
 
     String session;
 
-    public Studentdata(String name, String rollno, String phone, String userId, String email, Timestamp dob, String sex, String age, Timestamp start, Timestamp end, String session) {
+    public Studentdata(String name, Integer rollno, String phone, String userId, String email, Timestamp dob, String sex, String age, Timestamp start, Timestamp end, String session) {
         this.name = name;
         this.rollno = rollno;
         this.phone = phone;
@@ -73,10 +73,10 @@ public class Studentdata {
     }
 
     public String getRollno() {
-        return rollno;
+        return String.valueOf(rollno);
     }
 
-    public void setRollno(String rollno) {
+    public void setRollno(Integer rollno) {
         this.rollno = rollno;
     }
 

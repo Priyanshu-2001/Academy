@@ -225,7 +225,7 @@ public class ProfileFragment extends Fragment {
 //        ProfileData.put("Dob",binding.studentDOB);
         ProfileData.put("userID", currentStudent.getValue().getUserId());
         ProfileData.put("Phone Number", binding.phoneNumber.getText().toString().trim());
-        ProfileData.put("RollNo", binding.StudentRollNo.getText().toString().trim());
+        ProfileData.put("RollNo", Integer.valueOf(binding.StudentRollNo.getText().toString().trim()));
         ProfileData.put("joinedTill", binding.StudentMember.getText().toString().trim());
         ProfileData.put("session", binding.studentSession.getText().toString().trim());
         return ProfileData;
@@ -253,15 +253,15 @@ public class ProfileFragment extends Fragment {
         ProfileData.put("fees", validity);
         if (binding.StudentRollNo.getText().toString().isEmpty()) {
             studentsList service = new studentsList(getContext());
-            service.getRoll(userID).observe(requireActivity(), new Observer<String>() {
+            service.getRoll(userID).observe(requireActivity(), new Observer<Integer>() {
                 @Override
-                public void onChanged(String s) {
+                public void onChanged(Integer s) {
                     ProfileData.put("RollNo", s);
                     studentAdder(ProfileData);
                 }
             });
         } else {
-            ProfileData.put("RollNo", binding.StudentRollNo.getText().toString().trim());
+            ProfileData.put("RollNo", Integer.valueOf(binding.StudentRollNo.getText().toString().trim()));
             studentAdder(ProfileData);
         }
     }
@@ -273,6 +273,7 @@ public class ProfileFragment extends Fragment {
         builder.setPositiveButton("Confirm", (dialog, which) -> {
             studentsList service = new studentsList(getActivity());
             service.deleteStudent(currentStudent.getValue().getUserId(), data);
+
         });
         builder.setNegativeButton("Dismiss", (dialog, which) -> {
             Log.e("TAG", "displayConfirmationDialog: Canceled");
