@@ -2,6 +2,7 @@
 package com.sports.oscaracademy.HomeActivities;
 
 import android.content.SharedPreferences;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.MenuItem;
@@ -10,19 +11,23 @@ import android.widget.ProgressBar;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.appcompat.widget.Toolbar;
 import androidx.databinding.DataBindingUtil;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
+import androidx.recyclerview.widget.ItemTouchHelper;
 import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import com.github.ybq.android.spinkit.sprite.Sprite;
 import com.github.ybq.android.spinkit.style.WanderingCubes;
+import com.google.android.material.snackbar.BaseTransientBottomBar;
+import com.google.android.material.snackbar.Snackbar;
 import com.sports.oscaracademy.R;
 import com.sports.oscaracademy.adapters.newsFeedAdapter;
 import com.sports.oscaracademy.bottomSheet.newsFeed_b_sheet;
 import com.sports.oscaracademy.data.feedsData;
 import com.sports.oscaracademy.databinding.NewsFeedsBinding;
+import com.sports.oscaracademy.service.feedsService;
 import com.sports.oscaracademy.viewModel.feedsViewModel;
 
 import java.util.ArrayList;
@@ -34,6 +39,7 @@ public class news_feeds extends AppCompatActivity {
     String role;
     SharedPreferences pref;
     feedsViewModel viewModel;
+    feedsService service = new feedsService();
 
     @Override
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
@@ -50,7 +56,7 @@ public class news_feeds extends AppCompatActivity {
         binding = DataBindingUtil.setContentView(this, R.layout.news_feeds);
         viewModel = new ViewModelProvider(this).get(feedsViewModel.class);
         binding.setLifecycleOwner(this);
-        setSupportActionBar((Toolbar) binding.include.getRoot());
+        setSupportActionBar(binding.include.getRoot());
         binding.include.topTitleName.setText("Feeds");
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setDisplayShowTitleEnabled(false);
@@ -58,7 +64,6 @@ public class news_feeds extends AppCompatActivity {
         progressBar = binding.progress;
         Sprite doubleBounce = new WanderingCubes();
         progressBar.setIndeterminateDrawable(doubleBounce);
-
         progressBar.setVisibility(View.VISIBLE);
         pref = getSharedPreferences("tokenFile", MODE_PRIVATE);
         role = pref.getString("userType", "-1");
@@ -67,10 +72,28 @@ public class news_feeds extends AppCompatActivity {
             @Override
             public void onChanged(ArrayList<feedsData> feedsData) {
                 Log.e("TAG", "onChanged: " + feedsData);
-                newsFeedAdapter adapter = new newsFeedAdapter(feedsData, role);
+                newsFeedAdapter adapter;
+                adapter = new newsFeedAdapter(feedsData, role);
                 binding.recyclerView.setLayoutManager(LLmanager);
                 binding.recyclerView.setAdapter(adapter);
                 progressBar.setVisibility(View.GONE);
+                if (role.equals("-2")) {
+                    new ItemTouchHelper(new ItemTouchHelper.SimpleCallback(0,
+                            ItemTouchHelper.LEFT | ItemTouchHelper.RIGHT) {
+                        @Override
+                        public boolean onMove(@NonNull RecyclerView recyclerView, @NonNull RecyclerView.ViewHolder viewHolder, @NonNull RecyclerView.ViewHolder target) {
+                            return false;
+                        }
+
+                        @Override
+                        public void onSwiped(@NonNull RecyclerView.ViewHolder viewHolder, int direction) {
+                            int pos = viewHolder.getAdapterPosition();
+                            adapter.notifyItemRemoved(pos);
+                            service.delete_feeds(adapter.getDataAt(pos));
+                            showUndoSnackbar(adapter);
+                        }
+                    }).attachToRecyclerView(binding.recyclerView);
+                }
             }
         });
         if (role.equals("-2")) //admin
@@ -81,5 +104,20 @@ public class news_feeds extends AppCompatActivity {
             newsFeed_b_sheet sheet = new newsFeed_b_sheet();
             sheet.show(getSupportFragmentManager(), "bottomSheet");
         });
+
     }
+
+    public void showUndoSnackbar(newsFeedAdapter adapter) {
+        View view = binding.getRoot().findViewById(R.id.mainLayout);
+        Log.e("TAG", "showUndoSnackbar: " + "snackbar is shown ");
+        View rootView = this.getWindow().getDecorView().getRootView();
+        Snackbar snackbar = Snackbar.make(rootView, R.string.deleted_sucessfully, Snackbar.LENGTH_LONG);
+        snackbar.setDuration(10000);
+        snackbar.setAnimationMode(BaseTransientBottomBar.ANIMATION_MODE_SLIDE);
+        snackbar.setBackgroundTint(Color.BLACK);
+        snackbar.setAction("UNDO", v -> adapter.undoDelete());
+        snackbar.show();
+        Log.e("TAG", "showUndoSnackbar: " + snackbar.isShown());
+    }
+
 }

@@ -4,11 +4,9 @@ import android.text.method.LinkMovementMethod;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
-import androidx.appcompat.widget.LinearLayoutCompat;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.sports.oscaracademy.R;
@@ -26,6 +24,8 @@ public class newsFeedAdapter extends RecyclerView.Adapter<newsFeedAdapter.newHol
     String role;
     int currentExpansion = -1;
     feedsService service = new feedsService();
+    feedsData mRecentlyDeletedItem;
+    private int mRecentlyDeletedItemPosition;
 
     public newsFeedAdapter(ArrayList<feedsData> d, String r) {
         data = d;
@@ -42,14 +42,10 @@ public class newsFeedAdapter extends RecyclerView.Adapter<newsFeedAdapter.newHol
     @Override
     public void onBindViewHolder(@NonNull newHolder holder, int position) {
         holder.textView.setText(data.get(position).getFeed());
-        Date d = new Date(data.get(position).getDate());
+        Date d = data.get(position).getDate();
         SimpleDateFormat sdftime = new SimpleDateFormat("hh:mm a", Locale.getDefault());
         SimpleDateFormat sdfDate = new SimpleDateFormat("dd-MM-yyyy", Locale.getDefault());
         holder.date.setText(sdftime.format(d) + "\n" + sdfDate.format(d));
-
-        holder.deletebtn.setOnClickListener(v -> {
-            service.delete_feeds(data.get(position));
-        });
     }
 
     @Override
@@ -57,33 +53,29 @@ public class newsFeedAdapter extends RecyclerView.Adapter<newsFeedAdapter.newHol
         return data.size();
     }
 
+    public feedsData getDataAt(int position) {
+        mRecentlyDeletedItemPosition = position;
+        mRecentlyDeletedItem = data.get(position);
+        return mRecentlyDeletedItem;
+    }
+
+    public void undoDelete() {
+        data.add(mRecentlyDeletedItemPosition,
+                mRecentlyDeletedItem);
+        service.UpdateFeeds(mRecentlyDeletedItem);
+        notifyItemInserted(mRecentlyDeletedItemPosition);
+
+
+    }
+
     class newHolder extends RecyclerView.ViewHolder {
-        Button editbtn, deletebtn;
         TextView textView, date;
-        LinearLayoutCompat ll;
 
         public newHolder(@NonNull View itemView) {
             super(itemView);
-            deletebtn = itemView.findViewById(R.id.delete_btn);
             textView = itemView.findViewById(R.id.liveFeeds);
             date = itemView.findViewById(R.id.date);
-            ll = itemView.findViewById(R.id.adminPanel);
             textView.setMovementMethod(LinkMovementMethod.getInstance());
-            textView.setOnClickListener(v -> {
-                if (role.equals("-2")) {
-                    if (ll.getVisibility() == View.GONE) {
-                        ll.setVisibility(View.VISIBLE);
-                        if (currentExpansion != -1) {
-
-                            ll.setVisibility(View.GONE);
-                            currentExpansion = getAdapterPosition();
-                        }
-                    } else {
-                        ll.setVisibility(View.GONE);
-                        currentExpansion = -1;
-                    }
-                }
-            });
         }
     }
 }

@@ -3,17 +3,20 @@ package com.sports.oscaracademy.service;
 import com.google.firebase.database.FirebaseDatabase;
 import com.sports.oscaracademy.data.feedsData;
 
-import java.util.Date;
+import java.text.DecimalFormat;
 
 public class feedsService {
     FirebaseDatabase db = FirebaseDatabase.getInstance();
 
-    public void UpdateFeeds(Date timestamp, feedsData data) {
+    public void UpdateFeeds(feedsData data) {
         String randomKey = db.getReference().push().getKey();
-        String d = timestamp.getDate() + "-" + timestamp.getMonth() + "-" + (timestamp.getYear() + 1900);
+        DecimalFormat formatter = new DecimalFormat("00");
+//        String selectedDay = formatter.format(timestamp.getDate());
+//        String selectedMon = formatter.format(timestamp.getMonth()+1);
+//        String d = selectedDay + "-" + selectedMon  + "-" + (timestamp.getYear() + 1900);
         db.getReference()
                 .child("newsfeeds")
-                .child(d)
+//                .child(d)
                 .child(randomKey)
                 .setValue(data).addOnSuccessListener(unused -> {
 //                    sendNotification();
@@ -22,7 +25,6 @@ public class feedsService {
 
     public void delete_feeds(feedsData data) {
         db.getReference().child("newsfeeds")
-                .child(data.getOnlyDate())
                 .child(data.getFeedID())
                 .removeValue();
     }

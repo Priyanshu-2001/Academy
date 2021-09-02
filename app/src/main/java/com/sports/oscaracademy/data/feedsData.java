@@ -1,14 +1,42 @@
 package com.sports.oscaracademy.data;
 
-public class feedsData {
-    String date, feed, senderID, feedID;
+import java.util.Date;
 
+public class feedsData {
+    String feed, senderID, feedID;
+    long sortingTime;
+    Date date;
     String onlyDate;
 
-    public feedsData(String date, String feed, String senderID) {
+
+    public feedsData(String feed, String senderID, String feedID, int sortingTime, Date date, String onlyDate) {
+        this.feed = feed;
+        this.senderID = senderID;
+        this.feedID = feedID;
+        this.sortingTime = sortingTime;
+        this.date = date;
+        this.onlyDate = onlyDate;
+    }
+
+    public feedsData(Date date, String feed, String senderID) {
         this.date = date;
         this.feed = feed;
         this.senderID = senderID;
+    }
+
+    public feedsData(Date date, String feed, String senderID, long sortingTime) {
+        this.date = date;
+        this.feed = feed;
+        this.senderID = senderID;
+        this.sortingTime = sortingTime;
+    }
+
+    public long getSortingTime() {
+        return sortingTime;
+    }
+
+    public void setSortingTime(long sortingTime) {
+        this.sortingTime = sortingTime;
     }
 
     public feedsData() {
@@ -30,11 +58,11 @@ public class feedsData {
         this.feedID = feedID;
     }
 
-    public String getDate() {
+    public Date getDate() {
         return date;
     }
 
-    public void setDate(String date) {
+    public void setDate(Date date) {
         this.date = date;
     }
 

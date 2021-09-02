@@ -12,7 +12,6 @@ import androidx.annotation.Nullable;
 import androidx.fragment.app.DialogFragment;
 
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment;
-import com.google.firebase.Timestamp;
 import com.google.firebase.auth.FirebaseAuth;
 import com.sports.oscaracademy.R;
 import com.sports.oscaracademy.data.feedsData;
@@ -38,7 +37,7 @@ public class newsFeed_b_sheet extends BottomSheetDialogFragment {
             if (!feed.getText().toString().isEmpty()) {
                 feedsService s = new feedsService();
 
-                s.UpdateFeeds(Timestamp.now().toDate(), new feedsData(String.valueOf(new Date()), feed.getText().toString(), FirebaseAuth.getInstance().getCurrentUser().getUid()));
+                s.UpdateFeeds(new feedsData(new Date(), feed.getText().toString(), FirebaseAuth.getInstance().getCurrentUser().getUid(), new Date().getTime() / 1000));
                 feed.setText("");
                 this.dismiss();
             }
