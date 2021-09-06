@@ -152,39 +152,6 @@
             </com.google.android.material.textfield.TextInputLayout>
 
             <com.google.android.material.textfield.TextInputLayout
-                android:id="@+id/Dob"
-                android:layout_width="match_parent"
-                android:layout_height="50dp"
-                android:layout_marginHorizontal="25dp"
-                android:layout_marginVertical="20dp"
-                android:background="@drawable/text_field_1"
-                android:hint="DOB"
-                android:inputType="text"
-                android:paddingHorizontal="15dp"
-                android:paddingVertical="5dp"
-                android:singleLine="true"
-                android:textColor="#000000"
-                android:textColorHint="@color/colorPrimary"
-                android:textSize="14sp"
-                android:theme="@style/EditTextTheme"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/phone">
-
-                <com.google.android.material.textfield.TextInputEditText
-                    android:id="@+id/studentDOB"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="40dp"
-                    android:enabled="false"
-                    android:background="@null"
-                    android:gravity="center"
-                    android:inputType="date"
-                    android:text="@{model.DOB}" />
-
-            </com.google.android.material.textfield.TextInputLayout>
-
-            <com.google.android.material.textfield.TextInputLayout
                 android:id="@+id/sex"
                 android:layout_width="wrap_content"
                 android:layout_height="50dp"
@@ -223,6 +190,7 @@
                 android:layout_height="50dp"
                 android:layout_marginHorizontal="25dp"
                 android:layout_marginVertical="20dp"
+                android:layout_marginTop="90dp"
                 android:background="@drawable/text_field_1"
                 android:hint="Age"
                 android:inputType="text"
@@ -234,7 +202,7 @@
                 android:textSize="14sp"
                 android:theme="@style/EditTextTheme"
                 app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/Dob">
+                app:layout_constraintTop_toBottomOf="@+id/phone">
 
                 <com.google.android.material.textfield.TextInputEditText
                     android:id="@+id/studentAge"

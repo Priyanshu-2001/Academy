@@ -327,7 +327,6 @@ public class ProfileFragment extends Fragment {
         binding.studentMail.setEnabled(true);
         binding.phoneNumber.setEnabled(true);
         binding.studentMail.setEnabled(true);
-        binding.studentDOB.setEnabled(true);
         binding.studentGender.setEnabled(true);
         binding.studentAge.setEnabled(true);
         binding.studentSession.setEnabled(true);
@@ -340,7 +339,6 @@ public class ProfileFragment extends Fragment {
         binding.studentMail.setEnabled(false);
         binding.phoneNumber.setEnabled(false);
         binding.studentMail.setEnabled(false);
-        binding.studentDOB.setEnabled(false);
         binding.studentGender.setEnabled(false);
         binding.studentAge.setEnabled(false);
         binding.studentSession.setEnabled(false);
