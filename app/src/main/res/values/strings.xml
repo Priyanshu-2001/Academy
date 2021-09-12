@@ -29,4 +29,15 @@
         <item>Female</item>
         <item>Prefer Not To Say</item>
     </string-array>
+
+    <string-array name="session">
+        <item>Session</item>
+        <item>A1</item>
+        <item>A2</item>
+        <item>B1</item>
+        <item>B2</item>
+        <item>C1</item>
+        <item>C2</item>
+        <item>Special Batch</item>
+    </string-array>
 </resources>

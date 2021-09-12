@@ -96,6 +96,7 @@ public class ProfileFragment extends Fragment {
         if (editable.equals("user")) {
             //if clicked in profile
         }
+
         Sprite doubleBounce = new WanderingCubes();
         binding.progress.setIndeterminateDrawable(doubleBounce);
 
@@ -194,14 +195,42 @@ public class ProfileFragment extends Fragment {
             });
         }
         binding.savebtn.setVisibility(View.GONE);
-
         currentStudent.observe(requireActivity(), new Observer<Studentdata>() {
             @Override
             public void onChanged(Studentdata studentdata) {
                 binding.progress.setVisibility(View.GONE);
+                setSession(studentdata.getSession());
             }
         });
         return binding.getRoot();
+    }
+
+    private void setSession(String session) {
+        switch (session) {
+            case "A1":
+                binding.session.setSelection(1, true);
+                break;
+            case "A2":
+                binding.session.setSelection(2, true);
+                break;
+            case "B1":
+                binding.session.setSelection(3, true);
+                break;
+            case "B2":
+                binding.session.setSelection(4, true);
+                break;
+            case "C1":
+                binding.session.setSelection(5, true);
+                break;
+            case "C2":
+                binding.session.setSelection(6, true);
+                break;
+            case "Special Batch":
+                binding.session.setSelection(7, true);
+                break;
+            default:
+                binding.session.setSelection(0, true);
+        }
     }
 
     private void UpdateDetails(String isStudent) {
@@ -227,7 +256,7 @@ public class ProfileFragment extends Fragment {
         ProfileData.put("Phone Number", binding.phoneNumber.getText().toString().trim());
         ProfileData.put("RollNo", Integer.valueOf(binding.StudentRollNo.getText().toString().trim()));
         ProfileData.put("joinedTill", binding.StudentMember.getText().toString().trim());
-        ProfileData.put("session", binding.studentSession.getText().toString().trim());
+        ProfileData.put("session", binding.session.getSelectedItem().toString().trim());
         return ProfileData;
     }
 
@@ -245,7 +274,7 @@ public class ProfileFragment extends Fragment {
         ProfileData.put("userID", currentStudent.getValue().getUserId());
         Map<String, Object> validity = new HashMap<>();
         validity.put("valid from", Timestamp.now());
-        ProfileData.put("session", binding.studentSession.getText().toString().trim());
+        ProfileData.put("session", binding.session.getSelectedItem().toString().trim());
         DateFormat format = new SimpleDateFormat("dd-MM-yyyy", Locale.getDefault());
         Log.e("TAG", "AddStudentToAcademy: " + binding.StudentMember.getText());
         Date date = format.parse(String.valueOf(binding.StudentMember.getText()));
@@ -305,7 +334,7 @@ public class ProfileFragment extends Fragment {
                     };
                     thread.start();
                 } else {
-                    Log.e("TAG", "onComplete: eroor in adding student " + task.getException());
+                    Log.e("TAG", "onComplete: error in adding student " + task.getException());
                     Toast.makeText(getContext(), "Some Error Occured " + task.getException().getLocalizedMessage(), Toast.LENGTH_SHORT).show();
                 }
                 binding.progress.setVisibility(View.GONE);
@@ -317,7 +346,7 @@ public class ProfileFragment extends Fragment {
     public void disableAdminEditable() {
         binding.studentMail.setEnabled(false);
         binding.phoneNumber.setEnabled(false);
-        binding.studentSession.setEnabled(false);
+        binding.session.setEnabled(false);
         binding.StudentRollNo.setEnabled(false);
         binding.StudentMember.setEnabled(false);
     }
@@ -329,7 +358,7 @@ public class ProfileFragment extends Fragment {
         binding.studentMail.setEnabled(true);
         binding.studentGender.setEnabled(true);
         binding.studentAge.setEnabled(true);
-        binding.studentSession.setEnabled(true);
+        binding.session.setEnabled(true);
         binding.StudentRollNo.setEnabled(true);
         binding.StudentMember.setEnabled(true);
     }
@@ -341,7 +370,7 @@ public class ProfileFragment extends Fragment {
         binding.studentMail.setEnabled(false);
         binding.studentGender.setEnabled(false);
         binding.studentAge.setEnabled(false);
-        binding.studentSession.setEnabled(false);
+        binding.session.setEnabled(false);
         binding.StudentRollNo.setEnabled(false);
         binding.StudentMember.setEnabled(false);
     }

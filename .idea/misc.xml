@@ -4,7 +4,7 @@
     <option name="filePathToZoomLevelMap">
       <map>
         <entry key="..\:/OscarAcademy/app/src/main/res/drawable-v24/btn_theme_1.xml" value="0.2351851851851852" />
-        <entry key="..\:/OscarAcademy/app/src/main/res/drawable-v24/text_field_1.xml" value="0.25277777777777777" />
+        <entry key="..\:/OscarAcademy/app/src/main/res/drawable-v24/text_field_1.xml" value="0.136" />
         <entry key="..\:/OscarAcademy/app/src/main/res/drawable/app_back.xml" value="0.24074074074074073" />
         <entry key="..\:/OscarAcademy/app/src/main/res/drawable/btn_theme_2.xml" value="0.2351851851851852" />
         <entry key="..\:/OscarAcademy/app/src/main/res/drawable/calederb.xml" value="0.23692307692307693" />
@@ -22,7 +22,7 @@
         <entry key="..\:/OscarAcademy/app/src/main/res/drawable/receive_drawable.xml" value="0.23703703703703705" />
         <entry key="..\:/OscarAcademy/app/src/main/res/drawable/sent_drawable.xml" value="0.23703703703703705" />
         <entry key="..\:/OscarAcademy/app/src/main/res/drawable/unselected_btn.xml" value="0.2351851851851852" />
-        <entry key="..\:/OscarAcademy/app/src/main/res/layout-v26/single_attend_marker_rcv.xml" value="0.25416666666666665" />
+        <entry key="..\:/OscarAcademy/app/src/main/res/layout-v26/single_attend_marker_rcv.xml" value="0.16799999999999998" />
         <entry key="..\:/OscarAcademy/app/src/main/res/layout/activity_admin_attendance.xml" value="0.2" />
         <entry key="..\:/OscarAcademy/app/src/main/res/layout/activity_attendance.xml" value="0.19814814814814816" />
         <entry key="..\:/OscarAcademy/app/src/main/res/layout/activity_chat_activty.xml" value="0.264" />
@@ -47,10 +47,10 @@
         <entry key="..\:/OscarAcademy/app/src/main/res/layout/news_feeds.xml" value="0.136" />
         <entry key="..\:/OscarAcademy/app/src/main/res/layout/otp_verification_bottom_sheet.xml" value="0.17037037037037037" />
         <entry key="..\:/OscarAcademy/app/src/main/res/layout/profile_activity.xml" value="0.17760416666666667" />
-        <entry key="..\:/OscarAcademy/app/src/main/res/layout/single_attend_marker_rcv.xml" value="0.264" />
+        <entry key="..\:/OscarAcademy/app/src/main/res/layout/single_attend_marker_rcv.xml" value="0.176" />
         <entry key="..\:/OscarAcademy/app/src/main/res/layout/single_chat_profile.xml" value="0.264" />
         <entry key="..\:/OscarAcademy/app/src/main/res/layout/single_dashboard_rcv.xml" value="0.23854166666666668" />
-        <entry key="..\:/OscarAcademy/app/src/main/res/layout/single_student_rcv.xml" value="0.264" />
+        <entry key="..\:/OscarAcademy/app/src/main/res/layout/single_student_rcv.xml" value="0.176" />
         <entry key="..\:/OscarAcademy/app/src/main/res/layout/single_upcoming_tournament.xml" value="0.2" />
         <entry key="..\:/OscarAcademy/app/src/main/res/layout/topbar.xml" value="0.17760416666666667" />
         <entry key="..\:/OscarAcademy/app/src/main/res/menu/drawer.xml" value="0.4" />

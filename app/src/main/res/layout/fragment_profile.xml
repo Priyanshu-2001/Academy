@@ -64,7 +64,7 @@
                 android:paddingHorizontal="15dp"
                 android:paddingVertical="5dp"
                 android:singleLine="true"
-                android:textColor="#000000"
+                android:textColor="@color/textColorBlack"
                 android:textColorHint="@color/colorPrimary"
                 android:textSize="10sp"
                 android:theme="@style/EditTextTheme"
@@ -98,7 +98,7 @@
                 android:paddingHorizontal="15dp"
                 android:paddingVertical="5dp"
                 android:singleLine="true"
-                android:textColor="#000000"
+                android:textColor="@color/textColorBlack"
                 android:textColorHint="@color/colorPrimary"
                 android:textSize="14sp"
                 android:theme="@style/EditTextTheme"
@@ -130,7 +130,7 @@
                 android:paddingHorizontal="15dp"
                 android:paddingVertical="5dp"
                 android:singleLine="true"
-                android:textColor="#000000"
+                android:textColor="@color/textColorBlack"
                 android:textColorHint="@color/colorPrimary"
                 android:textSize="14sp"
                 android:theme="@style/EditTextTheme"
@@ -163,7 +163,7 @@
                 android:paddingHorizontal="15dp"
                 android:paddingVertical="5dp"
                 android:singleLine="true"
-                android:textColor="#000000"
+                android:textColor="@color/textColorBlack"
                 android:textColorHint="@color/colorPrimary"
                 android:textSize="14sp"
                 android:theme="@style/EditTextTheme"
@@ -178,7 +178,6 @@
                     android:background="@null"
                     android:entries="@array/gender"
                     android:enabled="false"
-
                     android:gravity="center"
                     android:inputType="text"
                     android:text="@{model.sex}" />
@@ -197,7 +196,7 @@
                 android:paddingHorizontal="15dp"
                 android:paddingVertical="5dp"
                 android:singleLine="true"
-                android:textColor="#020202"
+                android:textColor="@color/textColorBlack"
                 android:textColorHint="@color/colorPrimary"
                 android:textSize="14sp"
                 android:theme="@style/EditTextTheme"
@@ -217,7 +216,7 @@
 
             </com.google.android.material.textfield.TextInputLayout>
 
-            <com.google.android.material.textfield.TextInputLayout
+            <Spinner
                 android:id="@+id/session"
                 android:layout_width="match_parent"
                 android:layout_height="50dp"
@@ -225,29 +224,50 @@
                 android:layout_marginVertical="20dp"
                 android:background="@drawable/text_field_1"
                 android:hint="Session"
-                android:inputType="text"
+                android:entries="@array/session"
+                android:popupBackground="@drawable/text_field_1"
                 android:paddingHorizontal="15dp"
                 android:paddingVertical="5dp"
+                android:textAlignment="center"
                 android:singleLine="true"
-                android:textColor="#000000"
+                android:textColor="@color/textColorBlack"
                 android:textColorHint="@color/colorPrimary"
                 android:textSize="14sp"
-                android:theme="@style/EditTextTheme"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/age">
+                app:layout_constraintTop_toBottomOf="@+id/age" />
 
-                <com.google.android.material.textfield.TextInputEditText
-                    android:id="@+id/studentSession"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="40dp"
-                    android:background="@null"
-                    android:text="@{model.session}"
-                    android:enabled="false"
-                    android:gravity="center"
-                    android:inputType="text" />
-            </com.google.android.material.textfield.TextInputLayout>
+            <!--            <com.google.android.material.textfield.TextInputLayout-->
+            <!--                android:id="@+id/session"-->
+            <!--                android:layout_width="match_parent"-->
+            <!--                android:layout_height="50dp"-->
+            <!--                android:layout_marginHorizontal="25dp"-->
+            <!--                android:layout_marginVertical="20dp"-->
+            <!--                android:background="@drawable/text_field_1"-->
+            <!--                android:hint="Session"-->
+            <!--                android:inputType="text"-->
+            <!--                android:paddingHorizontal="15dp"-->
+            <!--                android:paddingVertical="5dp"-->
+            <!--                android:singleLine="true"-->
+            <!--                android:textColor="#000000"-->
+            <!--                android:textColorHint="@color/colorPrimary"-->
+            <!--                android:textSize="14sp"-->
+            <!--                android:theme="@style/EditTextTheme"-->
+            <!--                app:layout_constraintEnd_toEndOf="parent"-->
+            <!--                app:layout_constraintStart_toStartOf="parent"-->
+            <!--                app:layout_constraintTop_toBottomOf="@+id/age">-->
+
+            <!--                <com.google.android.material.textfield.TextInputEditText-->
+            <!--                    android:id="@+id/studentSession"-->
+            <!--                    android:layout_width="match_parent"-->
+            <!--                    android:layout_height="wrap_content"-->
+            <!--                    android:layout_marginTop="40dp"-->
+            <!--                    android:background="@null"-->
+            <!--                    android:text="@{model.session}"-->
+            <!--                    android:enabled="false"-->
+            <!--                    android:gravity="center"-->
+            <!--                    android:inputType="text" />-->
+            <!--            </com.google.android.material.textfield.TextInputLayout>-->
 
             <com.google.android.material.textfield.TextInputLayout
                 android:id="@+id/rollNo"
@@ -261,7 +281,7 @@
                 android:paddingHorizontal="15dp"
                 android:paddingVertical="5dp"
                 android:singleLine="true"
-                android:textColor="#000000"
+                android:textColor="@color/textColorBlack"
                 android:textColorHint="@color/colorPrimary"
                 android:textSize="14sp"
                 android:theme="@style/EditTextTheme"
@@ -295,7 +315,7 @@
                 android:paddingHorizontal="15dp"
                 android:paddingVertical="5dp"
                 android:singleLine="true"
-                android:textColor="#000000"
+                android:textColor="@color/textColorBlack"
                 android:textColorHint="@color/colorPrimary"
                 android:textSize="14sp"
                 android:theme="@style/EditTextTheme"

@@ -16,6 +16,8 @@
     <color name="leave_span">#8B91AB</color>
     <color name="app.compat.light">#fffafafa</color>
     <color name="textColor">#fffafafa</color>
+    <color name="textColorBlack">@color/black</color>
     <color name="chatReceiveBg">#2F3E46</color>
+    <color name="textViewBGColor">#D0DCE1</color>
 
 </resources>

@@ -14,7 +14,6 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.sports.oscaracademy.R;
 import com.sports.oscaracademy.data.Studentdata;
 import com.sports.oscaracademy.databinding.SingleStudentRcvBinding;
-import com.sports.oscaracademy.dialog.dialogs;
 import com.sports.oscaracademy.drawerFragments.profileActivity;
 
 import org.jetbrains.annotations.NotNull;
@@ -22,10 +21,11 @@ import org.jetbrains.annotations.NotNull;
 import java.util.ArrayList;
 
 public class studentList_adapter extends RecyclerView.Adapter<studentList_adapter.studentsHolder> {
-    private ArrayList<Studentdata> data;
-    private Context mContext;
+    private final ArrayList<Studentdata> data;
+    private final Context mContext;
     String isEditable;
-    public studentList_adapter(Context c, ArrayList<Studentdata> d , String editable) {
+
+    public studentList_adapter(Context c, ArrayList<Studentdata> d, String editable) {
         data = d;
         mContext = c;
         isEditable = editable;
@@ -41,20 +41,21 @@ public class studentList_adapter extends RecyclerView.Adapter<studentList_adapte
 
     @Override
     public void onBindViewHolder(@NonNull @NotNull studentList_adapter.studentsHolder holder, int position) {
-        holder.binding.setStudent(data.get(position));
+        int pos = position;
+        holder.binding.setStudent(data.get(pos));
         holder.binding.cardView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Intent i = new Intent(mContext, profileActivity.class);
                 i.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-                i.putExtra("UID", data.get(position).getUserId());
-                i.putExtra("editable",isEditable);
+                i.putExtra("UID", data.get(pos).getUserId());
+                i.putExtra("editable", isEditable);
                 mContext.startActivity(i);
             }
         });
-        Log.e("TAG", "onBindViewHolder: "+ data.get(position).getRollno() );
-        Log.e("TAG", "onBindViewHolder: "+ data.get(position).getPhone() );
-        Log.e("TAG", "onBindViewHolder: "+ data.get(position).getName() );
+        Log.e("TAG", "onBindViewHolder: " + data.get(pos).getRollno());
+        Log.e("TAG", "onBindViewHolder: " + data.get(pos).getPhone());
+        Log.e("TAG", "onBindViewHolder: " + data.get(pos).getName());
     }
 
     @Override

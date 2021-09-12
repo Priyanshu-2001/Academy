@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<layout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto">
+<layout xmlns:android="http://schemas.android.com/apk/res/android">
 
     <data>
 
@@ -9,96 +8,94 @@
             type="com.sports.oscaracademy.data.Attendance_list" />
     </data>
 
-    <androidx.cardview.widget.CardView
+
+    <LinearLayout
         android:id="@+id/cardView"
         android:layout_width="match_parent"
-        android:layout_height="50dp"
+        android:layout_height="45dp"
         android:layout_margin="5dp"
         android:background="@drawable/text_field_1"
-        app:cardCornerRadius="20dp"
-        app:cardElevation="10dp">
+        android:elevation="20dp">
 
-        <LinearLayout
-            android:layout_width="match_parent"
+        <RelativeLayout
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:backgroundTint="@color/textViewBGColor"
+            android:gravity="start">
+
+            <TextView
+                android:id="@+id/StudentID"
+                android:layout_width="60dp"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:layout_marginStart="5dp"
+                android:layout_marginTop="5dp"
+                android:layout_marginEnd="5dp"
+                android:layout_marginBottom="5dp"
+                android:gravity="start"
+                android:text="@{dataModel.rollNo}"
+                android:textSize="16sp" />
+
+            <TextView
+                android:id="@+id/StudentName"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:layout_marginHorizontal="10dp"
+                android:layout_marginTop="5dp"
+                android:layout_toRightOf="@+id/StudentID"
+                android:autoSizeMinTextSize="14sp"
+                android:gravity="start"
+                android:maxLength="15"
+                android:text="@{dataModel.name}"
+                android:textSize="16sp" />
+        </RelativeLayout>
+
+        <RelativeLayout
+            android:layout_width="wrap_content"
             android:layout_height="40dp">
 
-            <RelativeLayout
-                android:layout_width="wrap_content"
-                android:layout_height="match_parent"
-                android:gravity="start">
+            <RadioGroup
+                android:id="@+id/radioGrp"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:layout_marginStart="5dp"
+                android:layout_marginEnd="5dp"
+                android:layout_marginBottom="5dp"
+                android:gravity="end"
+                android:orientation="horizontal">
 
-                <TextView
-                    android:id="@+id/StudentID"
-                    android:layout_width="60dp"
-                    android:layout_height="wrap_content"
-                    android:layout_centerVertical="true"
-                    android:layout_marginStart="5dp"
+                <RadioButton
+                    android:id="@+id/absent"
+                    android:layout_width="24dp"
+                    android:layout_height="24dp"
                     android:layout_marginTop="5dp"
-                    android:layout_marginEnd="5dp"
-                    android:layout_marginBottom="5dp"
-                    android:gravity="start"
-                    android:text="@{dataModel.rollNo}"
-                    android:textSize="16sp" />
+                    android:layout_marginEnd="15dp"
+                    android:button="@drawable/present_toggle"
+                    android:checked="@={dataModel.present}" />
 
-                <TextView
-                    android:id="@+id/StudentName"
+                <RadioButton
+                    android:id="@+id/present"
                     android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_centerVertical="true"
-                    android:layout_marginHorizontal="10dp"
+                    android:layout_height="24dp"
                     android:layout_marginTop="5dp"
-                    android:layout_toRightOf="@+id/StudentID"
-                    android:autoSizeMinTextSize="14sp"
-                    android:gravity="start"
-                    android:text="@{dataModel.name}"
-                    android:textSize="16sp" />
-            </RelativeLayout>
+                    android:layout_marginEnd="15dp"
+                    android:button="@drawable/absent_toggle"
+                    android:checked="@={dataModel.absent}" />
 
-            <RelativeLayout
-                android:layout_width="wrap_content"
-                android:layout_height="40dp">
+                <RadioButton
+                    android:id="@+id/leave"
+                    android:layout_width="24dp"
+                    android:layout_height="24dp"
+                    android:layout_marginTop="5dp"
+                    android:layout_marginRight="15dp"
+                    android:button="@drawable/leave_toggle"
+                    android:checked="@={dataModel.onLeave}" />
+            </RadioGroup>
 
-                <RadioGroup
-                    android:id="@+id/radioGrp"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_centerVertical="true"
-                    android:layout_marginStart="5dp"
-                    android:layout_marginEnd="5dp"
-                    android:layout_marginBottom="5dp"
-                    android:gravity="end"
-                    android:orientation="horizontal">
+        </RelativeLayout>
 
-                    <RadioButton
-                        android:id="@+id/absent"
-                        android:layout_width="24dp"
-                        android:layout_height="24dp"
-                        android:layout_marginTop="5dp"
-                        android:layout_marginEnd="15dp"
-                        android:button="@drawable/present_toggle"
-                        android:checked="@={dataModel.present}" />
+    </LinearLayout>
 
-                    <RadioButton
-                        android:id="@+id/present"
-                        android:layout_width="wrap_content"
-                        android:layout_height="24dp"
-                        android:layout_marginTop="5dp"
-                        android:layout_marginEnd="15dp"
-                        android:button="@drawable/absent_toggle"
-                        android:checked="@={dataModel.absent}" />
-
-                    <RadioButton
-                        android:id="@+id/leave"
-                        android:layout_width="24dp"
-                        android:layout_height="24dp"
-                        android:layout_marginTop="5dp"
-                        android:layout_marginRight="15dp"
-                        android:button="@drawable/leave_toggle"
-                        android:checked="@={dataModel.onLeave}" />
-                </RadioGroup>
-
-            </RelativeLayout>
-
-        </LinearLayout>
-    </androidx.cardview.widget.CardView>
 </layout>
