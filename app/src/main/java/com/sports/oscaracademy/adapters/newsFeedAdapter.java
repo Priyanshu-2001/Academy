@@ -1,6 +1,7 @@
 package com.sports.oscaracademy.adapters;
 
 import android.text.method.LinkMovementMethod;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -27,8 +28,7 @@ public class newsFeedAdapter extends RecyclerView.Adapter<newsFeedAdapter.newHol
     feedsData mRecentlyDeletedItem;
     private int mRecentlyDeletedItemPosition;
 
-    public newsFeedAdapter(ArrayList<feedsData> d, String r) {
-        data = d;
+    public newsFeedAdapter(String r) {
         role = r;
     }
 
@@ -60,12 +60,26 @@ public class newsFeedAdapter extends RecyclerView.Adapter<newsFeedAdapter.newHol
     }
 
     public void undoDelete() {
+        notifyItemInserted(mRecentlyDeletedItemPosition);
         data.add(mRecentlyDeletedItemPosition,
                 mRecentlyDeletedItem);
         service.UpdateFeeds(mRecentlyDeletedItem);
-        notifyItemInserted(mRecentlyDeletedItemPosition);
+    }
 
+    public void HoldDelete(int pos) {
+        data.remove(pos);
+        notifyItemRemoved(pos);
+    }
 
+    public void addDeleted(int pos, feedsData data) {
+        this.data.add(pos, data);
+        Log.e("TAG", "addDeleted: " + data.getFeed());
+        notifyItemInserted(pos);
+    }
+
+    public void setNewData(ArrayList<feedsData> feedsData) {
+        data = feedsData;
+        notifyDataSetChanged();
     }
 
     class newHolder extends RecyclerView.ViewHolder {

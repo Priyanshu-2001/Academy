@@ -199,7 +199,11 @@ public class ProfileFragment extends Fragment {
             @Override
             public void onChanged(Studentdata studentdata) {
                 binding.progress.setVisibility(View.GONE);
-                setSession(studentdata.getSession());
+                try {
+                    setSession(studentdata.getSession());
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
             }
         });
         return binding.getRoot();

@@ -10,6 +10,7 @@ import android.view.View;
 import android.widget.ProgressBar;
 
 import androidx.annotation.NonNull;
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.databinding.DataBindingUtil;
 import androidx.lifecycle.Observer;
@@ -40,6 +41,8 @@ public class news_feeds extends AppCompatActivity {
     SharedPreferences pref;
     feedsViewModel viewModel;
     feedsService service = new feedsService();
+    feedsData data;
+    newsFeedAdapter adapter;
 
     @Override
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
@@ -67,16 +70,19 @@ public class news_feeds extends AppCompatActivity {
         progressBar.setVisibility(View.VISIBLE);
         pref = getSharedPreferences("tokenFile", MODE_PRIVATE);
         role = pref.getString("userType", "-1");
+        adapter = new newsFeedAdapter(role);
+
         LinearLayoutManager LLmanager = new LinearLayoutManager(this);
         viewModel.getData().observeForever(new Observer<ArrayList<feedsData>>() {
             @Override
             public void onChanged(ArrayList<feedsData> feedsData) {
                 Log.e("TAG", "onChanged: " + feedsData);
-                newsFeedAdapter adapter;
-                adapter = new newsFeedAdapter(feedsData, role);
+                adapter.setNewData(feedsData);
                 binding.recyclerView.setLayoutManager(LLmanager);
                 binding.recyclerView.setAdapter(adapter);
                 progressBar.setVisibility(View.GONE);
+                adapter.notifyDataSetChanged();
+                Log.e("TAG", "onChanged: ");
                 if (role.equals("-2")) {
                     new ItemTouchHelper(new ItemTouchHelper.SimpleCallback(0,
                             ItemTouchHelper.LEFT | ItemTouchHelper.RIGHT) {
@@ -88,9 +94,19 @@ public class news_feeds extends AppCompatActivity {
                         @Override
                         public void onSwiped(@NonNull RecyclerView.ViewHolder viewHolder, int direction) {
                             int pos = viewHolder.getAdapterPosition();
-                            adapter.notifyItemRemoved(pos);
-                            service.delete_feeds(adapter.getDataAt(pos));
-                            showUndoSnackbar(adapter);
+                            data = adapter.getDataAt(pos);
+
+                            AlertDialog.Builder dialogBuilder = new AlertDialog.Builder(news_feeds.this, R.style.AlertDialog);
+                            adapter.HoldDelete(pos);
+                            dialogBuilder.setTitle("Confirm Deletion").setPositiveButton("Sure", (dialog, which) -> {
+//                                adapter.notifyItemRemoved(pos);
+                                service.delete_feeds(data);
+                                showUndoSnackbar(adapter);
+                                Log.e("TAG", "onSwiped: count on +ve btn" + adapter.getItemCount());
+                            }).setNegativeButton("Cancel", (dialog, which) -> {
+                                adapter.addDeleted(pos, data);
+                                Log.e("TAG", "onSwiped: count on canceled" + adapter.getItemCount());
+                            }).setMessage("Are Sure u wanna Delete this Feed ?").show();
                         }
                     }).attachToRecyclerView(binding.recyclerView);
                 }
@@ -117,7 +133,6 @@ public class news_feeds extends AppCompatActivity {
         snackbar.setBackgroundTint(Color.BLACK);
         snackbar.setAction("UNDO", v -> adapter.undoDelete());
         snackbar.show();
-        Log.e("TAG", "showUndoSnackbar: " + snackbar.isShown());
     }
 
 }
