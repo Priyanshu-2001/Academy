@@ -29,6 +29,7 @@ import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.messaging.FirebaseMessaging;
 import com.sports.oscaracademy.bottomSheet.bottomSheetOtpVerification;
 import com.sports.oscaracademy.dialog.dialogs;
 import com.sports.oscaracademy.drawerFragments.ContactAcademy;
@@ -65,6 +66,9 @@ public class Dashboard extends AppCompatActivity implements bottomSheetOtpVerifi
         binding.setLifecycleOwner(Dashboard.this);
         Toolbar toolbar = binding.toolbar;
         drawer = binding.drawer;
+        FirebaseMessaging.getInstance().subscribeToTopic("feeds").addOnSuccessListener(command -> {
+            Log.e("TAG", "onCreate: " + "subscribed sucessfully");
+        });
         navView = binding.navLayout;
         setSupportActionBar(toolbar);
         getSupportActionBar().setTitle("");
@@ -181,6 +185,14 @@ public class Dashboard extends AppCompatActivity implements bottomSheetOtpVerifi
                     homeFrag = false;
                     getIntent().removeExtra("notification");
                 }
+//                Log.e("Notification ", "sendNotification: dashOut"+ getIntent().getExtras().getBoolean("isFeed") );
+//
+//                if(getIntent().getExtras().getBoolean("isFeed")){
+//                    getIntent().removeExtra("isFeed");
+//                    Log.e("TAG", "onResume: service called" );
+//                    Intent i = new Intent(this, news_feeds.class);
+//                    startActivity(i);
+//                }
             } catch (Exception e) {
                 e.printStackTrace();
             }

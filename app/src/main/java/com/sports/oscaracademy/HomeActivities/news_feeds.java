@@ -1,6 +1,7 @@
 
 package com.sports.oscaracademy.HomeActivities;
 
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.Color;
 import android.os.Bundle;
@@ -12,6 +13,7 @@ import android.widget.ProgressBar;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.app.AppCompatDelegate;
 import androidx.databinding.DataBindingUtil;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
@@ -23,6 +25,7 @@ import com.github.ybq.android.spinkit.sprite.Sprite;
 import com.github.ybq.android.spinkit.style.WanderingCubes;
 import com.google.android.material.snackbar.BaseTransientBottomBar;
 import com.google.android.material.snackbar.Snackbar;
+import com.sports.oscaracademy.Dashboard;
 import com.sports.oscaracademy.R;
 import com.sports.oscaracademy.adapters.newsFeedAdapter;
 import com.sports.oscaracademy.bottomSheet.newsFeed_b_sheet;
@@ -43,14 +46,35 @@ public class news_feeds extends AppCompatActivity {
     feedsService service = new feedsService();
     feedsData data;
     newsFeedAdapter adapter;
-
+    String TAG = "newsFeedAct";
     @Override
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
         if (item.getItemId() == android.R.id.home) {
-            this.finish();
+            if (isTaskRoot()) {
+                startActivity(new Intent(this, Dashboard.class));
+                finish();
+            } else {
+                super.onBackPressed();
+            }
             return true;
         }
         return super.onOptionsItemSelected(item);
+    }
+
+    @Override
+    public void onBackPressed() {
+        if (isTaskRoot()) {
+            startActivity(new Intent(this, Dashboard.class));
+            finish();
+        } else {
+            super.onBackPressed();
+        }
+    }
+
+    @Override
+    protected void onStart() {
+        AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO);
+        super.onStart();
     }
 
     @Override
@@ -70,7 +94,8 @@ public class news_feeds extends AppCompatActivity {
         progressBar.setVisibility(View.VISIBLE);
         pref = getSharedPreferences("tokenFile", MODE_PRIVATE);
         role = pref.getString("userType", "-1");
-        adapter = new newsFeedAdapter(role);
+        Log.e(TAG, "onCreate: " + role);
+        adapter = new newsFeedAdapter(this);
 
         LinearLayoutManager LLmanager = new LinearLayoutManager(this);
         viewModel.getData().observeForever(new Observer<ArrayList<feedsData>>() {

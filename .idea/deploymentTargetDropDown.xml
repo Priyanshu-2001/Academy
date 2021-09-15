@@ -7,21 +7,10 @@
         <deviceKey>
           <Key>
             <type value="SERIAL_NUMBER" />
-            <value value="f85bf3f8" />
+            <value value="192.168.1.37:5555" />
           </Key>
         </deviceKey>
       </Target>
     </runningDeviceTargetsSelectedWithDialog>
-    <targetsSelectedWithDialog>
-      <Target>
-        <type value="QUICK_BOOT_TARGET" />
-        <deviceKey>
-          <Key>
-            <type value="VIRTUAL_DEVICE_PATH" />
-            <value value="C:\Users\CHERRY\.android\avd\Pixel_4_XL_API_29_2_2.avd" />
-          </Key>
-        </deviceKey>
-      </Target>
-    </targetsSelectedWithDialog>
   </component>
 </project>

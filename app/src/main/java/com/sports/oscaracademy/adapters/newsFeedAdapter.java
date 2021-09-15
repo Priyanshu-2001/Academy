@@ -1,5 +1,6 @@
 package com.sports.oscaracademy.adapters;
 
+import android.content.Context;
 import android.os.Handler;
 import android.text.method.LinkMovementMethod;
 import android.util.Log;
@@ -11,6 +12,7 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.sports.oscaracademy.HomeActivities.news_feeds;
 import com.sports.oscaracademy.R;
 import com.sports.oscaracademy.data.feedsData;
 import com.sports.oscaracademy.service.feedsService;
@@ -23,14 +25,14 @@ import java.util.Locale;
 public class newsFeedAdapter extends RecyclerView.Adapter<newsFeedAdapter.newHolder> {
 
     ArrayList<feedsData> data;
-    String role;
     int currentExpansion = -1;
     feedsService service = new feedsService();
     feedsData mRecentlyDeletedItem;
     private int mRecentlyDeletedItemPosition;
+    private final Context context;
 
-    public newsFeedAdapter(String r) {
-        role = r;
+    public newsFeedAdapter(news_feeds news_feeds) {
+        context = news_feeds;
     }
 
     @NonNull
@@ -65,7 +67,7 @@ public class newsFeedAdapter extends RecyclerView.Adapter<newsFeedAdapter.newHol
                 mRecentlyDeletedItem);
         notifyItemInserted(mRecentlyDeletedItemPosition);
         (new Handler()).postDelayed(() -> {
-            service.UpdateFeeds(mRecentlyDeletedItem);
+            service.UpdateFeeds(mRecentlyDeletedItem, context);
         }, 1000);
     }
 

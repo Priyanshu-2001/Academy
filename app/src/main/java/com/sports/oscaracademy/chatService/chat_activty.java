@@ -262,6 +262,8 @@ public class chat_activty extends AppCompatActivity {
             JSONObject data = new JSONObject();
             data.put("title", name);
             data.put("body", message);
+            data.put("tag", "chat");
+
             JSONObject notificationData = new JSONObject();
             notificationData.put("notification", data);
             notificationData.put("to", token);

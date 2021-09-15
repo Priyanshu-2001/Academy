@@ -3,7 +3,8 @@
     package="com.sports.oscaracademy">
 
     <uses-permission android:name="android.permission.INTERNET" />
-
+    <uses-permission android:name="android.permission.GET_TASKS" />
+    <!--                                                                For checking if app is running or not (Notification)-->
     <application
         android:allowBackup="true"
         android:icon="@drawable/app_icon_main"
@@ -16,7 +17,13 @@
             android:exported="true" />
         <activity
             android:name=".HomeActivities.news_feeds"
-            android:exported="true" />
+            android:exported="true"
+            android:parentActivityName=".Dashboard">
+            <intent-filter>
+                <action android:name="feed" />
+                <category android:name="android.intent.category.DEFAULT" />
+            </intent-filter>
+        </activity>
         <activity android:name=".drawerFragments.profileActivity" />
         <activity android:name=".HomeActivities.Students" />
         <activity android:name=".HomeActivities.admin_attendance" />
@@ -39,14 +46,15 @@
             </intent-filter>
         </activity>
 
+
         <meta-data
             android:name="com.google.firebase.messaging.default_notification_icon"
             android:resource="@drawable/ic_send" />
         <!-- Set color used with incoming notification messages. This is used when no color is set for the incoming
              notification message. See README(https://goo.gl/6BKBk7) for more. -->
-        <meta-data
-            android:name="com.google.firebase.messaging.default_notification_color"
-            android:resource="@color/colorPrimary" />
+        <!--        <meta-data-->
+        <!--            android:name="com.google.firebase.messaging.default_notification_color"-->
+        <!--            android:resource="@color/colorPrimary" />-->
         <meta-data
             android:name="preloaded_fonts"
             android:resource="@array/preloaded_fonts" />

@@ -37,7 +37,7 @@ public class newsFeed_b_sheet extends BottomSheetDialogFragment {
             if (!feed.getText().toString().isEmpty()) {
                 feedsService s = new feedsService();
 
-                s.UpdateFeeds(new feedsData(new Date(), feed.getText().toString(), FirebaseAuth.getInstance().getCurrentUser().getUid(), new Date().getTime() / 1000));
+                s.UpdateFeeds(new feedsData(new Date(), feed.getText().toString(), FirebaseAuth.getInstance().getCurrentUser().getUid(), new Date().getTime() / 1000), getContext());
                 feed.setText("");
                 this.dismiss();
             }
