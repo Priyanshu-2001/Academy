@@ -38,7 +38,7 @@ public class feedsService {
             String url = "https://fcm.googleapis.com/fcm/send";
 
             JSONObject data = new JSONObject();
-            data.put("title", "Your News Feed has been Updated !!");
+            data.put("title", "You Have a new Feed !!");
             data.put("body", "Check Now ");
             data.put("tag", "feed");
             data.put("click_action", "feed");

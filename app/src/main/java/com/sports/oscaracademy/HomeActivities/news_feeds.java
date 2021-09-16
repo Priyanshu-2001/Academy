@@ -139,6 +139,8 @@ public class news_feeds extends AppCompatActivity {
         });
         if (role.equals("-2")) //admin
             binding.fab.setVisibility(View.VISIBLE);
+        else
+            binding.fab.setVisibility(View.GONE);
 
 
         binding.fab.setOnClickListener(v -> {
