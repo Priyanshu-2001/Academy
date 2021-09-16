@@ -27,7 +27,7 @@ public class DashBoardData extends ViewModel {
     }
     @BindingAdapter("android:loadImage") // function name is independent of this xml loadImage :)
     public static void loadImage(ImageView imageView, String URL) {
-        int drawable = R.drawable.app_icon;
+        int drawable;
         switch (URL) {
             case "https://firebasestorage.googleapis.com/v0/b/oscar-academy-c95ef.appspot.com/o/dashBoard%2F6274.jpg?alt=media&token=009e9695-279b-42da-8602-dd3cf8ff7e7e":
                 drawable = R.drawable.attendance;
@@ -36,7 +36,7 @@ public class DashBoardData extends ViewModel {
                 drawable = R.drawable.schedule;
                 break;
             case "https://firebasestorage.googleapis.com/v0/b/oscar-academy-c95ef.appspot.com/o/dashBoard%2Ffees.jpg?alt=media&token=36a4eac1-0a36-4c80-9fa8-a57509d7f296":
-                drawable = R.drawable.fees;
+                drawable = R.drawable.pay;
                 break;
             case "https://firebasestorage.googleapis.com/v0/b/oscar-academy-c95ef.appspot.com/o/dashBoard%2Fstudent.png?alt=media&token=92d8678d-82fd-44a6-be45-a010e0224fca":
                 drawable = R.drawable.student;
@@ -46,6 +46,12 @@ public class DashBoardData extends ViewModel {
                 break;
             case "https://firebasestorage.googleapis.com/v0/b/oscar-academy-c95ef.appspot.com/o/dashBoard%2Fuser.png?alt=media&token=2969bc51-4c74-442a-9082-e8f9ec2c28dd":
                 drawable = R.drawable.user;
+                break;
+            case "https://firebasestorage.googleapis.com/v0/b/oscar-academy-c95ef.appspot.com/o/dashBoard%2Fpay.png?alt=media&token=e4fa4ea5-c50e-4d2e-a664-5a2b8b681211":
+                drawable = R.drawable.fees;
+                break;
+            default:
+                drawable = R.drawable.app_icon;
                 break;
         }
         Glide.with(imageView.getContext())
