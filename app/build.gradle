@@ -2,10 +2,12 @@ plugins {
     id 'com.android.application'
     id 'com.google.gms.google-services'
     id 'com.google.firebase.crashlytics'
+    id 'kotlin-android'
+    id 'kotlin-kapt'
 }
 
 android {
-    compileSdkVersion 30
+    compileSdkVersion 31
     buildToolsVersion "30.0.3"
     buildFeatures{
         dataBinding = true
@@ -14,7 +16,7 @@ android {
     defaultConfig {
         applicationId "com.sports.oscaracademy"
         minSdkVersion 23
-        targetSdkVersion 30
+        targetSdkVersion 31
         versionCode 1
         versionName "1.0"
 
@@ -67,4 +69,5 @@ dependencies {
     implementation "com.airbnb.android:lottie:$lottieVersion"
     implementation 'com.android.volley:volley:1.2.1'
 
+    implementation 'com.github.jhonnyx2012:horizontal-picker:1.0.6'
 }

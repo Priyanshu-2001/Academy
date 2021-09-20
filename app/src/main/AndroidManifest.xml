@@ -4,7 +4,7 @@
 
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.GET_TASKS" />
-    <!--                                                                For checking if app is running or not (Notification)-->
+
     <application
         android:allowBackup="true"
         android:icon="@drawable/app_icon_main"
@@ -13,7 +13,10 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.OscarAcademy">
         <activity
-            android:name=".chatService.chat_activty"
+            android:name=".HomeActivities.payAndPlay"
+            android:exported="false" />
+        <activity
+            android:name=".chat_feature.chat_activty"
             android:exported="true" />
         <activity
             android:name=".HomeActivities.news_feeds"
@@ -21,6 +24,7 @@
             android:parentActivityName=".Dashboard">
             <intent-filter>
                 <action android:name="feed" />
+
                 <category android:name="android.intent.category.DEFAULT" />
             </intent-filter>
         </activity>
@@ -38,6 +42,7 @@
             android:theme="@style/NoActionBar" />
         <activity
             android:name=".MainActivity"
+            android:exported="true"
             android:theme="@style/NoActionBar">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -46,15 +51,16 @@
             </intent-filter>
         </activity>
 
-
         <meta-data
             android:name="com.google.firebase.messaging.default_notification_icon"
             android:resource="@drawable/ic_send" />
-        <!-- Set color used with incoming notification messages. This is used when no color is set for the incoming
-             notification message. See README(https://goo.gl/6BKBk7) for more. -->
-        <!--        <meta-data-->
-        <!--            android:name="com.google.firebase.messaging.default_notification_color"-->
-        <!--            android:resource="@color/colorPrimary" />-->
+        <!--
+ Set color used with incoming notification messages. This is used when no color is set for the incoming
+             notification message. See README(https://goo.gl/6BKBk7) for more.
+        -->
+        <!-- <meta-data -->
+        <!-- android:name="com.google.firebase.messaging.default_notification_color" -->
+        <!-- android:resource="@color/colorPrimary" /> -->
         <meta-data
             android:name="preloaded_fonts"
             android:resource="@array/preloaded_fonts" />
@@ -66,7 +72,6 @@
                 <action android:name="com.google.firebase.MESSAGING_EVENT" />
             </intent-filter>
         </service>
-
     </application>
 
 </manifest>

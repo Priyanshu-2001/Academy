@@ -13,7 +13,7 @@ import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
-import com.sports.oscaracademy.chatService.chat_activty;
+import com.sports.oscaracademy.chat_feature.chat_activty;
 import com.sports.oscaracademy.data.Studentdata;
 import com.sports.oscaracademy.databinding.SingleChatProfileBinding;
 

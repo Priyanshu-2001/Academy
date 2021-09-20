@@ -9,7 +9,7 @@ import androidx.databinding.DataBindingUtil;
 import androidx.fragment.app.Fragment;
 
 import com.sports.oscaracademy.R;
-import com.sports.oscaracademy.chatService.chat_fragment;
+import com.sports.oscaracademy.chat_feature.chat_fragment;
 import com.sports.oscaracademy.databinding.FragmentContactAcademyBinding;
 
 public class ContactAcademy extends Fragment {

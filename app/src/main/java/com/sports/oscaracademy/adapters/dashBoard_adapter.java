@@ -13,6 +13,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.sports.oscaracademy.HomeActivities.Students;
 import com.sports.oscaracademy.HomeActivities.attendance;
 import com.sports.oscaracademy.HomeActivities.news_feeds;
+import com.sports.oscaracademy.HomeActivities.payAndPlay;
 import com.sports.oscaracademy.data.DashBoardData;
 import com.sports.oscaracademy.databinding.SingleDashboardRcvBinding;
 
@@ -80,8 +81,12 @@ public class dashBoard_adapter extends RecyclerView.Adapter<dashBoard_adapter.ho
                     context.startActivity(i);
                     break;
 
+                case "Pay & Play":
+                    context.startActivity(new Intent(context, payAndPlay.class));
+                    break;
+
                 case "Add Student":
-                    i =  new Intent(context,Students.class);
+                    i = new Intent(context, Students.class);
                     i.putExtra("catcher", "1");
                     context.startActivity(i);
                     break;

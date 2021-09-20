@@ -1,4 +1,4 @@
-package com.sports.oscaracademy.chatService;
+package com.sports.oscaracademy.chat_feature;
 
 import android.content.SharedPreferences;
 import android.os.Bundle;

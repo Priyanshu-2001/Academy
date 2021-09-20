@@ -1,4 +1,4 @@
-package com.sports.oscaracademy.chatService;
+package com.sports.oscaracademy.chat_feature;
 
 import android.content.Context;
 import android.content.SharedPreferences;
@@ -57,7 +57,7 @@ public class chat_fragment extends Fragment {
                 .addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
                     @Override
                     public void onSuccess(DocumentSnapshot documentSnapshot) {
-                        SharedPreferences.Editor pref = getContext().getSharedPreferences("tokenFile", Context.MODE_PRIVATE).edit();
+                        SharedPreferences.Editor pref = requireContext().getSharedPreferences("tokenFile", Context.MODE_PRIVATE).edit();
                         if (documentSnapshot.get("role").equals("Student_dashboard")) {
                             pref.putString("userType", "1");
                             userCategory.setValue("student");
