@@ -60,6 +60,17 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content">
 
+                <androidx.recyclerview.widget.RecyclerView
+                    android:id="@+id/courtRcv"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:visibility="gone"
+                    app:layoutManager="androidx.recyclerview.widget.StaggeredGridLayoutManager"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+
 
             </androidx.constraintlayout.widget.ConstraintLayout>
         </ScrollView>
@@ -73,6 +84,7 @@
             android:background="@drawable/btn_theme_1"
             android:drawableEnd="@drawable/forward_arrow"
             android:paddingEnd="15sp"
+            android:onClick="@{v->model.payFees(v)}"
             android:text="Pay Fees"
             android:textColor="@color/white"
             android:visibility="gone"

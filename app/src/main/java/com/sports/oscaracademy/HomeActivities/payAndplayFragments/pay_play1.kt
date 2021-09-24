@@ -14,8 +14,10 @@ import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.GridLayoutManager
+import androidx.recyclerview.widget.StaggeredGridLayoutManager
 import com.github.jhonnyx2012.horizontalpicker.DatePickerListener
 import com.sports.oscaracademy.R
+import com.sports.oscaracademy.adapters.CourtListAdapter
 import com.sports.oscaracademy.adapters.selectedSlotsAdapter
 import com.sports.oscaracademy.bottomSheet.slotSelector_s_sheet
 import com.sports.oscaracademy.databinding.FragmentPayPlayBinding
@@ -27,6 +29,7 @@ class pay_play : Fragment(), DatePickerListener {
     lateinit var binding: FragmentPayPlayBinding
     val TAG = "PayANDplay"
     val slot_bs: slotSelector_s_sheet = slotSelector_s_sheet()
+    var court_adapter: CourtListAdapter = CourtListAdapter()
     lateinit var model: Pay_playViewModel
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -38,7 +41,7 @@ class pay_play : Fragment(), DatePickerListener {
         inflater: LayoutInflater,
         container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View? {
+    ): View {
         binding = DataBindingUtil.inflate(inflater, R.layout.fragment_pay_play, container, false)
         val datePicker = binding.datePicker
         binding.lifecycleOwner = this
@@ -78,6 +81,65 @@ class pay_play : Fragment(), DatePickerListener {
         })
 
         model.getTotalSlots()
+        model.setTotalCourt()
+        model.setTotalSlots()
+        val courtID = ArrayList<String>()
+        var totalCourts = 6
+
+//        BookingService().getTotalCount().observe(viewLifecycleOwner, Observer {
+//            if (it != null) {
+//                totalCourts = it.toInt()
+//                courtID.clear()
+//                var temp = totalCourts
+//                while (temp != 0) {
+//                    courtID.add(totalCourts.toString())
+//                    temp--
+//                }
+//                Log.e(TAG, "onCreateView: courtID $courtID")
+//                court_adapter.notifyDataSetChanged()
+//            }
+//        })
+
+
+        model.getSelectedSlots().observe(viewLifecycleOwner, Observer {
+            if (it != null) {
+                var minCourt: Long = Long.MAX_VALUE
+                Log.e(TAG, "onCreateView: arraylist $it")
+                val selectedSlots = it
+                if (it.size != 0) {
+                    model.getMinCourtList().observe(viewLifecycleOwner, Observer {
+                        if (it != null) {
+                            Log.e(TAG, "onCreateView: $it")
+                            val courtAvailable = it
+                            selectedSlots.forEach {
+                                if (courtAvailable.get(it.slotID) != null)
+                                    minCourt = Math.min(minCourt, courtAvailable.get(it.slotID)!!)
+                            }
+                            courtID.clear()
+                            Log.e(TAG, "onCreateView: $minCourt")
+                            var temp = minCourt
+                            while (temp.toInt() != 0) {
+                                courtID.add(totalCourts.toString())
+                                temp--
+                            }
+                            court_adapter.notifyDataSetChanged()
+                        }
+                    })
+
+
+                    binding.courtRcv.visibility = VISIBLE
+                } else
+                    binding.courtRcv.visibility = GONE
+            } else {
+                binding.courtRcv.visibility = GONE
+            }
+        })
+
+        val stagLayout =
+            StaggeredGridLayoutManager(1, StaggeredGridLayoutManager.VERTICAL)
+        binding.courtRcv.layoutManager = stagLayout
+        court_adapter.setData(courtID, model)
+        binding.courtRcv.adapter = court_adapter
 
         binding.btnSlotSelector.setOnClickListener {
             val selectedDate = model.getSelectedDate().value
@@ -85,6 +147,10 @@ class pay_play : Fragment(), DatePickerListener {
                 Toast.makeText(context, "Please Select Date First", Toast.LENGTH_LONG).show()
             } else {
                 if (selectedDate.dayOfWeek == 6 || selectedDate.dayOfWeek == 7) {
+                    model.setBookedData()
+                    if (model.getSelectedSlots().value !== null) {
+                        model.setSelectedSLots(ArrayList())
+                    }
                     slot_bs.show(parentFragmentManager, "SlotBottomSheet")
                 } else {
                     Toast.makeText(
@@ -111,6 +177,13 @@ class pay_play : Fragment(), DatePickerListener {
         }
         if (dateSelected != null) {
             model.setSelectedDate(dateSelected)
+            model.getHouseFullSlotsList().postValue(null)
+            if ((dateSelected.dayOfWeek == 6 || dateSelected.dayOfWeek == 7) && model.getSelectedSlots().value != null) {
+                binding.button2.visibility = VISIBLE
+            } else {
+                binding.button2.visibility = GONE
+            }
+
         }
     }
 }
