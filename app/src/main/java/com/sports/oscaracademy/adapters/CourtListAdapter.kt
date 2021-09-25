@@ -34,7 +34,9 @@ class CourtListAdapter :
     }
 
     override fun onBindViewHolder(holder: courtVH, position: Int) {
-        holder.binding.courtName.text = "Wooden Badminton Court"
+        val pos = position + 1
+        holder.binding.courtName.text = "Wooden Badminton Court $pos"
+        holder.binding.checkBox.isChecked = false
         holder.binding.checkBox.setOnCheckedChangeListener { button, b ->
             if (b) {
                 Log.e("TAG", "BookCourt: courtID chaanged " + b + " " + courtId.get(position))
