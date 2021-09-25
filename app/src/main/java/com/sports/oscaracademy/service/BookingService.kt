@@ -7,6 +7,7 @@ import com.google.firebase.database.DataSnapshot
 import com.google.firebase.database.DatabaseError
 import com.google.firebase.database.FirebaseDatabase
 import com.google.firebase.database.ValueEventListener
+import com.google.firebase.firestore.FieldValue
 import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.firestore.SetOptions
 import com.sports.oscaracademy.data.BookedDATA
@@ -28,7 +29,6 @@ class BookingService {
         bookingData: MutableLiveData<BookingData>
     ) {
         val firestore: FirebaseFirestore = FirebaseFirestore.getInstance()
-
         val randomKey = FirebaseDatabase.getInstance().reference.push().key
         val data: HashMap<String, Any> = HashMap()
         val otp = (Math.random() * 9000).toInt() + 1000
@@ -36,29 +36,48 @@ class BookingService {
         data["phoneNumber"] = bookingData.value!!.phoneNumber
         data["email"] = bookingData.value!!.email
         data["userID"] = bookingData.value!!.userID
-//        Log.e(TAG, "BookCourt: booking Data " + bookingData.value)
-        data["courtID"] = bookingData.value!!.courtID!!
         data["otp"] = otp
         data["referenceID"] = randomKey.toString()
 
         val date = DateFormater(selectedDate)
 
         selectedslots.value?.forEach {
-            val slotData = it
-            firestore.collection("slotBooking").document(date.toString())
+            val tempList = bookingData.value!!.courtID?.get(it.slotID)
+            val nonNestedList = ArrayList<String>()
+            val db = firestore.collection("slotBooking").document(date.toString())
                 .collection(it.slotID).document(bookingData.value!!.userID)
-                .set(data, SetOptions.merge()).addOnSuccessListener {
-                    Log.e("TAG", "BookCourt: Booking Successfully")
-                    saveRefference(
-                        date.toString(),
-                        randomKey.toString(),
-                        slotData,
-                        bookingData,
-                        otp
-                    )
-                }.addOnFailureListener {
-                    Log.e("TAG", "BookCourt: " + it.localizedMessage)
+            val dataCourtIDs: HashMap<String, Any> = HashMap()
+            tempList?.forEach { courtID ->
+                nonNestedList.add(courtID)
+                db.get().addOnSuccessListener {
+                    dataCourtIDs["courtID"] = nonNestedList
+                    if (it["courtID"] != null) {
+                        Log.e(TAG, "BookCourt: $courtID")
+                        db.update("courtID", FieldValue.arrayUnion(courtID))
+                    } else {
+                        db.set(dataCourtIDs, SetOptions.merge())
+                    }
                 }
+            }
+//            if (b) {
+//                Log.e(TAG, "BookCourt: comeOn lets set up the things")
+//                db.set(dataCourtIDs, SetOptions.merge())
+//            }
+            val slotData = it
+
+            db.set(data, SetOptions.merge()).addOnSuccessListener {
+                Log.e("TAG", "BookCourt: Booking Successfully")
+
+                saveRefference(
+                    date.toString(),
+                    randomKey.toString(),
+                    slotData,
+                    bookingData,
+                    otp
+                )
+            }.addOnFailureListener {
+                Log.e("TAG", "BookCourt: " + it.localizedMessage)
+            }
         }
 
     }
@@ -77,30 +96,17 @@ class BookingService {
         referenceData["referenceID"] = referenceKey
         referenceData["otp"] = otp
         referenceData["userID"] = bookingData.value!!.userID
-        Log.e(TAG, "safeRefference: " + selectedDate)
+        Log.e(TAG, "safeReference: $selectedDate")
 
         bookingData.value!!.courtID?.forEach {
-            FirebaseDatabase.getInstance().reference.child("BookedSlots")
-                .child(selectedDate)
-                .child(slotData.slotID)
-                .child(it)
-                .updateChildren(referenceData)
-        }
-    }
-
-    fun getAvailableSlots(selectedDate: MutableLiveData<DateTime>) {
-        val date = DateFormater(selectedDate)
-        var totalBooked: Int
-        FirebaseDatabase.getInstance().reference
-            .child("BookedSlots")
-            .child(date)
-            .get().addOnSuccessListener {
-                totalBooked = it.childrenCount.toInt()
+            it.value.forEach { courtID ->
+                FirebaseDatabase.getInstance().reference.child("BookedSlots")
+                    .child(selectedDate)
+                    .child(it.key)
+                    .child(courtID) // arraylist of courtIDs
+                    .updateChildren(referenceData)
             }
-    }
-
-    fun getAvailableCourts() {
-
+        }
     }
 
     fun getTotalCount(): MutableLiveData<String> {
@@ -114,7 +120,6 @@ class BookingService {
             })
         Log.e(TAG, "getTotalCount: ${totalCout.value}")
         return totalCout
-        Log.e(TAG, "getTotalCout: " + totalCout)
     }
 
     fun getAllBookedDATA(date: String): MutableLiveData<ArrayList<BookedDATA>> {
@@ -159,7 +164,6 @@ class BookingService {
         return bookedTotalData
     }
 
-
     fun DateFormater(selectedDate: MutableLiveData<DateTime>): String {
         val pattern = "yyyy-MM-dd"
         val simpleDateFormat = SimpleDateFormat(pattern, Locale.getDefault())
@@ -168,33 +172,3 @@ class BookingService {
         return date!!.toString()
     }
 }
-
-//
-//FirebaseDatabase.getInstance().reference
-//.child("BookedSlots")
-//.child(date)
-//.get().addOnSuccessListener {
-//    it.children.forEach {
-////                    Log.e(TAG, "getAllBookedDATA: outside" + it )
-//        lateinit var tempData: BookedDATA
-//        val slotID = it.key.toString()
-//        val BookedSlots = it.childrenCount
-//        val data: ArrayList<bookedUnitData> = ArrayList()
-//
-//        it.children.forEach {
-////                        Log.e(TAG, "getAllBookedDATA: inner "+ it )
-//            val d = bookedUnitData(
-//                it.child("otp").value!!,
-//                it.child("referenceID").value!!,
-//                it.child("userID").value!!
-//            )
-//            data.add(d)
-////                        data.add(it.getValue(bookedUnitData::class.java)!!)
-//        }
-//        tempData = BookedDATA(slotID, data, it.key!!, BookedSlots)
-//        bookedSlotsData.add(tempData)
-////                    Log.e(TAG, "getAllBookedDATA: tempData "+ tempData  )
-//    }
-//    bookedTotalData.postValue(bookedSlotsData)
-//}
-//return bookedTotalData

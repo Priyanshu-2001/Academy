@@ -1,6 +1,7 @@
 package com.sports.oscaracademy.viewModel
 
 import android.app.Application
+import android.util.Log
 import android.view.View
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.MutableLiveData
@@ -21,7 +22,7 @@ class Pay_playViewModel(application: Application) : AndroidViewModel(application
     private var totalslots = MutableLiveData<ArrayList<SlotsData>>()
     private var bookingService: BookingService = BookingService()
     private var bookingData = MutableLiveData<BookingData>()
-    private var selectedCourts = MutableLiveData<ArrayList<String>>()
+    private var selectedCourts = MutableLiveData<Int>()
     private var AllBookedDATA = MutableLiveData<ArrayList<BookedDATA>>()
     private var HouseFullSlots = MutableLiveData<ArrayList<String>>()
     private var BookedData = MutableLiveData<ArrayList<BookedDATA>>()
@@ -39,12 +40,12 @@ class Pay_playViewModel(application: Application) : AndroidViewModel(application
         BookedData = bookingService.getAllBookedDATA(bookingService.DateFormater(selectedDate))
     }
 
-    fun getSelectedCourts(): MutableLiveData<ArrayList<String>> {
+    fun getSelectedCourtsCount(): MutableLiveData<Int> {
         return selectedCourts
     }
 
-    fun setSelectedCourt(list: ArrayList<String>) {
-        selectedCourts.value = list
+    fun setSelectedCourtCount(selectedCourtCount: Int) {
+        selectedCourts.postValue(selectedCourtCount)
     }
 
     fun setSelectedDate(date: DateTime) {
@@ -58,6 +59,51 @@ class Pay_playViewModel(application: Application) : AndroidViewModel(application
     fun getTotalSlots(): MutableLiveData<ArrayList<SlotsData>> {
 
         return totalslots
+    }
+
+    fun getCourtDataForBooking(): HashMap<String, ArrayList<String>> { //court to be booked
+        var temp = ArrayList<Int>()
+        var map = HashMap<String, ArrayList<String>>()
+
+//        for(i in 1..selectedCourts.value?.toInt()!!){
+//
+//        }
+
+        selectedslots.value?.forEach { selectedSlotData ->
+            val tempAvailableCourtList = getMinCourtList().value?.get(selectedSlotData.slotID)
+//            Log.e("TAG", "getCourtDataForBooking: CourtList $tempAvailableCourtList" )
+            if (tempAvailableCourtList != null) {
+//                tempAvailableCourtList += 1
+                val list = ArrayList<String>()
+                Log.e("TAG", "getCourtDataForBooking: CourtList total " + totalCourts.value)
+                Log.e("TAG", "getCourtDataForBooking: CourtList selected " + selectedCourts.value)
+                val start = (totalCourts.value?.toInt())?.minus(tempAvailableCourtList)?.plus(1)
+                val end = start?.plus(selectedCourts.value!!)?.minus(1)
+                for (r in start!!..end!!) {
+                    list.add(r.toString())
+                }
+                map.put(selectedSlotData.slotID, list)
+                Log.e("TAG", "getCourtDataForBooking: $map")
+            }
+
+//            map[selectedSlotData.slotID] = tempAvailableCourtList
+
+        }
+
+//        getMinCourtList().value?.forEach {
+//            // i have slotID and courtaVAILABLE
+//            var temp_booked = (totalCourts.value?.toInt()?.minus(it.value))
+//
+//            if (temp_booked != null) {
+//                temp_booked += 1
+//                val list = ArrayList<String>()
+//                for(r in temp_booked..totalCourts.value?.toInt()!!){
+//                    list.add(r.toString())
+//                }
+//                map.put(it.key,list)
+//            }
+//        }
+        return map
     }
 
     fun setTotalSlots() {
@@ -80,7 +126,10 @@ class Pay_playViewModel(application: Application) : AndroidViewModel(application
                 FirebaseAuth.getInstance().currentUser?.phoneNumber?.let { it2 ->
                     BookingData(
                         FirebaseAuth.getInstance().currentUser?.displayName,
-                        it.uid, it2, it1, getSelectedCourts().value
+                        it.uid,
+                        it2,
+                        it1,
+                        getCourtDataForBooking() //todo here the Arraylist of courtID and slotID is needed
                     )
                 }
             }
@@ -118,7 +167,7 @@ class Pay_playViewModel(application: Application) : AndroidViewModel(application
         this.minCourtAvailableList.postValue(minCourtAvailableList)
     }
 
-    fun getMinCourtList(): MutableLiveData<HashMap<String, Long>> {
+    fun getMinCourtList(): MutableLiveData<HashMap<String, Long>> { // gives minimum court booked with their slot id
         return minCourtAvailableList
     }
 

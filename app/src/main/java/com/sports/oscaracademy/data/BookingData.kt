@@ -5,5 +5,5 @@ data class BookingData(
     val userID: String,
     val phoneNumber: String,
     val email: String,
-    val courtID: ArrayList<String>?
+    val courtID: HashMap<String, ArrayList<String>>? //slotId, list of court ID Booked
 )

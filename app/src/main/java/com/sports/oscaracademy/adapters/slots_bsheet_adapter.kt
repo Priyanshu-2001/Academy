@@ -43,15 +43,19 @@ class slots_bsheet_adapter(
         if (totalCourt != null) {
             tempHashMap.put(data[position].slotID, totalCourt.toLong())
         } else
-            tempHashMap.put(data[position].slotID, 5)
+            tempHashMap.put(data[position].slotID, 5) //this is just a sample if notihng is provided
+        // could be changed when app is launched
 
 
         booked_Court.forEach {
-            if (data.get(position).slotID == it.slot) {
+            if (data[position].slotID == it.slot) {
                 val temp = totalCourt?.toLong()?.minus(it.bookedCourt)
                 holder.bind.availableCourt.text = temp.toString()
                 if (temp != null) {
-                    tempHashMap.put(data[position].slotID, temp)
+                    tempHashMap.put(
+                        data[position].slotID,
+                        temp
+                    )// temp is no. of court Available (total - booked)
                 }
             }
         }

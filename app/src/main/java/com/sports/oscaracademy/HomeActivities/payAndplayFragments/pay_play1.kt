@@ -118,6 +118,12 @@ class pay_play : Fragment(), DatePickerListener {
                             courtID.clear()
                             Log.e(TAG, "onCreateView: $minCourt")
                             var temp = minCourt
+//                            var temp = totalCourts
+//                            while (temp!=(minCourt-1).toInt()){
+//                                courtID.add(temp.toString())
+//                                temp--
+//                            }
+
                             while (temp.toInt() != 0) {
                                 courtID.add(totalCourts.toString())
                                 temp--

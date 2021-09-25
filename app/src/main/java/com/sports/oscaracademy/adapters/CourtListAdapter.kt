@@ -14,6 +14,7 @@ class CourtListAdapter :
 
     var courtId: ArrayList<String> = ArrayList()
     lateinit var model: Pay_playViewModel
+    var selectedCourtCount = 0 //todo need to start from where left last time
     fun setData(courtID: ArrayList<String>, model: Pay_playViewModel) {
         this.courtId = courtID
         this.model = model
@@ -23,7 +24,6 @@ class CourtListAdapter :
         val binding: CourtSelectorBinding = itemView
     }
 
-    val tempList: ArrayList<String> = ArrayList()
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): courtVH {
         val binding: CourtSelectorBinding = DataBindingUtil.inflate(
@@ -38,14 +38,15 @@ class CourtListAdapter :
         holder.binding.checkBox.setOnCheckedChangeListener { button, b ->
             if (b) {
                 Log.e("TAG", "BookCourt: courtID chaanged " + b + " " + courtId.get(position))
-                tempList.add(courtId.get(position))
-                model.setSelectedCourt(tempList)
-                Log.e("TAG", "BookCourt: courtID changed " + model.getSelectedCourts().value)
+                selectedCourtCount++
+                Log.e("TAG", "BookCourt: courtID changed " + model.getSelectedCourtsCount().value)
             } else {
+                selectedCourtCount--
                 Log.e("TAG", "BookCourt: courtID chaanged " + b)
-                tempList.remove(courtId.get(position))
-                model.setSelectedCourt(tempList)
             }
+            Log.e("selectedCourtCount ", "onBindViewHolder: $selectedCourtCount")
+            model.setSelectedCourtCount(selectedCourtCount)
+
         }
     }
 
