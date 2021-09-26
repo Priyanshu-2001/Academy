@@ -20,10 +20,10 @@ class Pay_playViewModel(application: Application) : AndroidViewModel(application
     private var selectedDate = MutableLiveData<DateTime>()
     private var selectedslots = MutableLiveData<ArrayList<SlotsData>>()
     private var totalslots = MutableLiveData<ArrayList<SlotsData>>()
-    private var bookingService: BookingService = BookingService()
+    private var bookingService: BookingService = BookingService() //currently booking data
     private var bookingData = MutableLiveData<BookingData>()
     private var selectedCourts = MutableLiveData<Int>()
-    private var BookedData = MutableLiveData<ArrayList<BookedDATA>>()
+    private var BookedData = MutableLiveData<ArrayList<BookedDATA>>() //list of already bookedCourt
     private var totalCourts = MutableLiveData<String>()
     private var minCourtAvailableList = MutableLiveData<HashMap<String, Long>>()
 
@@ -94,8 +94,7 @@ class Pay_playViewModel(application: Application) : AndroidViewModel(application
         return selectedslots
     }
 
-
-    fun payFees(v: View) {
+    fun setCurrentBookingData() {
         bookingData.value = FirebaseAuth.getInstance().currentUser?.let {
             FirebaseAuth.getInstance().currentUser?.email?.let { it1 ->
                 FirebaseAuth.getInstance().currentUser?.phoneNumber?.let { it2 ->
@@ -104,11 +103,33 @@ class Pay_playViewModel(application: Application) : AndroidViewModel(application
                         it.uid,
                         it2,
                         it1,
-                        getCourtDataForBooking() //todo here the Arraylist of courtID and slotID is needed
+                        getCourtDataForBooking() //todo here the Arraylist of courtID and slotID is provided
                     )
                 }
             }
         }
+    }
+
+    fun getCurrentBookingData(): MutableLiveData<BookingData> {
+        return bookingData
+    }
+
+    fun payFees(v: View) {
+//        bookingData.value = FirebaseAuth.getInstance().currentUser?.let {
+//            FirebaseAuth.getInstance().currentUser?.email?.let { it1 ->
+//                FirebaseAuth.getInstance().currentUser?.phoneNumber?.let { it2 ->
+//                    BookingData(
+//                        FirebaseAuth.getInstance().currentUser?.displayName,
+//                        it.uid,
+//                        it2,
+//                        it1,
+//                        getCourtDataForBooking() //todo here the Arraylist of courtID and slotID is needed
+//                    )
+//                }
+//            }
+//        }
+
+        setCurrentBookingData()
         if (bookingData.value!!.courtID != null) {
             if (bookingData.value!!.courtID?.size != 0)
                 bookingService.BookCourt(selectedDate, selectedslots, bookingData)
