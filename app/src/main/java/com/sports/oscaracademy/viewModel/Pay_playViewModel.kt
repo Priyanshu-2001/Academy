@@ -23,14 +23,9 @@ class Pay_playViewModel(application: Application) : AndroidViewModel(application
     private var bookingService: BookingService = BookingService()
     private var bookingData = MutableLiveData<BookingData>()
     private var selectedCourts = MutableLiveData<Int>()
-    private var AllBookedDATA = MutableLiveData<ArrayList<BookedDATA>>()
-    private var HouseFullSlots = MutableLiveData<ArrayList<String>>()
     private var BookedData = MutableLiveData<ArrayList<BookedDATA>>()
     private var totalCourts = MutableLiveData<String>()
     private var minCourtAvailableList = MutableLiveData<HashMap<String, Long>>()
-    fun getHouseFullSlotsList(): MutableLiveData<ArrayList<String>> {
-        return HouseFullSlots
-    }
 
     fun getBookedData(): MutableLiveData<ArrayList<BookedDATA>> {
         return BookedData
@@ -62,13 +57,7 @@ class Pay_playViewModel(application: Application) : AndroidViewModel(application
     }
 
     fun getCourtDataForBooking(): HashMap<String, ArrayList<String>> { //court to be booked
-        var temp = ArrayList<Int>()
-        var map = HashMap<String, ArrayList<String>>()
-
-//        for(i in 1..selectedCourts.value?.toInt()!!){
-//
-//        }
-
+        val map = HashMap<String, ArrayList<String>>()
         selectedslots.value?.forEach { selectedSlotData ->
             val tempAvailableCourtList = getMinCourtList().value?.get(selectedSlotData.slotID)
 //            Log.e("TAG", "getCourtDataForBooking: CourtList $tempAvailableCourtList" )
@@ -89,20 +78,6 @@ class Pay_playViewModel(application: Application) : AndroidViewModel(application
 //            map[selectedSlotData.slotID] = tempAvailableCourtList
 
         }
-
-//        getMinCourtList().value?.forEach {
-//            // i have slotID and courtaVAILABLE
-//            var temp_booked = (totalCourts.value?.toInt()?.minus(it.value))
-//
-//            if (temp_booked != null) {
-//                temp_booked += 1
-//                val list = ArrayList<String>()
-//                for(r in temp_booked..totalCourts.value?.toInt()!!){
-//                    list.add(r.toString())
-//                }
-//                map.put(it.key,list)
-//            }
-//        }
         return map
     }
 
@@ -141,13 +116,11 @@ class Pay_playViewModel(application: Application) : AndroidViewModel(application
                 val snackbar =
                     Snackbar.make(v, "Hey... U didn't select any Court", Snackbar.LENGTH_LONG)
                         .setAnimationMode(ANIMATION_MODE_SLIDE)
-                snackbar.view.setPadding(5, 0, 5, 15)
+                snackbar.view.setPadding(5, 0, 5, 20)
                 snackbar.show()
             }
-//                Snackbar.make(v, "Hey... U didn't select any Court", Snackbar.LENGTH_LONG)
-//                    .setAnimationMode(ANIMATION_MODE_SLIDE).show()
         } else {
-            var snackbar =
+            val snackbar =
                 Snackbar.make(v, "Hey... U didn't select any Court", Snackbar.LENGTH_LONG)
                     .setAnimationMode(ANIMATION_MODE_SLIDE)
             snackbar.view.setPadding(5, 0, 5, 15)
