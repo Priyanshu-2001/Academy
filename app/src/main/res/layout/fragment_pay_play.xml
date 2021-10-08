@@ -51,7 +51,7 @@
         <ScrollView
             android:layout_width="match_parent"
             android:layout_height="0dp"
-            app:layout_constraintBottom_toTopOf="@+id/button2"
+            app:layout_constraintBottom_toTopOf="@+id/proceedBtn"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/selectedSlotsRCV">
@@ -76,7 +76,7 @@
         </ScrollView>
 
         <Button
-            android:id="@+id/button2"
+            android:id="@+id/proceedBtn"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginHorizontal="5dp"
@@ -84,13 +84,12 @@
             android:background="@drawable/btn_theme_1"
             android:drawableEnd="@drawable/forward_arrow"
             android:paddingEnd="15sp"
-            android:onClick="@{v->model.payFees(v)}"
-            android:text="Pay Fees"
+            android:text="Proceed"
             android:textColor="@color/white"
             android:visibility="gone"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent" />
-
+        <!--        android:onClick="@{v->model.payFees(v)}"-->
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

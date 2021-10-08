@@ -13,11 +13,13 @@ import com.sports.oscaracademy.data.BookingData
 import com.sports.oscaracademy.data.SlotsData
 import com.sports.oscaracademy.service.BookingService
 import com.sports.oscaracademy.service.getSlots
-import org.joda.time.DateTime
+import java.util.*
+import kotlin.collections.ArrayList
+import kotlin.collections.HashMap
 
 class Pay_playViewModel(application: Application) : AndroidViewModel(application) {
 
-    private var selectedDate = MutableLiveData<DateTime>()
+    private var selectedDate = MutableLiveData<Date>()
     private var selectedslots = MutableLiveData<ArrayList<SlotsData>>()
     private var totalslots = MutableLiveData<ArrayList<SlotsData>>()
     private var bookingService: BookingService = BookingService() //currently booking data
@@ -32,7 +34,7 @@ class Pay_playViewModel(application: Application) : AndroidViewModel(application
     }
 
     fun setBookedData() {
-        BookedData = bookingService.getAllBookedDATA(bookingService.DateFormater(selectedDate))
+        BookedData = bookingService.getAllBookedDATA(selectedDate.value.toString())
     }
 
     fun getSelectedCourtsCount(): MutableLiveData<Int> {
@@ -43,11 +45,11 @@ class Pay_playViewModel(application: Application) : AndroidViewModel(application
         selectedCourts.postValue(selectedCourtCount)
     }
 
-    fun setSelectedDate(date: DateTime) {
+    fun setSelectedDate(date: Date) {
         selectedDate.value = date
     }
 
-    fun getSelectedDate(): MutableLiveData<DateTime> {
+    fun getSelectedDate(): MutableLiveData<Date> {
         return selectedDate
     }
 

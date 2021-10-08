@@ -23,6 +23,8 @@
     <string name="dismiss">Dismiss</string>
     <string name="addStudent">ADD STUDENT</string>
     <string name="deleted_sucessfully">Deleted Sucessfully</string>
+    <string name="editSlot">EDIT SLOTS</string>
+    <string name="selectSlot">SELECT SLOTS</string>
 
     <string-array name="gender">
         <item>Male</item>

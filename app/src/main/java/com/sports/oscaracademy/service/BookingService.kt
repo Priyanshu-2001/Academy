@@ -14,7 +14,6 @@ import com.sports.oscaracademy.data.BookedDATA
 import com.sports.oscaracademy.data.BookingData
 import com.sports.oscaracademy.data.SlotsData
 import com.sports.oscaracademy.data.bookedUnitData
-import org.joda.time.DateTime
 import java.text.SimpleDateFormat
 import java.util.*
 import kotlin.collections.ArrayList
@@ -22,9 +21,19 @@ import kotlin.collections.HashMap
 
 class BookingService {
 
+    companion object {
+        fun DateFormater(selectedDate: MutableLiveData<Date>): String {
+            val pattern = "yyyy-MM-dd"
+            val simpleDateFormat = SimpleDateFormat(pattern, Locale.getDefault())
+
+            val date = simpleDateFormat.parse(selectedDate.value.toString())
+            return date!!.toString()
+        }
+    }
+
     val TAG = "BOOKING SERVICE"
     fun BookCourt(
-        selectedDate: MutableLiveData<DateTime>,
+        selectedDate: MutableLiveData<Date>,
         selectedslots: MutableLiveData<ArrayList<SlotsData>>,
         bookingData: MutableLiveData<BookingData>
     ) {
@@ -164,11 +173,5 @@ class BookingService {
         return bookedTotalData
     }
 
-    fun DateFormater(selectedDate: MutableLiveData<DateTime>): String {
-        val pattern = "yyyy-MM-dd"
-        val simpleDateFormat = SimpleDateFormat(pattern, Locale.getDefault())
 
-        val date = simpleDateFormat.parse(selectedDate.value.toString())
-        return date!!.toString()
-    }
 }
