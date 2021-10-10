@@ -25,6 +25,7 @@
     <string name="deleted_sucessfully">Deleted Sucessfully</string>
     <string name="editSlot">EDIT SLOTS</string>
     <string name="selectSlot">SELECT SLOTS</string>
+    <string name="proceed_to_checkout">Proceed To Checkout</string>
 
     <string-array name="gender">
         <item>Male</item>

@@ -48,7 +48,7 @@ class BookingService {
         data["otp"] = otp
         data["referenceID"] = randomKey.toString()
 
-        val date = DateFormater(selectedDate)
+        val date = selectedDate.value
 
         selectedslots.value?.forEach {
             val tempList = bookingData.value!!.courtID?.get(it.slotID)

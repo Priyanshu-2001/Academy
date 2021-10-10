@@ -9,6 +9,7 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModelProvider
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
 import com.sports.oscaracademy.R
+import com.sports.oscaracademy.adapters.DetailConfirmationCheckoutBSadapter
 import com.sports.oscaracademy.data.BookingData
 import com.sports.oscaracademy.databinding.BookingConfirmationBsBinding
 import com.sports.oscaracademy.viewModel.Pay_playViewModel
@@ -29,7 +30,7 @@ class bookingConfirmation_BS : BottomSheetDialogFragment() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         model = ViewModelProvider(requireActivity()).get(Pay_playViewModel::class.java)
-        setStyle(STYLE_NO_FRAME, R.style.BottomSheetDialogThemeNoFloating)
+        setStyle(STYLE_NORMAL, R.style.BottomSheetDialogThemeNoFloating)
     }
 
     lateinit var binding: BookingConfirmationBsBinding
@@ -43,22 +44,34 @@ class bookingConfirmation_BS : BottomSheetDialogFragment() {
         model.setCurrentBookingData()
         bookingData = model.getCurrentBookingData()
 
+        binding.cancelBtn.setOnClickListener {
+            dismiss()
+        }
+
         binding.run {
             phoneNumber.setText(bookingData.value?.phoneNumber)
             email.setText(bookingData.value?.email)
             name.setText(bookingData.value?.name)
         }
 
-//        val formatter = DateTimeFormatter.ofPattern("yyyy-MMM-dd",Locale.getDefault())
+        binding.checkOutBtn.setOnClickListener {
+            model.payFees(binding.root)
+        }
+        setDataToViews()
         val format = SimpleDateFormat("EE MMM dd HH:mm:ss z yyyy", Locale.getDefault())
         val format2 = SimpleDateFormat("EE, dd MMM yyyy", Locale.getDefault())
-
-//        val firstApiFormat = SimpleDateFormat("yyyy-MMM-dd", Locale.getDefault())
         val tempDate = format.parse(model.getSelectedDate().value.toString())
         val date = tempDate?.run { format2.format(tempDate) }
         binding.selectedDate.text = date!!.toString()
         return binding.root
     }
+
+    private fun setDataToViews() {
+        val adapter = DetailConfirmationCheckoutBSadapter(model, model.getSingleCourtPrice())
+        binding.checkOutRCV.adapter = adapter
+        binding.finalPrice.text = String.format("₹" + model.getCheckOutPrice())
+    }
+
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
@@ -66,5 +79,5 @@ class bookingConfirmation_BS : BottomSheetDialogFragment() {
             ?.decorView
             ?.findViewById<View>(R.id.touch_outside)
         touchOutsideView?.setOnClickListener(null)
-    }
+    } //code to disable outside touch closing problem
 }

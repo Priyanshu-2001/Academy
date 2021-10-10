@@ -16,6 +16,8 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.StaggeredGridLayoutManager
 import com.github.jhonnyx2012.horizontalpicker.DatePickerListener
+import com.google.android.material.snackbar.BaseTransientBottomBar
+import com.google.android.material.snackbar.Snackbar
 import com.sports.oscaracademy.R
 import com.sports.oscaracademy.adapters.CourtListAdapter
 import com.sports.oscaracademy.adapters.selectedSlotsAdapter
@@ -105,6 +107,7 @@ class pay_play : Fragment(), DatePickerListener {
         model.getTotalSlots()
         model.setTotalCourt()
         model.setTotalSlots()
+        model.setSingleCourtPrice()
 
         model.getSelectedSlots().observe(viewLifecycleOwner, {
             if (it != null) {
@@ -144,6 +147,17 @@ class pay_play : Fragment(), DatePickerListener {
         binding.proceedBtn.setOnClickListener {
             if (model.getSelectedCourtsCount().value != 0)
                 checkOutSheet.show(parentFragmentManager, "checkOutFragment")
+            else {
+                val snackbar =
+                    Snackbar.make(
+                        requireView(),
+                        "Hey... U didn't select any Court",
+                        Snackbar.LENGTH_LONG
+                    )
+                        .setAnimationMode(BaseTransientBottomBar.ANIMATION_MODE_SLIDE)
+                snackbar.view.setPadding(5, 0, 5, 20)
+                snackbar.show()
+            }
         }
 
         binding.courtRcv.layoutManager = stagLayout

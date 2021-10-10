@@ -6,8 +6,8 @@
         <item name="colorPrimaryVariant">@color/black</item>
         <item name="colorOnPrimary">@color/white</item>
         <!-- Secondary brand color. -->
-        <item name="colorSecondary">@color/teal_200</item>
-        <item name="colorSecondaryVariant">@color/teal_700</item>
+        <item name="colorSecondary">@color/colorPrimaryDarker</item>
+        <item name="colorSecondaryVariant">@color/colorPrimaryDarker</item>
         <item name="colorOnSecondary">@color/black</item>
         <!-- Status bar color. -->
         <item name="android:statusBarColor" tools:targetApi="l">@color/black</item>
@@ -22,12 +22,12 @@
 
     <style name="BottomSheetDialogThemeNoFloating" parent="Theme.Design.Light.BottomSheetDialog">
         <item name="android:windowIsFloating">false</item>
-        <item name="android:windowSoftInputMode">adjustResize|stateVisible</item>
+        <item name="android:windowSoftInputMode">adjustPan</item>
     </style>
 
     <style name="EditTextTheme" parent="Theme.AppCompat.Light">
         <item name="colorControlNormal">@color/black</item>
-        <item name="colorControlActivated">@color/colorPrimary</item>
+        <item name="colorControlActivated">@color/colorPrimaryDarker</item>
     </style>
 
     <style name="CalendarWidgetdate">
@@ -60,7 +60,7 @@
 
     <style name="AlertDialog" parent="ThemeOverlay.AppCompat.Dialog">
         <item name="android:windowBackground">@drawable/btn_theme_2</item>
-        <item name="colorAccent">@color/colorPrimary</item>
+        <item name="colorAccent">@color/colorPrimaryDarker</item>
         <item name="android:textAlignment" tools:ignore="NewApi">center</item>
         <item name="android:backgroundDimEnabled">true</item>
     </style>

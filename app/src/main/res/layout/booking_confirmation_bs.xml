@@ -13,19 +13,34 @@
         android:layout_height="wrap_content"
         android:background="@drawable/app_back">
 
+        <ImageView
+            android:id="@+id/cancelBtn"
+            android:layout_width="25dp"
+            android:layout_height="25dp"
+            android:layout_marginVertical="10dp"
+            android:rotation="-90"
+            android:src="@drawable/white_back_button"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
         <TextView
             android:id="@+id/textView"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="20dp"
             android:fontFamily="@font/rubik_bold"
             android:text="Confirm Your Details"
+            android:layout_marginTop="30dp"
+            android:shadowColor="@color/colorPrimaryDarker"
+            android:shadowDx="1"
+            android:shadowDy="1"
+            android:shadowRadius="1"
             android:textAlignment="center"
             android:textColor="@color/white"
             android:textSize="20sp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
+            app:layout_constraintTop_toBottomOf="@+id/cancelBtn" />
 
 
         <com.google.android.material.textfield.TextInputLayout
@@ -46,6 +61,7 @@
                 android:layout_margin="10dp"
                 android:hint="Name"
                 android:inputType="text"
+                android:autofillHints="name"
                 android:textColor="@color/white"
                 app:hintTextColor="@color/white" />
         </com.google.android.material.textfield.TextInputLayout>
@@ -89,16 +105,31 @@
                 android:inputType="textEmailAddress"
                 android:text="SampleEmail@gmail.com"
                 android:textColor="@color/white"
+                android:autofillHints="emailAddress"
                 app:hintTextColor="@color/white" />
         </com.google.android.material.textfield.TextInputLayout>
+
+        <View
+            android:id="@+id/separatorbookAndDetails"
+            android:layout_width="match_parent"
+            android:layout_height="2dp"
+            android:background="@color/white"
+            app:layout_constraintTop_toBottomOf="@+id/emailLayout"
+            tools:layout_editor_absoluteX="5dp" />
 
         <TextView
             android:id="@+id/confirmation"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Review Your Order"
+            android:layout_marginTop="15dp"
             android:textAlignment="center"
-            android:textColor="@color/white"
+            android:fontFamily="@font/rubik_bold"
+            android:shadowColor="@color/white"
+            android:shadowDx="2"
+            android:shadowDy="1"
+            android:shadowRadius="0.6"
+            android:text="Review Your Bookings"
+            android:textColor="@color/colorPrimaryDarker"
             android:textSize="20sp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
@@ -136,14 +167,15 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/selectedDate"
-            tools:listitem="" />
+            app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager" />
 
         <View
             android:id="@+id/separator"
             android:layout_width="match_parent"
             android:layout_height="2dp"
             android:layout_marginTop="8dp"
-            android:backgroundTint="@color/white"
+            android:layout_marginHorizontal="50dp"
+            android:background="@color/white"
             app:layout_constraintTop_toBottomOf="@id/checkOutRCV"
             tools:layout_editor_absoluteX="5dp" />
 
@@ -151,28 +183,31 @@
             android:id="@+id/totalPaymentCV"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_margin="5dp"
+            android:layout_margin="15dp"
+            android:paddingVertical="10dp"
             app:cardCornerRadius="25dp"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="@+id/checkOutRCV"
+            app:layout_constraintStart_toStartOf="@+id/checkOutRCV"
             app:layout_constraintTop_toBottomOf="@id/separator">
 
             <androidx.constraintlayout.widget.ConstraintLayout
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content">
+                android:layout_height="wrap_content"
+                android:layout_marginHorizontal="15dp"
+                android:layout_marginVertical="10dp">
 
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="Total Amount"
                     app:layout_constraintBottom_toBottomOf="parent"
-                    app:layout_constraintEnd_toStartOf="@+id/textView6"
+                    app:layout_constraintEnd_toStartOf="@+id/finalPrice"
                     app:layout_constraintHorizontal_bias=".4"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent" />
 
                 <TextView
-                    android:id="@+id/textView6"
+                    android:id="@+id/finalPrice"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginRight="25dp"
@@ -189,9 +224,18 @@
         <Button
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="10dp"
-            android:background="@drawable/btn_theme_2"
-            android:text="Proceed To CheckOut"
+            android:id="@+id/checkOutBtn"
+            android:layout_marginHorizontal="15dp"
+            android:layout_marginVertical="10dp"
+            android:background="@color/colorPrimaryDarker"
+            android:drawableEnd="@drawable/forward_arrow"
+            android:padding="10dp"
+            android:shadowColor="@color/white"
+            android:shadowDx="5"
+            android:shadowDy="5"
+            android:shadowRadius="100"
+            android:text="@string/proceed_to_checkout"
+            android:textColor="@color/white"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/totalPaymentCV" />

@@ -8,6 +8,7 @@ import androidx.lifecycle.MutableLiveData
 import com.google.android.material.snackbar.BaseTransientBottomBar.ANIMATION_MODE_SLIDE
 import com.google.android.material.snackbar.Snackbar
 import com.google.firebase.auth.FirebaseAuth
+import com.sports.oscaracademy.Application.MyApplication
 import com.sports.oscaracademy.data.BookedDATA
 import com.sports.oscaracademy.data.BookingData
 import com.sports.oscaracademy.data.SlotsData
@@ -19,6 +20,8 @@ import kotlin.collections.HashMap
 
 class Pay_playViewModel(application: Application) : AndroidViewModel(application) {
 
+    val TAG = "PAY_PLAY_VIEW_MODEL"
+
     private var selectedDate = MutableLiveData<Date>()
     private var selectedslots = MutableLiveData<ArrayList<SlotsData>>()
     private var totalslots = MutableLiveData<ArrayList<SlotsData>>()
@@ -28,6 +31,8 @@ class Pay_playViewModel(application: Application) : AndroidViewModel(application
     private var BookedData = MutableLiveData<ArrayList<BookedDATA>>() //list of already bookedCourt
     private var totalCourts = MutableLiveData<String>()
     private var minCourtAvailableList = MutableLiveData<HashMap<String, Long>>()
+    private var currentCourtPrice = 350
+    private val remoteConfig = (application as MyApplication).remoteConfig
 
     fun getBookedData(): MutableLiveData<ArrayList<BookedDATA>> {
         return BookedData
@@ -166,5 +171,19 @@ class Pay_playViewModel(application: Application) : AndroidViewModel(application
     fun getMinCourtList(): MutableLiveData<HashMap<String, Long>> { // gives minimum court booked with their slot id
         return minCourtAvailableList
     }
+
+    fun getCheckOutPrice(): CharSequence {
+        return ((getSelectedSlots().value?.let { getSelectedCourtsCount().value?.times(it.count()) }
+            ?: -1) * currentCourtPrice).toString()
+    }
+
+    fun setSingleCourtPrice() {
+        currentCourtPrice = remoteConfig.getValue("courtPrice").asLong().toInt()
+    }
+
+    fun getSingleCourtPrice(): Int {
+        return currentCourtPrice
+    }
+
 
 }

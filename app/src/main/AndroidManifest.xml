@@ -9,6 +9,7 @@
         android:allowBackup="true"
         android:icon="@drawable/app_icon_main"
         android:label="@string/app_name"
+        android:name=".Application.MyApplication"
         android:roundIcon="@mipmap/transparent_black"
         android:supportsRtl="true"
         android:theme="@style/Theme.OscarAcademy">
