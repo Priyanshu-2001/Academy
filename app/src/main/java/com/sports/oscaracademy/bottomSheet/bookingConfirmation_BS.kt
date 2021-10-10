@@ -7,11 +7,16 @@ import android.view.ViewGroup
 import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModelProvider
+import com.github.ybq.android.spinkit.sprite.Sprite
+import com.github.ybq.android.spinkit.style.WanderingCubes
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
+import com.google.android.material.snackbar.BaseTransientBottomBar.LENGTH_LONG
+import com.google.android.material.snackbar.Snackbar
 import com.sports.oscaracademy.R
 import com.sports.oscaracademy.adapters.DetailConfirmationCheckoutBSadapter
 import com.sports.oscaracademy.data.BookingData
 import com.sports.oscaracademy.databinding.BookingConfirmationBsBinding
+import com.sports.oscaracademy.dialog.dialogs
 import com.sports.oscaracademy.viewModel.Pay_playViewModel
 import java.text.SimpleDateFormat
 import java.util.*
@@ -32,7 +37,6 @@ class bookingConfirmation_BS : BottomSheetDialogFragment() {
         model = ViewModelProvider(requireActivity()).get(Pay_playViewModel::class.java)
         setStyle(STYLE_NORMAL, R.style.BottomSheetDialogThemeNoFloating)
     }
-
     lateinit var binding: BookingConfirmationBsBinding
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -47,6 +51,8 @@ class bookingConfirmation_BS : BottomSheetDialogFragment() {
         binding.cancelBtn.setOnClickListener {
             dismiss()
         }
+        val doubleBounce: Sprite = WanderingCubes()
+        binding.progress.setIndeterminateDrawable(doubleBounce)
 
         binding.run {
             phoneNumber.setText(bookingData.value?.phoneNumber)
@@ -54,8 +60,46 @@ class bookingConfirmation_BS : BottomSheetDialogFragment() {
             name.setText(bookingData.value?.name)
         }
 
-        binding.checkOutBtn.setOnClickListener {
-            model.payFees(binding.root)
+        binding.run {
+            checkOutBtn.setOnClickListener {
+                if (phoneNumber.text.length in 10..13) {
+                    if (!name.text.isNullOrEmpty()) {
+                        if (!email.text.isNullOrEmpty()) {
+                            progress.visibility = View.VISIBLE
+                            dialogs().bookingT_C(
+                                context,
+                                model,
+                                dialog?.window?.decorView,
+                                progress
+                            )
+                        } else {
+                            dialog?.window?.decorView?.let { it1 ->
+                                Snackbar.make(
+                                    it1,
+                                    "Please Check Your Email",
+                                    LENGTH_LONG
+                                ).show()
+                            }
+                        }
+                    } else {
+                        dialog?.window?.decorView?.let { it1 ->
+                            Snackbar.make(
+                                it1,
+                                "Please Fill Your Name",
+                                LENGTH_LONG
+                            ).show()
+                        }
+                    }
+                } else {
+                    dialog?.window?.let { it1 ->
+                        Snackbar.make(
+                            it1.decorView,
+                            "Please Check Your Phone Number",
+                            LENGTH_LONG
+                        ).show()
+                    }
+                }
+            }
         }
         setDataToViews()
         val format = SimpleDateFormat("EE MMM dd HH:mm:ss z yyyy", Locale.getDefault())

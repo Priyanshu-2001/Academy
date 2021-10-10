@@ -26,6 +26,7 @@
     <string name="editSlot">EDIT SLOTS</string>
     <string name="selectSlot">SELECT SLOTS</string>
     <string name="proceed_to_checkout">Proceed To Checkout</string>
+    <string name="Accept">ACCEPT AND BOOK</string>
 
     <string-array name="gender">
         <item>Male</item>

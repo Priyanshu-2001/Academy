@@ -1,7 +1,10 @@
 package com.sports.oscaracademy.service
 
 import android.util.Log
+import android.view.View
+import android.widget.Toast
 import androidx.lifecycle.MutableLiveData
+import com.github.ybq.android.spinkit.SpinKitView
 import com.google.android.gms.tasks.OnCompleteListener
 import com.google.firebase.database.DataSnapshot
 import com.google.firebase.database.DatabaseError
@@ -35,7 +38,8 @@ class BookingService {
     fun BookCourt(
         selectedDate: MutableLiveData<Date>,
         selectedslots: MutableLiveData<ArrayList<SlotsData>>,
-        bookingData: MutableLiveData<BookingData>
+        bookingData: MutableLiveData<BookingData>,
+        progress: SpinKitView
     ) {
         val firestore: FirebaseFirestore = FirebaseFirestore.getInstance()
         val randomKey = FirebaseDatabase.getInstance().reference.push().key
@@ -82,7 +86,8 @@ class BookingService {
                     randomKey.toString(),
                     slotData,
                     bookingData,
-                    otp
+                    otp,
+                    progress,
                 )
             }.addOnFailureListener {
                 Log.e("TAG", "BookCourt: " + it.localizedMessage)
@@ -97,6 +102,7 @@ class BookingService {
         slotData: SlotsData,
         bookingData: MutableLiveData<BookingData>,
         otp: Int,
+        progress: SpinKitView,
     ) {
         //Generate reference ID and Show it to booking User with otp
 
@@ -115,6 +121,12 @@ class BookingService {
                     .child(courtID) // arraylist of courtIDs
                     .updateChildren(referenceData)
             }
+            progress.visibility = View.GONE
+            Toast.makeText(
+                progress.context,
+                "Congrats Your Booking is Successfully Accepted",
+                Toast.LENGTH_SHORT
+            ).show()
         }
     }
 

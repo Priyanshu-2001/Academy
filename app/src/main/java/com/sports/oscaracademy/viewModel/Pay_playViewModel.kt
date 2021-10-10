@@ -5,6 +5,7 @@ import android.util.Log
 import android.view.View
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.MutableLiveData
+import com.github.ybq.android.spinkit.SpinKitView
 import com.google.android.material.snackbar.BaseTransientBottomBar.ANIMATION_MODE_SLIDE
 import com.google.android.material.snackbar.Snackbar
 import com.google.firebase.auth.FirebaseAuth
@@ -121,26 +122,12 @@ class Pay_playViewModel(application: Application) : AndroidViewModel(application
         return bookingData
     }
 
-    fun payFees(v: View) {
-//        bookingData.value = FirebaseAuth.getInstance().currentUser?.let {
-//            FirebaseAuth.getInstance().currentUser?.email?.let { it1 ->
-//                FirebaseAuth.getInstance().currentUser?.phoneNumber?.let { it2 ->
-//                    BookingData(
-//                        FirebaseAuth.getInstance().currentUser?.displayName,
-//                        it.uid,
-//                        it2,
-//                        it1,
-//                        getCourtDataForBooking() //todo here the Arraylist of courtID and slotID is needed
-//                    )
-//                }
-//            }
-//        }
-
+    fun payFees(v: View, progress: SpinKitView) {
         setCurrentBookingData()
         if (bookingData.value!!.courtID != null) {
-            if (bookingData.value!!.courtID?.size != 0)
-                bookingService.BookCourt(selectedDate, selectedslots, bookingData)
-            else {
+            if (bookingData.value!!.courtID?.size != 0) {
+                bookingService.BookCourt(selectedDate, selectedslots, bookingData, progress)
+            } else {
                 val snackbar =
                     Snackbar.make(v, "Hey... U didn't select any Court", Snackbar.LENGTH_LONG)
                         .setAnimationMode(ANIMATION_MODE_SLIDE)
