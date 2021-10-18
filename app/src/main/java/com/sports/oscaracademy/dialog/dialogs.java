@@ -4,7 +4,6 @@ import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.view.View;
-import android.widget.Toast;
 
 import com.github.ybq.android.spinkit.SpinKitView;
 import com.sports.oscaracademy.R;
@@ -42,11 +41,11 @@ public class dialogs {
         builder.setNegativeButton(context.getString(R.string.dismiss), new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
-                Toast.makeText(context, "-ve clicked", Toast.LENGTH_SHORT).show();
+                dialog.dismiss();
             }
         });
         builder.setTitle("TERMS AND CONDITIONS -");
-        builder.setMessage("- A maximum of 5 members per booking per badminton court is admissible\n\n" +
+        builder.setMessage("\n- A maximum of 5 members per booking per badminton court is admissible\n\n" +
                 "- Non Marking Shoes compulsory for Badminton. Shoes must be worn after entering the facility.\n\n" +
                 "- Barefoot play is strictly prohibited.\n\n" +
                 "- Sports equipment not available on rent.");

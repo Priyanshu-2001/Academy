@@ -273,7 +273,7 @@
                 android:paddingLeft="10dp"
                 android:paddingTop="15dp"
                 android:text="SIGNUP"
-                android:textColor="@color/colorPrimary"
+                android:textColor="@color/colorPrimaryDarker"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toEndOf="@+id/tv_end"
