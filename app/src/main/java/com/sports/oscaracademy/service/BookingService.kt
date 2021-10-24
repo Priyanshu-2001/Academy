@@ -52,8 +52,9 @@ class BookingService {
         data["otp"] = otp
         data["referenceID"] = randomKey.toString()
 
-        val date = selectedDate.value
-
+        val d = selectedDate.value
+        val date = d?.year?.plus(1900).toString() + "-" + d?.month?.plus(1) + "-" + d?.date
+//        val date = tempDateFormat
         selectedslots.value?.forEach {
             val tempList = bookingData.value!!.courtID?.get(it.slotID)
             val nonNestedList = ArrayList<String>()

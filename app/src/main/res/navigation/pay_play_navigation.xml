@@ -1,5 +1,41 @@
 <?xml version="1.0" encoding="utf-8"?>
 <navigation xmlns:android="http://schemas.android.com/apk/res/android"
-    android:id="@+id/navigation">
-
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/pay_play"
+    app:startDestination="@id/pay_play2">
+    <fragment
+        android:id="@+id/pay_play2"
+        android:name="com.sports.oscaracademy.HomeActivities.payAndplayFragments.pay_play"
+        android:label="pay_play">
+        <action
+            android:id="@+id/action_pay_play2_to_adminBooking"
+            app:destination="@id/adminBooking"
+            app:enterAnim="@anim/nav_default_enter_anim"
+            app:exitAnim="@android:anim/slide_out_right"
+            app:launchSingleTop="false"
+            app:popEnterAnim="@anim/nav_default_pop_enter_anim"
+            app:popExitAnim="@android:anim/slide_out_right" />
+    </fragment>
+    <fragment
+        android:id="@+id/adminBooking"
+        android:name="com.sports.oscaracademy.HomeActivities.payAndplayFragments.AdminBooking"
+        android:label="AdminBooking">
+        <action
+            android:id="@+id/action_adminBooking_to_bookingDetails"
+            app:destination="@id/bookingDetails"
+            app:enterAnim="@android:anim/slide_out_right"
+            app:exitAnim="@android:anim/slide_out_right"
+            app:popEnterAnim="@android:anim/slide_out_right"
+            app:popExitAnim="@android:anim/slide_out_right"
+            app:popUpToInclusive="false" />
+        <argument
+            android:name="date"
+            app:argType="string" />
+    </fragment>
+    <fragment
+        android:id="@+id/bookingDetails"
+        android:name="com.sports.oscaracademy.HomeActivities.payAndplayFragments.BookingDetailsViewer"
+        android:label="fragment_booking_details"
+        tools:layout="@layout/fragment_booking_details" />
 </navigation>

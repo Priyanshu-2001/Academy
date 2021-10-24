@@ -40,7 +40,9 @@ class Pay_playViewModel(application: Application) : AndroidViewModel(application
     }
 
     fun setBookedData() {
-        BookedData = bookingService.getAllBookedDATA(selectedDate.value.toString())
+        val d = selectedDate.value
+        val date = d?.year?.plus(1900).toString() + "-" + d?.month?.plus(1) + "-" + d?.date
+        BookedData = bookingService.getAllBookedDATA(date)
     }
 
     fun getSelectedCourtsCount(): MutableLiveData<Int> {

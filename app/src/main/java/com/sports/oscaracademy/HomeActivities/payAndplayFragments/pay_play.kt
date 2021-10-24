@@ -1,20 +1,23 @@
 package com.sports.oscaracademy.HomeActivities.payAndplayFragments
 
+import android.app.Activity
+import android.content.Context
 import android.graphics.Color
 import android.os.Bundle
 import android.util.Log
-import android.view.LayoutInflater
-import android.view.View
+import android.util.TypedValue
+import android.view.*
 import android.view.View.GONE
 import android.view.View.VISIBLE
-import android.view.ViewGroup
 import android.widget.Toast
+import androidx.appcompat.app.AppCompatActivity
+import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.core.content.ContextCompat
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
-import androidx.recyclerview.widget.GridLayoutManager
-import androidx.recyclerview.widget.StaggeredGridLayoutManager
+import androidx.navigation.NavController
+import androidx.navigation.Navigation
 import com.github.jhonnyx2012.horizontalpicker.DatePickerListener
 import com.google.android.material.snackbar.BaseTransientBottomBar
 import com.google.android.material.snackbar.Snackbar
@@ -31,13 +34,13 @@ import org.joda.time.DateTime
 class pay_play : Fragment(), DatePickerListener {
     lateinit var binding: FragmentPayPlayBinding
     val TAG = "PayANDplay"
-    val slot_bs: slotSelector_s_sheet = slotSelector_s_sheet()
-    val checkOutSheet: bookingConfirmation_BS = bookingConfirmation_BS()
-    var court_adapter: CourtListAdapter = CourtListAdapter()
-    val courtID = ArrayList<String>()
-    val totalCourts = 6
-    val stagLayout = StaggeredGridLayoutManager(1, StaggeredGridLayoutManager.VERTICAL)
-    val layoutManager = GridLayoutManager(context, 3)
+    private val slot_bs: slotSelector_s_sheet = slotSelector_s_sheet()
+    private val checkOutSheet: bookingConfirmation_BS = bookingConfirmation_BS()
+    private var court_adapter: CourtListAdapter = CourtListAdapter()
+    private val courtID = ArrayList<String>()
+    private val totalCourts = 6
+    private lateinit var navController: NavController
+    private lateinit var role: String
 
     companion object {
         fun newInstance(): pay_play {
@@ -52,16 +55,31 @@ class pay_play : Fragment(), DatePickerListener {
         model.setSelectedDate(DateTime.now().toLocalDate().toDate())
     }
 
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+
+        navController = Navigation.findNavController(view)
+    }
+
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
         binding = DataBindingUtil.inflate(inflater, R.layout.fragment_pay_play, container, false)
+        context?.apply {
+            val prefs = getSharedPreferences("tokenFile", AppCompatActivity.MODE_PRIVATE)
+            role = prefs.getString("userType", "-1")!!
+        }
         val datePicker = binding.datePicker
         binding.lifecycleOwner = this
         binding.model = model
 
+        (context as AppCompatActivity).setSupportActionBar(binding.toolbar)
+
+        (context as AppCompatActivity).supportActionBar?.setDisplayHomeAsUpEnabled(true)
+
+        binding.topTitleName.text = "PAY AND PLAY"
         datePicker.backgroundColor = Color.BLACK
 
         datePicker.setListener(this)
@@ -89,7 +107,7 @@ class pay_play : Fragment(), DatePickerListener {
             .init()
         datePicker.setDate(DateTime(model.getSelectedDate().value))
 
-        binding.selectedSlotsRCV.layoutManager = layoutManager
+//        binding.selectedSlotsRCV.layoutManager = layoutManager
 
         model.getSelectedSlots().observe(requireActivity(), {
             if (it.size == 0) {
@@ -145,9 +163,10 @@ class pay_play : Fragment(), DatePickerListener {
         })
 
         binding.proceedBtn.setOnClickListener {
-            if (model.getSelectedCourtsCount().value != 0)
-                checkOutSheet.show(parentFragmentManager, "checkOutFragment")
-            else {
+            if (model.getSelectedCourtsCount().value != null) {
+                if (model.getSelectedCourtsCount().value != 0)
+                    checkOutSheet.show(parentFragmentManager, "checkOutFragment")
+            } else {
                 val snackbar =
                     Snackbar.make(
                         requireView(),
@@ -160,7 +179,8 @@ class pay_play : Fragment(), DatePickerListener {
             }
         }
 
-        binding.courtRcv.layoutManager = stagLayout
+
+//        binding.courtRcv.layoutManager = stagLayout
         court_adapter.setData(courtID, model)
         binding.courtRcv.adapter = court_adapter
 
@@ -185,8 +205,22 @@ class pay_play : Fragment(), DatePickerListener {
             }
 
         }
+
+        if (role == "-2") {
+            val c = context
+            (binding.topTitleName.layoutParams as ConstraintLayout.LayoutParams).apply {
+                marginEnd = c?.let {
+                    0.dpToPixels(it)
+                }!!
+            }
+        }
         return binding.root
     }
+
+    fun Int.dpToPixels(context: Context): Int = TypedValue.applyDimension(
+        TypedValue.COMPLEX_UNIT_DIP, this.toFloat(), context.resources.displayMetrics
+    ).toInt()
+
     override fun onDateSelected(dateSelected: DateTime?) {
         if (dateSelected != null) {
             Log.e(TAG, "onDateSelected: ${dateSelected.toLocalDate().toDate()}")
@@ -200,5 +234,36 @@ class pay_play : Fragment(), DatePickerListener {
             }
 
         }
+    }
+
+    override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
+        super.onCreateOptionsMenu(menu, inflater)
+        context?.apply {
+            val prefs = getSharedPreferences("tokenFile", AppCompatActivity.MODE_PRIVATE)
+            role = prefs.getString("userType", "-1")!!
+
+            if (role == "-2")
+                inflater.inflate(R.menu.pay_play_menu, menu)
+        }
+    }
+
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        when (item.itemId) {
+            android.R.id.home -> {
+                if (navController.currentDestination?.id == navController.graph.startDestination) {
+                    (context as Activity).finish()
+                    return true
+                }
+                navController.navigateUp()
+                return true
+            }
+
+            R.id.viewBookings -> {
+                navController.navigate(
+                    R.id.action_pay_play2_to_adminBooking,
+                )
+            }
+        }
+        return super.onOptionsItemSelected(item)
     }
 }
