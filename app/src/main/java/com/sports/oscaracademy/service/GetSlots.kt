@@ -5,7 +5,7 @@ import androidx.lifecycle.MutableLiveData
 import com.google.firebase.database.FirebaseDatabase
 import com.sports.oscaracademy.data.SlotsData
 
-class getSlots {
+class GetSlots {
     var dataList: MutableLiveData<ArrayList<SlotsData>> = MutableLiveData()
 
     fun getData(): MutableLiveData<ArrayList<SlotsData>> {

@@ -17,6 +17,7 @@ import com.sports.oscaracademy.data.BookedDATA
 import com.sports.oscaracademy.data.BookingData
 import com.sports.oscaracademy.data.SlotsData
 import com.sports.oscaracademy.data.bookedUnitData
+import java.text.DecimalFormat
 import java.text.SimpleDateFormat
 import java.util.*
 import kotlin.collections.ArrayList
@@ -53,7 +54,10 @@ class BookingService {
         data["referenceID"] = randomKey.toString()
 
         val d = selectedDate.value
-        val date = d?.year?.plus(1900).toString() + "-" + d?.month?.plus(1) + "-" + d?.date
+        val formatter = DecimalFormat("00")
+        val mon: String = formatter.format(d?.month?.plus(1)?.toLong())
+        val day: String = formatter.format(d?.date?.toLong())
+        val date = d?.year?.plus(1900).toString() + "-" + mon + "-" + day
 //        val date = tempDateFormat
         selectedslots.value?.forEach {
             val tempList = bookingData.value!!.courtID?.get(it.slotID)
@@ -81,7 +85,6 @@ class BookingService {
 
             db.set(data, SetOptions.merge()).addOnSuccessListener {
                 Log.e("TAG", "BookCourt: Booking Successfully")
-
                 saveRefference(
                     date.toString(),
                     randomKey.toString(),
@@ -112,6 +115,8 @@ class BookingService {
         referenceData["referenceID"] = referenceKey
         referenceData["otp"] = otp
         referenceData["userID"] = bookingData.value!!.userID
+        referenceData["name"] = bookingData.value!!.name.toString()
+        referenceData["PhoneNumber"] = bookingData.value!!.phoneNumber.toString()
         Log.e(TAG, "safeReference: $selectedDate")
 
         bookingData.value!!.courtID?.forEach {
@@ -123,12 +128,12 @@ class BookingService {
                     .updateChildren(referenceData)
             }
             progress.visibility = View.GONE
-            Toast.makeText(
-                progress.context,
-                "Congrats Your Booking is Successfully Accepted",
-                Toast.LENGTH_SHORT
-            ).show()
         }
+        Toast.makeText(
+            progress.context,
+            "Congrats Your Booking is Successfully Accepted",
+            Toast.LENGTH_SHORT
+        ).show()
     }
 
     fun getTotalCount(): MutableLiveData<String> {

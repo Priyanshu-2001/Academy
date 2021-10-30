@@ -1,16 +1,19 @@
 package com.sports.oscaracademy.HomeActivities.payAndplayFragments
 
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
+import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
+import androidx.recyclerview.widget.LinearLayoutManager
 import com.prolificinteractive.materialcalendarview.CalendarDay
 import com.sports.oscaracademy.R
+import com.sports.oscaracademy.adapters.AdminBookingList.outerSlotAdapter
 import com.sports.oscaracademy.databinding.FragmentBookingDetailsBinding
+import com.sports.oscaracademy.service.GetSlots
 import com.sports.oscaracademy.viewModel.AdminBookingFactory
 import com.sports.oscaracademy.viewModel.AdminBookingListViewModel
 
@@ -30,8 +33,13 @@ class BookingDetailsViewer : Fragment() {
             AdminBookingListViewModel::class.java
         )
 
-        viewModel.getAdminBookingList().observe(viewLifecycleOwner, {
-            Log.e(TAG, "onCreateView: $it")
+        viewModel.getAdminBookingList().observe(viewLifecycleOwner, { data ->
+            binding.slots.layoutManager =
+                LinearLayoutManager(context, LinearLayoutManager.VERTICAL, false)
+            GetSlots().getData().observe(viewLifecycleOwner, Observer {
+                binding.slots.adapter = outerSlotAdapter(data, it)
+            })
+
         })
         return binding.root
     }

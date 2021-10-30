@@ -1,5 +1,6 @@
 package com.sports.oscaracademy.service
 
+import android.util.Log
 import androidx.lifecycle.MutableLiveData
 import com.google.firebase.database.FirebaseDatabase
 import com.sports.oscaracademy.data.AdminBookedSlotsData
@@ -34,6 +35,7 @@ class AdminBookingServices {
                     }!!)
                 }
                 val temp = AdminBookedSlotsData(SlotList, slotsData)
+                Log.e(TAG, "getAllBookedSlots: $temp $date")
                 fullData.postValue(temp)
             }
         return fullData

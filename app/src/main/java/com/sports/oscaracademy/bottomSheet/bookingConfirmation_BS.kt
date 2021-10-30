@@ -66,6 +66,11 @@ class bookingConfirmation_BS : BottomSheetDialogFragment() {
                     if (!name.text.isNullOrEmpty()) {
                         if (!email.text.isNullOrEmpty()) {
                             progress.visibility = View.VISIBLE
+                            model.setCurrentBookingUserDetails(
+                                phoneNumber.text.toString(),
+                                name.text.toString(),
+                                email.text.toString()
+                            )
                             dialogs().bookingT_C(
                                 context,
                                 model,

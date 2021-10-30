@@ -9,10 +9,15 @@ data class SingleSlotData(
     val slotID: String,
     val courtBooked: List<String>, // list of booked court id
     val courtData: ArrayList<SingleCourtBookingData?> //list of data of booked Court
-)
+) {
+    var isExpanded = false
+}
+
 
 data class SingleCourtBookingData(
     val otp: Long? = null,
     val referenceID: String? = "",
-    val userID: String? = ""
+    val userID: String? = "",
+    val PhoneNumber: String? = "",
+    val name: String? = ""
 )

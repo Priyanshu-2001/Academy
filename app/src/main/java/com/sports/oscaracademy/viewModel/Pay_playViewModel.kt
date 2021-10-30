@@ -14,7 +14,7 @@ import com.sports.oscaracademy.data.BookedDATA
 import com.sports.oscaracademy.data.BookingData
 import com.sports.oscaracademy.data.SlotsData
 import com.sports.oscaracademy.service.BookingService
-import com.sports.oscaracademy.service.getSlots
+import com.sports.oscaracademy.service.GetSlots
 import java.util.*
 import kotlin.collections.ArrayList
 import kotlin.collections.HashMap
@@ -34,6 +34,9 @@ class Pay_playViewModel(application: Application) : AndroidViewModel(application
     private var minCourtAvailableList = MutableLiveData<HashMap<String, Long>>()
     private var currentCourtPrice = 350
     private val remoteConfig = (application as MyApplication).remoteConfig
+    private var name = String()
+    private var email = String()
+    private var phoneNumber = String()
 
     fun getBookedData(): MutableLiveData<ArrayList<BookedDATA>> {
         return BookedData
@@ -92,7 +95,7 @@ class Pay_playViewModel(application: Application) : AndroidViewModel(application
     }
 
     fun setTotalSlots() {
-        totalslots = getSlots().getData()
+        totalslots = GetSlots().getData()
 
     }
 
@@ -109,9 +112,9 @@ class Pay_playViewModel(application: Application) : AndroidViewModel(application
             FirebaseAuth.getInstance().currentUser?.email?.let { it1 ->
                 FirebaseAuth.getInstance().currentUser?.phoneNumber?.let { it2 ->
                     BookingData(
-                        FirebaseAuth.getInstance().currentUser?.displayName,
+                        name,
                         it.uid,
-                        it2,
+                        phoneNumber,
                         it1,
                         getCourtDataForBooking() //todo here the Arraylist of courtID and slotID is provided
                     )
@@ -172,6 +175,12 @@ class Pay_playViewModel(application: Application) : AndroidViewModel(application
 
     fun getSingleCourtPrice(): Int {
         return currentCourtPrice
+    }
+
+    fun setCurrentBookingUserDetails(text: String, text1: String, text2: String) {
+        name = text1
+        phoneNumber = text
+        email = text2
     }
 
 
