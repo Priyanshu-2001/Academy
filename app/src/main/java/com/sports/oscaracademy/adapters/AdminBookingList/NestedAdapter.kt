@@ -29,7 +29,7 @@ class NestedAdapter(private val singleSlotData: SingleSlotData) :
     override fun onBindViewHolder(holder: viewHolder, position: Int) {
         holder.binding.otp.text = singleSlotData.courtData[position]?.otp.toString()
         holder.binding.bookName.text = singleSlotData.courtData[position]?.name.toString()
-        holder.binding.RefferenceID.text =
+        holder.binding.phoneNumber.text =
             singleSlotData.courtData[position]?.PhoneNumber.toString()
     }
 

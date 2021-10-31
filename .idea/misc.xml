@@ -11,6 +11,7 @@
         <entry key="..\:/OscarAcademy/app/src/main/res/drawable/calederb.xml" value="0.23692307692307693" />
         <entry key="..\:/OscarAcademy/app/src/main/res/drawable/circle.xml" value="0.15260416666666668" />
         <entry key="..\:/OscarAcademy/app/src/main/res/drawable/circle_green.xml" value="0.23703703703703705" />
+        <entry key="..\:/OscarAcademy/app/src/main/res/drawable/delete_btn.xml" value="0.176" />
         <entry key="..\:/OscarAcademy/app/src/main/res/drawable/edit_text_bg.xml" value="0.2351851851851852" />
         <entry key="..\:/OscarAcademy/app/src/main/res/drawable/fab_bg.xml" value="0.236986301369863" />
         <entry key="..\:/OscarAcademy/app/src/main/res/drawable/fab_btn.xml" value="0.236986301369863" />
@@ -57,7 +58,7 @@
         <entry key="..\:/OscarAcademy/app/src/main/res/layout/news_feeds.xml" value="0.136" />
         <entry key="..\:/OscarAcademy/app/src/main/res/layout/otp_verification_bottom_sheet.xml" value="0.17037037037037037" />
         <entry key="..\:/OscarAcademy/app/src/main/res/layout/profile_activity.xml" value="0.17760416666666667" />
-        <entry key="..\:/OscarAcademy/app/src/main/res/layout/single_admin_booked_list_nested.xml" value="0.24615384615384617" />
+        <entry key="..\:/OscarAcademy/app/src/main/res/layout/single_admin_booked_list_nested.xml" value="0.264" />
         <entry key="..\:/OscarAcademy/app/src/main/res/layout/single_admin_slolts.xml" value="0.264" />
         <entry key="..\:/OscarAcademy/app/src/main/res/layout/single_attend_marker_rcv.xml" value="0.176" />
         <entry key="..\:/OscarAcademy/app/src/main/res/layout/single_chat_profile.xml" value="0.264" />

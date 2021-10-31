@@ -12,51 +12,57 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_margin="8dp"
-        app:cardElevation="1dp">
+        android:background="@color/black"
+        android:padding="5dp"
+        app:cardCornerRadius="20dp">
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
-            android:layout_height="match_parent">
+            android:layout_height="match_parent"
+            android:background="@drawable/text_field_1"
+            android:padding="10dp">
 
             <TextView
                 android:id="@+id/bookName"
                 android:layout_width="100dp"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
-                android:textColor="#8c8c8c"
+                android:layout_marginStart="5dp"
                 android:textSize="16sp"
                 android:textStyle="bold"
+                android:textColor="@color/DarkModeBlack"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
-                tools:text="SlotsBooked" />
+                tools:text="Name" />
 
             <TextView
                 android:id="@+id/otp"
                 android:layout_width="100dp"
                 android:layout_height="wrap_content"
-                android:layout_gravity="center"
-                android:textColor="#8c8c8c"
+                android:layout_marginEnd="5dp"
                 android:textSize="16sp"
+                android:textAlignment="textEnd"
                 android:textStyle="bold"
+                android:textColor="@color/present_spam"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
-                tools:text="SlotsBooked" />
+                tools:text="OTP" />
 
             <TextView
-                android:id="@+id/RefferenceID"
+                android:id="@+id/phoneNumber"
                 android:layout_width="100dp"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
-                android:textColor="#8c8c8c"
+                android:textColor="@color/black"
                 android:textSize="16sp"
                 android:textStyle="bold"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toStartOf="@+id/otp"
                 app:layout_constraintStart_toEndOf="@+id/bookName"
                 app:layout_constraintTop_toTopOf="parent"
-                tools:text="SlotsBooked" />
+                tools:text="Mobile" />
         </androidx.constraintlayout.widget.ConstraintLayout>
 
     </androidx.cardview.widget.CardView>
