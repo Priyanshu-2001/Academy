@@ -2,12 +2,16 @@ package com.sports.oscaracademy.HomeActivities.payAndplayFragments
 
 import android.os.Bundle
 import android.view.LayoutInflater
+import android.view.MenuItem
 import android.view.View
 import android.view.ViewGroup
+import androidx.appcompat.app.AppCompatActivity
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
+import androidx.navigation.NavController
+import androidx.navigation.Navigation
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.prolificinteractive.materialcalendarview.CalendarDay
 import com.sports.oscaracademy.R
@@ -20,6 +24,8 @@ import com.sports.oscaracademy.viewModel.AdminBookingListViewModel
 class BookingDetailsViewer : Fragment() {
     lateinit var binding: FragmentBookingDetailsBinding
     val TAG = "BookingDetailsFragment"
+    private lateinit var navController: NavController
+
     lateinit var viewModel: AdminBookingListViewModel
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -33,6 +39,9 @@ class BookingDetailsViewer : Fragment() {
             AdminBookingListViewModel::class.java
         )
 
+        (context as AppCompatActivity).setSupportActionBar(binding.materialToolbar)
+        (context as AppCompatActivity).supportActionBar?.setDisplayHomeAsUpEnabled(true)
+
         viewModel.getAdminBookingList().observe(viewLifecycleOwner, { data ->
             binding.slots.layoutManager =
                 LinearLayoutManager(context, LinearLayoutManager.VERTICAL, false)
@@ -42,5 +51,20 @@ class BookingDetailsViewer : Fragment() {
 
         })
         return binding.root
+    }
+
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+        navController = Navigation.findNavController(view)
+    }
+
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        when (item.itemId) {
+            android.R.id.home -> {
+                navController.navigateUp()
+                return true
+            }
+        }
+        return super.onOptionsItemSelected(item)
     }
 }
