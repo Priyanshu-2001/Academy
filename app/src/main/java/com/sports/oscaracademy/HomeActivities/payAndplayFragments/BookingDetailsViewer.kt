@@ -13,6 +13,8 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.NavController
 import androidx.navigation.Navigation
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.github.ybq.android.spinkit.sprite.Sprite
+import com.github.ybq.android.spinkit.style.WanderingCubes
 import com.prolificinteractive.materialcalendarview.CalendarDay
 import com.sports.oscaracademy.R
 import com.sports.oscaracademy.adapters.AdminBookingList.outerSlotAdapter
@@ -39,6 +41,9 @@ class BookingDetailsViewer : Fragment() {
             AdminBookingListViewModel::class.java
         )
 
+        val doubleBounce: Sprite = WanderingCubes()
+        binding.progress.setIndeterminateDrawable(doubleBounce)
+        binding.progress.visibility = View.VISIBLE
         (context as AppCompatActivity).setSupportActionBar(binding.materialToolbar)
         (context as AppCompatActivity).supportActionBar?.setDisplayHomeAsUpEnabled(true)
 
@@ -47,6 +52,7 @@ class BookingDetailsViewer : Fragment() {
                 LinearLayoutManager(context, LinearLayoutManager.VERTICAL, false)
             GetSlots().getData().observe(viewLifecycleOwner, Observer {
                 binding.slots.adapter = outerSlotAdapter(data, it)
+                binding.progress.visibility = View.GONE
             })
 
         })

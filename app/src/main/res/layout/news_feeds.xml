@@ -28,7 +28,7 @@
             android:layout_height="40dp"
             android:layout_gravity="center"
             android:visibility="gone"
-            app:SpinKit_Color="@color/colorPrimaryDarker"
+            app:SpinKit_Color="@color/app.compat.light"
             app:layout_constraintBottom_toBottomOf="@+id/recyclerView"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.5"

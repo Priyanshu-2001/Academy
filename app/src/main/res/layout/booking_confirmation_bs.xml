@@ -21,7 +21,7 @@
             android:layout_gravity="center"
             android:elevation="100dp"
             android:visibility="gone"
-            app:SpinKit_Color="@color/colorPrimaryDarker"
+            app:SpinKit_Color="@color/app.compat.light"
             app:layout_constraintBottom_toTopOf="@+id/textView"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
