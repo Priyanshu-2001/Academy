@@ -17,7 +17,7 @@
             android:name=".HomeActivities.payAndPlay"
             android:exported="false" />
         <activity
-            android:name=".chat_feature.chat_activty"
+            android:name=".chat_feature.chat_activity"
             android:exported="true" />
         <activity
             android:name=".HomeActivities.news_feeds"

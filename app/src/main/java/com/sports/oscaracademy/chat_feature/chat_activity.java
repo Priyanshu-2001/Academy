@@ -48,7 +48,7 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 
-public class chat_activty extends AppCompatActivity {
+public class chat_activity extends AppCompatActivity {
     ActivityChatActivtyBinding binding;
     FirebaseDatabase database = FirebaseDatabase.getInstance();
     chatMessageAdapter adapter;
@@ -89,7 +89,7 @@ public class chat_activty extends AppCompatActivity {
                         Log.e("TAG", "onComplete: token" + receiverToken);
                     }
                 });
-
+        binding.sendBtn.setEnabled(false);
         Sprite doubleBounce = new WanderingCubes();
         binding.progress.setIndeterminateDrawable(doubleBounce);
         binding.progress.setVisibility(View.VISIBLE);
@@ -277,7 +277,7 @@ public class chat_activty extends AppCompatActivity {
             }, new Response.ErrorListener() {
                 @Override
                 public void onErrorResponse(VolleyError error) {
-                    Toast.makeText(chat_activty.this, error.getLocalizedMessage(), Toast.LENGTH_SHORT).show();
+                    Toast.makeText(chat_activity.this, error.getLocalizedMessage(), Toast.LENGTH_SHORT).show();
                 }
             }) {
                 @Override

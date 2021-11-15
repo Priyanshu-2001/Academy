@@ -13,7 +13,7 @@ import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
-import com.sports.oscaracademy.chat_feature.chat_activty;
+import com.sports.oscaracademy.chat_feature.chat_activity;
 import com.sports.oscaracademy.data.Studentdata;
 import com.sports.oscaracademy.databinding.SingleChatProfileBinding;
 
@@ -56,7 +56,7 @@ public class chat_profile_adapter extends RecyclerView.Adapter<chat_profile_adap
             holder.itemView.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    Intent intent = new Intent(context, chat_activty.class);
+                    Intent intent = new Intent(context, chat_activity.class);
                     intent.putExtra("name", studentList.get(currentPos).getName());
                     intent.putExtra("uid", studentList.get(currentPos).getUserId());
 //                intent.putExtra("token", studentList.get(position).getToken());
@@ -73,7 +73,7 @@ public class chat_profile_adapter extends RecyclerView.Adapter<chat_profile_adap
                 holder.itemView.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
-                        Intent intent = new Intent(context, chat_activty.class);
+                        Intent intent = new Intent(context, chat_activity.class);
                         intent.putExtra("name", adminData.get(currentPos).getName());
                         intent.putExtra("uid", adminData.get(currentPos).getUserId());
                         context.startActivity(intent);
@@ -88,7 +88,7 @@ public class chat_profile_adapter extends RecyclerView.Adapter<chat_profile_adap
                 holder.itemView.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
-                        Intent intent = new Intent(context, chat_activty.class);
+                        Intent intent = new Intent(context, chat_activity.class);
                         intent.putExtra("name", coachData.get(currentPos - adminData.size()).getName());
                         intent.putExtra("uid", coachData.get(currentPos - adminData.size()).getUserId());
                         context.startActivity(intent);

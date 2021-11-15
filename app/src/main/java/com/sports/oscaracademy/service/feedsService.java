@@ -56,7 +56,7 @@ public class feedsService {
             }, new Response.ErrorListener() {
                 @Override
                 public void onErrorResponse(VolleyError error) {
-//                    Toast.makeText(chat_activty.this, error.getLocalizedMessage(), Toast.LENGTH_SHORT).show();
+//                    Toast.makeText(chat_activity.this, error.getLocalizedMessage(), Toast.LENGTH_SHORT).show();
                 }
             }) {
                 @Override

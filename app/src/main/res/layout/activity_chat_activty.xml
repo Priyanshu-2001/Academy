@@ -11,13 +11,13 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:background="@drawable/app_back"
-        tools:context=".chat_feature.chat_activty">
+        tools:context=".chat_feature.chat_activity">
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:background="#A10C0808"
-            tools:context=".chat_feature.chat_activty">
+            tools:context=".chat_feature.chat_activity">
 
             <include
                 android:id="@+id/toolbar"
