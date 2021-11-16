@@ -14,6 +14,18 @@
         android:background="@drawable/app_back"
         tools:context=".HomeActivities.payAndPlay">
 
+        <com.github.ybq.android.spinkit.SpinKitView
+            android:id="@+id/progress"
+            style="@style/SpinKitView.Large.Circle"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:visibility="gone"
+            app:SpinKit_Color="@color/app.compat.light"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
         <androidx.fragment.app.FragmentContainerView
             android:id="@+id/fragmentHolder"
             android:name="androidx.navigation.fragment.NavHostFragment"

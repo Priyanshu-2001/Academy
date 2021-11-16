@@ -51,7 +51,7 @@
             <androidx.constraintlayout.widget.ConstraintLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                tools:context=".HomeActivities.payAndplayFragments.AdminBooking">
+                tools:context=".HomeActivities.payAndPlayFragments.AdminBooking">
 
                 <com.prolificinteractive.materialcalendarview.MaterialCalendarView
                     android:id="@+id/calendarView"

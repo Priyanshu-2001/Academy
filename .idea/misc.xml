@@ -16,6 +16,7 @@
         <entry key="..\:/OscarAcademy/app/src/main/res/drawable/fab_bg.xml" value="0.236986301369863" />
         <entry key="..\:/OscarAcademy/app/src/main/res/drawable/fab_btn.xml" value="0.236986301369863" />
         <entry key="..\:/OscarAcademy/app/src/main/res/drawable/header_bg.xml" value="0.136" />
+        <entry key="..\:/OscarAcademy/app/src/main/res/drawable/home.xml" value="0.26205128205128203" />
         <entry key="..\:/OscarAcademy/app/src/main/res/drawable/ic_baseline_add_24.xml" value="0.236986301369863" />
         <entry key="..\:/OscarAcademy/app/src/main/res/drawable/ic_send.xml" value="0.23703703703703705" />
         <entry key="..\:/OscarAcademy/app/src/main/res/drawable/opt_send_btn.xml" value="0.2351851851851852" />
@@ -28,12 +29,13 @@
         <entry key="..\:/OscarAcademy/app/src/main/res/layout-v26/single_attend_marker_rcv.xml" value="0.16799999999999998" />
         <entry key="..\:/OscarAcademy/app/src/main/res/layout/activity_admin_attendance.xml" value="0.2" />
         <entry key="..\:/OscarAcademy/app/src/main/res/layout/activity_attendance.xml" value="0.19814814814814816" />
+        <entry key="..\:/OscarAcademy/app/src/main/res/layout/activity_booking_succes.xml" value="0.264" />
         <entry key="..\:/OscarAcademy/app/src/main/res/layout/activity_chat_activty.xml" value="0.176" />
         <entry key="..\:/OscarAcademy/app/src/main/res/layout/activity_dashboard.xml" value="0.128" />
         <entry key="..\:/OscarAcademy/app/src/main/res/layout/activity_email_verification.xml" value="0.1925925925925926" />
         <entry key="..\:/OscarAcademy/app/src/main/res/layout/activity_login.xml" value="0.264" />
         <entry key="..\:/OscarAcademy/app/src/main/res/layout/activity_main.xml" value="0.17760416666666667" />
-        <entry key="..\:/OscarAcademy/app/src/main/res/layout/activity_pay_and_play.xml" value="0.2" />
+        <entry key="..\:/OscarAcademy/app/src/main/res/layout/activity_pay_and_play.xml" value="0.152" />
         <entry key="..\:/OscarAcademy/app/src/main/res/layout/activity_sign_up.xml" value="0.264" />
         <entry key="..\:/OscarAcademy/app/src/main/res/layout/activity_students.xml" value="0.176" />
         <entry key="..\:/OscarAcademy/app/src/main/res/layout/activity_upcoming_tournament.xml" value="0.264" />

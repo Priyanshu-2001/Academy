@@ -9,6 +9,6 @@ class MyApplication : Application() {
 
     override fun onCreate() {
         super.onCreate()
-        remoteConfig = RemoteConfigHelper.getInstance(applicationContext)
+        remoteConfig = RemoteConfigHelper.getInstance()
     }
 }

@@ -2,22 +2,32 @@ package com.sports.oscaracademy.HomeActivities
 
 import android.content.SharedPreferences
 import android.os.Bundle
+import android.util.Log
 import android.view.Menu
 import android.view.MenuItem
 import androidx.appcompat.app.AppCompatActivity
 import androidx.databinding.DataBindingUtil
+import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.NavController
 import androidx.navigation.fragment.NavHostFragment
+import com.github.ybq.android.spinkit.SpinKitView
+import com.github.ybq.android.spinkit.sprite.Sprite
+import com.github.ybq.android.spinkit.style.WanderingCubes
+import com.razorpay.Checkout
+import com.razorpay.PaymentResultListener
 import com.sports.oscaracademy.R
 import com.sports.oscaracademy.databinding.ActivityPayAndPlayBinding
+import com.sports.oscaracademy.viewModel.Pay_playViewModel
 
 
-class payAndPlay : AppCompatActivity() {
+class payAndPlay : AppCompatActivity(), PaymentResultListener {
 
     lateinit var role: String
     lateinit var binding: ActivityPayAndPlayBinding
     private lateinit var navController: NavController
     private lateinit var prefs: SharedPreferences
+    private lateinit var model: Pay_playViewModel
+    lateinit var progressBar: SpinKitView
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -26,10 +36,15 @@ class payAndPlay : AppCompatActivity() {
 
         val navHostFragment =
             supportFragmentManager.findFragmentById(R.id.fragmentHolder) as NavHostFragment
+        model = ViewModelProvider(this).get(Pay_playViewModel::class.java)
+        Checkout.preload(this)
+
+        progressBar = binding.progress
+        val doubleBounce: Sprite = WanderingCubes()
+        progressBar.setIndeterminateDrawable(doubleBounce)
         navController = navHostFragment.navController
         prefs = getSharedPreferences("tokenFile", MODE_PRIVATE)
         role = prefs.getString("userType", "-1")!!
-
     }
 
 
@@ -37,7 +52,7 @@ class payAndPlay : AppCompatActivity() {
         val prefs = getSharedPreferences("tokenFile", MODE_PRIVATE)
         role = prefs.getString("userType", "-1")!!
 
-        if (role == "-2" && navController.currentDestination?.id == navController.graph.startDestination)
+        if (role == "-2" && navController.currentDestination?.id == navController.graph.startDestinationId)
             menuInflater.inflate(R.menu.pay_play_menu, menu)
         return super.onCreateOptionsMenu(menu)
 
@@ -47,7 +62,7 @@ class payAndPlay : AppCompatActivity() {
 
         when (item.itemId) {
             android.R.id.home -> {
-                if (navController.currentDestination?.id == navController.graph.startDestination) {
+                if (navController.currentDestination?.id == navController.graph.startDestinationId) {
                     finish()
                     return true
                 }
@@ -62,6 +77,14 @@ class payAndPlay : AppCompatActivity() {
             }
         }
         return super.onOptionsItemSelected(item)
+    }
+
+    override fun onPaymentSuccess(p0: String?) {
+        model.payFees(binding.root.rootView, progressBar)
+    }
+
+    override fun onPaymentError(p0: Int, p1: String?) {
+        Log.e("TAG", "onPaymentError: $p1")
     }
 
 }

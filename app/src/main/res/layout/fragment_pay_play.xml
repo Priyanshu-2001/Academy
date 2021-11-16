@@ -17,7 +17,7 @@
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            tools:context=".HomeActivities.payAndplayFragments.pay_play">
+            tools:context=".HomeActivities.payAndPlayFragments.pay_play">
 
             <androidx.appcompat.widget.Toolbar
                 android:id="@+id/toolbar"

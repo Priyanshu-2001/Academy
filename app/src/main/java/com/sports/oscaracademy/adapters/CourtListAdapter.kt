@@ -37,14 +37,14 @@ class CourtListAdapter :
         val pos = position + 1
         holder.binding.courtName.text = "Wooden Badminton Court $pos"
         holder.binding.checkBox.isChecked = false
-        holder.binding.checkBox.setOnCheckedChangeListener { button, b ->
+        holder.binding.checkBox.setOnCheckedChangeListener { _, b ->
             if (b) {
                 Log.e("TAG", "BookCourt: courtID chaanged " + b + " " + courtId.get(position))
                 selectedCourtCount++
                 Log.e("TAG", "BookCourt: courtID changed " + model.getSelectedCourtsCount().value)
             } else {
                 selectedCourtCount--
-                Log.e("TAG", "BookCourt: courtID chaanged " + b)
+                Log.e("TAG", "BookCourt: courtID chaanged $b")
             }
             Log.e("selectedCourtCount ", "onBindViewHolder: $selectedCourtCount")
             model.setSelectedCourtCount(selectedCourtCount)

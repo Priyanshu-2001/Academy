@@ -22,21 +22,21 @@ class outerSlotAdapter(
         var bind: SingleAdminSloltsBinding = itemView
 
         fun clickHandle(BookedSlotsData: AdminBookedSlotsData) {
-            val adapter = NestedAdapter(BookedSlotsData.singleSlotsData[position])
+            val adapter = NestedAdapter(BookedSlotsData.singleSlotsData[adapterPosition])
             bind.childRv.layoutManager = LinearLayoutManager(itemView.context)
             bind.childRv.setHasFixedSize(true)
             bind.childRv.adapter = adapter
             adapter.notifyItemChanged(adapterPosition)
 
 
-            if (BookedSlotsData.singleSlotsData[position].isExpanded) {
+            if (BookedSlotsData.singleSlotsData[adapterPosition].isExpanded) {
                 bind.expandableLayout.visibility = GONE
             } else {
                 bind.expandableLayout.visibility = VISIBLE
             }
 
-            BookedSlotsData.singleSlotsData[position].isExpanded =
-                !BookedSlotsData.singleSlotsData[position].isExpanded
+            BookedSlotsData.singleSlotsData[adapterPosition].isExpanded =
+                !BookedSlotsData.singleSlotsData[adapterPosition].isExpanded
         }
     }
 

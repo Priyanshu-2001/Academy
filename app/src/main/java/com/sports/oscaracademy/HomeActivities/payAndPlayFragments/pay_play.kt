@@ -1,4 +1,4 @@
-package com.sports.oscaracademy.HomeActivities.payAndplayFragments
+package com.sports.oscaracademy.HomeActivities.payAndPlayFragments
 
 import android.app.Activity
 import android.content.Context
@@ -250,7 +250,7 @@ class pay_play : Fragment(), DatePickerListener {
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         when (item.itemId) {
             android.R.id.home -> {
-                if (navController.currentDestination?.id == navController.graph.startDestination) {
+                if (navController.currentDestination?.id == navController.graph.startDestinationId) {
                     (context as Activity).finish()
                     return true
                 }

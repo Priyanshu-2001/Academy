@@ -3,25 +3,33 @@
     package="com.sports.oscaracademy">
 
     <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.READ_SMS" />
     <uses-permission android:name="android.permission.GET_TASKS" />
 
+    <queries>
+        <package android:name="com.google.android.apps.nbu.paisa.user" />
+    </queries>
+
     <application
+        android:name=".Application.MyApplication"
         android:allowBackup="true"
         android:icon="@drawable/app_icon_main"
         android:label="@string/app_name"
-        android:name=".Application.MyApplication"
         android:roundIcon="@mipmap/transparent_black"
         android:supportsRtl="true"
         android:theme="@style/Theme.OscarAcademy">
+        <activity
+            android:name=".HomeActivities.payAndPlayFragments.BookingSuccessActivity"
+            android:exported="false" />
         <activity
             android:name=".HomeActivities.payAndPlay"
             android:exported="false" />
         <activity
             android:name=".chat_feature.chat_activity"
-            android:exported="true" />
+            android:exported="false" />
         <activity
             android:name=".HomeActivities.news_feeds"
-            android:exported="true"
+            android:exported="false"
             android:parentActivityName=".Dashboard">
             <intent-filter>
                 <action android:name="feed" />
@@ -29,17 +37,31 @@
                 <category android:name="android.intent.category.DEFAULT" />
             </intent-filter>
         </activity>
-        <activity android:name=".drawerFragments.profileActivity" />
-        <activity android:name=".HomeActivities.Students" />
-        <activity android:name=".HomeActivities.admin_attendance" />
-        <activity android:name=".HomeActivities.attendance" />
-        <activity android:name=".EmailVerification" />
-        <activity android:name=".signUpActivity" />
+        <activity
+            android:name=".drawerFragments.profileActivity"
+            android:exported="false" />
+        <activity
+            android:name=".HomeActivities.Students"
+            android:exported="false" />
+        <activity
+            android:name=".HomeActivities.admin_attendance"
+            android:exported="false" />
+        <activity
+            android:name=".HomeActivities.attendance"
+            android:exported="false" />
+        <activity
+            android:name=".EmailVerification"
+            android:exported="false" />
+        <activity
+            android:name=".signUpActivity"
+            android:exported="false" />
         <activity
             android:name=".Dashboard"
+            android:exported="false"
             android:theme="@style/NoActionBar" />
         <activity
             android:name=".LoginActivity"
+            android:exported="false"
             android:theme="@style/NoActionBar" />
         <activity
             android:name=".MainActivity"
@@ -54,6 +76,7 @@
 
         <meta-data
             android:name="com.google.firebase.messaging.default_notification_icon"
+            android:exported="false"
             android:resource="@drawable/ic_send" />
         <!--
  Set color used with incoming notification messages. This is used when no color is set for the incoming
@@ -64,6 +87,7 @@
         <!-- android:resource="@color/colorPrimary" /> -->
         <meta-data
             android:name="preloaded_fonts"
+            android:exported="false"
             android:resource="@array/preloaded_fonts" />
 
         <service

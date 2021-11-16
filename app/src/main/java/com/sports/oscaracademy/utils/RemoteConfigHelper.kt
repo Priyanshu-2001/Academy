@@ -1,6 +1,5 @@
 package com.sports.oscaracademy.utils
 
-import android.content.Context
 import android.util.Log
 import com.google.firebase.ktx.Firebase
 import com.google.firebase.remoteconfig.FirebaseRemoteConfig
@@ -15,7 +14,7 @@ abstract class RemoteConfigHelper {
             PRICE to 350
         )
         var INSTANCE: FirebaseRemoteConfig? = null
-        fun getInstance(context: Context): FirebaseRemoteConfig {
+        fun getInstance(): FirebaseRemoteConfig {
             if (INSTANCE == null) {
                 synchronized(this) {
                     INSTANCE = Firebase.remoteConfig

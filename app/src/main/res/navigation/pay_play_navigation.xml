@@ -6,7 +6,7 @@
     app:startDestination="@id/pay_play2">
     <fragment
         android:id="@+id/pay_play2"
-        android:name="com.sports.oscaracademy.HomeActivities.payAndplayFragments.pay_play"
+        android:name="com.sports.oscaracademy.HomeActivities.payAndPlayFragments.pay_play"
         android:label="pay_play">
         <action
             android:id="@+id/action_pay_play2_to_adminBooking"
@@ -19,7 +19,7 @@
     </fragment>
     <fragment
         android:id="@+id/adminBooking"
-        android:name="com.sports.oscaracademy.HomeActivities.payAndplayFragments.AdminBooking"
+        android:name="com.sports.oscaracademy.HomeActivities.payAndPlayFragments.AdminBooking"
         android:label="AdminBooking">
         <action
             android:id="@+id/action_adminBooking_to_bookingDetails"
@@ -35,7 +35,7 @@
     </fragment>
     <fragment
         android:id="@+id/bookingDetails"
-        android:name="com.sports.oscaracademy.HomeActivities.payAndplayFragments.BookingDetailsViewer"
+        android:name="com.sports.oscaracademy.HomeActivities.payAndPlayFragments.BookingDetailsViewer"
         android:label="fragment_booking_details"
         tools:layout="@layout/fragment_booking_details" />
 </navigation>

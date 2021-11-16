@@ -1,4 +1,4 @@
-package com.sports.oscaracademy.HomeActivities.payAndplayFragments
+package com.sports.oscaracademy.HomeActivities.payAndPlayFragments
 
 import android.os.Bundle
 import android.view.LayoutInflater

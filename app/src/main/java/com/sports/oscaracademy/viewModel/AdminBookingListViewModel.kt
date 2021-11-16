@@ -23,7 +23,7 @@ class AdminBookingListViewModel(val date: String) : ViewModel() {
 }
 
 class AdminBookingFactory(private val date: String) : ViewModelProvider.Factory {
-    override fun <T : ViewModel?> create(modelClass: Class<T>): T {
+    override fun <T : ViewModel> create(modelClass: Class<T>): T {
         if (modelClass.isAssignableFrom(AdminBookingListViewModel::class.java)) {
             return AdminBookingListViewModel(date) as T
         }
