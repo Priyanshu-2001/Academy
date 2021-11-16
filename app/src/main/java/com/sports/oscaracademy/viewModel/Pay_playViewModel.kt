@@ -1,6 +1,7 @@
 package com.sports.oscaracademy.viewModel
 
 import android.app.Application
+import android.content.Context.MODE_PRIVATE
 import android.util.Log
 import android.view.View
 import androidx.lifecycle.AndroidViewModel
@@ -19,7 +20,7 @@ import java.util.*
 import kotlin.collections.ArrayList
 import kotlin.collections.HashMap
 
-class Pay_playViewModel(application: Application) : AndroidViewModel(application) {
+class Pay_playViewModel(val app: Application) : AndroidViewModel(app) {
 
     val TAG = "PAY_PLAY_VIEW_MODEL"
 
@@ -33,7 +34,7 @@ class Pay_playViewModel(application: Application) : AndroidViewModel(application
     private var totalCourts = MutableLiveData<String>()
     private var minCourtAvailableList = MutableLiveData<HashMap<String, Long>>()
     private var currentCourtPrice = 350
-    private val remoteConfig = (application as MyApplication).remoteConfig
+    private val remoteConfig = (app as MyApplication).remoteConfig
     private var name = String()
     private var email = String()
     private var phoneNumber = String()
@@ -181,6 +182,15 @@ class Pay_playViewModel(application: Application) : AndroidViewModel(application
         name = text1
         phoneNumber = text
         email = text2
+        updateDataToPref(name, phoneNumber, email)
+    }
+
+    private fun updateDataToPref(name: String, phoneNumber: String, email: String) {
+        val pref = app.getSharedPreferences("tokenFile", MODE_PRIVATE).edit()
+        pref.putString("paymentName", name)
+        pref.putString("paymentPhoneNumber", phoneNumber)
+        pref.putString("paymentEmail", email)
+        pref.apply()
     }
 
 

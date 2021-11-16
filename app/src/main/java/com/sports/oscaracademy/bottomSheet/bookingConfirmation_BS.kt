@@ -1,6 +1,7 @@
 package com.sports.oscaracademy.bottomSheet
 
 import android.app.Activity
+import android.content.Context
 import android.content.DialogInterface
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -54,13 +55,19 @@ class bookingConfirmation_BS : BottomSheetDialogFragment() {
         val doubleBounce: Sprite = WanderingCubes()
         binding.progress.setIndeterminateDrawable(doubleBounce)
 
-        binding.run {
-            phoneNumber.setText(bookingData.value?.phoneNumber)
-            email.setText(bookingData.value?.email)
-            name.setText(bookingData.value?.name)
-        }
+        val pref = context?.getSharedPreferences("tokenFile", Context.MODE_PRIVATE)
 
         binding.run {
+            //if user has modified last time using it
+            name.setText(pref?.getString("paymentName", bookingData.value?.name).toString())
+            phoneNumber.setText(
+                pref?.getString(
+                    "paymentPhoneNumber",
+                    bookingData.value?.phoneNumber
+                )
+            )
+            email.setText(pref?.getString("paymentEmail", bookingData.value?.email))
+
             checkOutBtn.setOnClickListener {
                 if (phoneNumber.text.length in 10..13) {
                     if (!name.text.isNullOrEmpty()) {

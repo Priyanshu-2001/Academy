@@ -4,6 +4,7 @@ import android.app.Activity
 import android.content.Context
 import android.graphics.Color
 import android.os.Bundle
+import android.os.Handler
 import android.util.Log
 import android.util.TypedValue
 import android.view.*
@@ -164,8 +165,13 @@ class pay_play : Fragment(), DatePickerListener {
 
         binding.proceedBtn.setOnClickListener {
             if (model.getSelectedCourtsCount().value != null) {
-                if (model.getSelectedCourtsCount().value != 0)
+                if (model.getSelectedCourtsCount().value != 0) {
                     checkOutSheet.show(parentFragmentManager, "checkOutFragment")
+                    binding.proceedBtn.isEnabled = false
+                    Handler().postDelayed({
+                        binding.proceedBtn.isEnabled = true
+                    }, 3000)
+                }
             } else {
                 val snackbar =
                     Snackbar.make(
