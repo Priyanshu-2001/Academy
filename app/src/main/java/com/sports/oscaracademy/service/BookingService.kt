@@ -12,7 +12,9 @@ import com.google.firebase.database.DataSnapshot
 import com.google.firebase.database.DatabaseError
 import com.google.firebase.database.FirebaseDatabase
 import com.google.firebase.database.ValueEventListener
+import com.google.firebase.firestore.FieldValue
 import com.google.firebase.firestore.FirebaseFirestore
+import com.google.firebase.firestore.SetOptions
 import com.sports.oscaracademy.data.BookedDATA
 import com.sports.oscaracademy.data.BookingData
 import com.sports.oscaracademy.data.SlotsData
@@ -60,38 +62,38 @@ class BookingService {
         val day: String = formatter.format(d?.date?.toLong())
         val date = d?.year?.plus(1900).toString() + "-" + mon + "-" + day
 //        val date = tempDateFormat
-        selectedslots.value?.forEach {
-            val tempList = bookingData.value!!.courtID?.get(it.slotID)
+        selectedslots.value?.forEach { selectedSlot ->
+            val tempList = bookingData.value!!.courtID?.get(selectedSlot.slotID)
             val nonNestedList = ArrayList<String>()
-//            val db = firestore.collection("slotBooking").document(date.toString())
-//                .collection(it.slotID).document(bookingData.value!!.userID)
-            val dataCourtIDs: HashMap<String, Any> = HashMap()
-//            tempList?.forEach { courtID ->
-//                nonNestedList.add(courtID)
-//                db.get().addOnSuccessListener {
-//                    dataCourtIDs["courtID"] = nonNestedList
-//                    if (it["courtID"] != null) {
-//                        Log.e(TAG, "BookCourt: $courtID")
-//                        db.update("courtID", FieldValue.arrayUnion(courtID))
-//                    } else {
-//                        db.set(dataCourtIDs, SetOptions.merge())
-//                    }
-//                }
-//            }
 
-//            db.set(data, SetOptions.merge()).addOnSuccessListener {
-//                Log.e("TAG", "BookCourt: Booking Successfully")
-//                saveRefference(
-//                    date.toString(),
-//                    randomKey.toString(),
-//                    slotData,
-//                    bookingData,
-//                    otp,
-//                    progress,
-//                )
-//            }.addOnFailureListener {
-//                Log.e("TAG", "BookCourt: " + it.localizedMessage)
-//            }
+//            val db = firestore.collection("slotBooking").document(date.toString())
+//                .collection(selectedSlot.slotID).document(bookingData.value!!.userID)
+            val db = firestore.collection("user")
+                .document(bookingData.value!!.userID)
+                .collection("Booked Slots")
+                .document(date)
+                .collection(selectedSlot.slotID)
+                .document()
+
+            val dataCourtIDs: HashMap<String, Any> = HashMap()
+            tempList?.forEach { courtID ->
+                nonNestedList.add(courtID)
+                db.get().addOnSuccessListener {
+                    dataCourtIDs["courtID"] = nonNestedList
+                    if (it["courtID"] != null) {
+                        Log.e(TAG, "BookCourt: $courtID")
+                        db.update("courtID", FieldValue.arrayUnion(courtID))
+                    } else {
+                        db.set(dataCourtIDs, SetOptions.merge())
+                    }
+                }
+            }
+
+            db.set(data, SetOptions.merge()).addOnSuccessListener {
+                Log.e("TAG", "BookCourt: Booking Successfully")
+            }.addOnFailureListener {
+                Log.e("TAG", "BookCourt: " + it.localizedMessage)
+            }
         }
         saveRefference(
             date,
@@ -179,7 +181,7 @@ class BookingService {
     fun getAllBookedDATA(date: String): MutableLiveData<ArrayList<BookedDATA>> {
         val bookedSlotsData: ArrayList<BookedDATA> = ArrayList()
         val bookedTotalData: MutableLiveData<ArrayList<BookedDATA>> = MutableLiveData()
-
+        Log.e(TAG, "getAllBookedDATA: fate = $date")
         FirebaseDatabase.getInstance().reference
             .child("BookedSlots")
             .child(date)

@@ -16,6 +16,7 @@ import com.sports.oscaracademy.data.BookingData
 import com.sports.oscaracademy.data.SlotsData
 import com.sports.oscaracademy.service.BookingService
 import com.sports.oscaracademy.service.GetSlots
+import java.text.DecimalFormat
 import java.util.*
 import kotlin.collections.ArrayList
 import kotlin.collections.HashMap
@@ -45,7 +46,11 @@ class Pay_playViewModel(val app: Application) : AndroidViewModel(app) {
 
     fun setBookedData() {
         val d = selectedDate.value
-        val date = d?.year?.plus(1900).toString() + "-" + d?.month?.plus(1) + "-" + d?.date
+
+        val formatter = DecimalFormat("00")
+        val date = d?.year?.plus(1900).toString() + "-" + formatter.format(
+            d?.month?.plus(1)?.toLong()
+        ) + "-" + formatter.format(d?.date?.toLong())
         BookedData = bookingService.getAllBookedDATA(date)
     }
 
