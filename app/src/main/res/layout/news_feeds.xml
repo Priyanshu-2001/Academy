@@ -9,7 +9,7 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:background="@drawable/app_back"
-        tools:context=".HomeActivities.news_feeds">
+        tools:context=".homeActivities.news_feeds">
 
         <include
             android:id="@+id/include"

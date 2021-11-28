@@ -1,4 +1,4 @@
-package com.sports.oscaracademy.HomeActivities;
+package com.sports.oscaracademy.homeActivities;
 
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -244,7 +244,7 @@ public class attendance extends AppCompatActivity {
     }
 
     private void getAttendance() {
-        Intent i = new Intent(this, admin_attendance.class);
+        Intent i = new Intent(this, adminAttendance.class);
         i.putExtra("date", binding.calendarView.getSelectedDate().getDay());
         i.putExtra("month", binding.calendarView.getSelectedDate().getMonth());
         i.putExtra("year", binding.calendarView.getSelectedDate().getYear());
@@ -253,7 +253,7 @@ public class attendance extends AppCompatActivity {
     }
 
     private void markAttendance() {
-        Intent i = new Intent(this, admin_attendance.class);
+        Intent i = new Intent(this, adminAttendance.class);
         i.putExtra("date", binding.calendarView.getSelectedDate().getDay());
         i.putExtra("month", binding.calendarView.getSelectedDate().getMonth());
         i.putExtra("year", binding.calendarView.getSelectedDate().getYear());

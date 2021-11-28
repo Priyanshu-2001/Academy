@@ -19,16 +19,19 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.OscarAcademy">
         <activity
-            android:name=".HomeActivities.payAndPlayFragments.BookingSuccessActivity"
+            android:name=".homeActivities.schedule.ScheduleAdmin"
             android:exported="false" />
         <activity
-            android:name=".HomeActivities.payAndPlay"
+            android:name=".homeActivities.payAndPlayFragments.BookingSuccessActivity"
+            android:exported="false" />
+        <activity
+            android:name=".homeActivities.PayAndPlay"
             android:exported="false" />
         <activity
             android:name=".chat_feature.chat_activity"
             android:exported="false" />
         <activity
-            android:name=".HomeActivities.news_feeds"
+            android:name=".homeActivities.news_feeds"
             android:exported="false"
             android:parentActivityName=".Dashboard">
             <intent-filter>
@@ -41,13 +44,13 @@
             android:name=".drawerFragments.profileActivity"
             android:exported="false" />
         <activity
-            android:name=".HomeActivities.Students"
+            android:name=".homeActivities.Students"
             android:exported="false" />
         <activity
-            android:name=".HomeActivities.admin_attendance"
+            android:name=".homeActivities.adminAttendance"
             android:exported="false" />
         <activity
-            android:name=".HomeActivities.attendance"
+            android:name=".homeActivities.attendance"
             android:exported="false" />
         <activity
             android:name=".EmailVerification"

@@ -1,4 +1,4 @@
-package com.sports.oscaracademy.HomeActivities;
+package com.sports.oscaracademy.homeActivities;
 
 import android.os.Bundle;
 import android.util.Log;
@@ -25,7 +25,7 @@ import com.sports.oscaracademy.service.studentsList;
 
 import java.util.ArrayList;
 
-public class admin_attendance extends AppCompatActivity {
+public class adminAttendance extends AppCompatActivity {
     public ActivityAdminAttendanceBinding binding;
     public ProgressBar progressBar;
     public attendance_marker_adapter adapter;

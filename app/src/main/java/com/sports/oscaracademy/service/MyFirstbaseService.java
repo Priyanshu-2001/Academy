@@ -21,9 +21,9 @@ import androidx.core.app.NotificationCompat;
 import com.google.firebase.messaging.FirebaseMessagingService;
 import com.google.firebase.messaging.RemoteMessage;
 import com.sports.oscaracademy.Dashboard;
-import com.sports.oscaracademy.HomeActivities.news_feeds;
 import com.sports.oscaracademy.MainActivity;
 import com.sports.oscaracademy.R;
+import com.sports.oscaracademy.homeActivities.news_feeds;
 
 import org.jetbrains.annotations.NotNull;
 

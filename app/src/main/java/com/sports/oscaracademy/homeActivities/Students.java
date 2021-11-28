@@ -1,4 +1,4 @@
-package com.sports.oscaracademy.HomeActivities;
+package com.sports.oscaracademy.homeActivities;
 
 import android.os.Bundle;
 import android.view.MenuItem;

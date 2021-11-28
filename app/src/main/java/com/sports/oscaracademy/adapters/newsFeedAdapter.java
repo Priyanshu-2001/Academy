@@ -12,9 +12,9 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.sports.oscaracademy.HomeActivities.news_feeds;
 import com.sports.oscaracademy.R;
 import com.sports.oscaracademy.data.feedsData;
+import com.sports.oscaracademy.homeActivities.news_feeds;
 import com.sports.oscaracademy.service.feedsService;
 
 import java.text.SimpleDateFormat;

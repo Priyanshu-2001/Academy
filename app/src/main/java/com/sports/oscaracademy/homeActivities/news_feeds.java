@@ -1,5 +1,5 @@
 
-package com.sports.oscaracademy.HomeActivities;
+package com.sports.oscaracademy.homeActivities;
 
 import android.content.Intent;
 import android.content.SharedPreferences;

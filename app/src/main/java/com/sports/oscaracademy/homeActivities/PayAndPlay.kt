@@ -1,4 +1,4 @@
-package com.sports.oscaracademy.HomeActivities
+package com.sports.oscaracademy.homeActivities
 
 import android.content.SharedPreferences
 import android.os.Bundle
@@ -21,7 +21,7 @@ import com.sports.oscaracademy.databinding.ActivityPayAndPlayBinding
 import com.sports.oscaracademy.viewModel.Pay_playViewModel
 
 
-class payAndPlay : AppCompatActivity(), PaymentResultListener {
+class PayAndPlay : AppCompatActivity(), PaymentResultListener {
 
     lateinit var role: String
     lateinit var binding: ActivityPayAndPlayBinding

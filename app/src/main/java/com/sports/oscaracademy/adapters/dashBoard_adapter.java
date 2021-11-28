@@ -10,12 +10,12 @@ import android.view.ViewGroup;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.sports.oscaracademy.HomeActivities.Students;
-import com.sports.oscaracademy.HomeActivities.attendance;
-import com.sports.oscaracademy.HomeActivities.news_feeds;
-import com.sports.oscaracademy.HomeActivities.payAndPlay;
 import com.sports.oscaracademy.data.DashBoardData;
 import com.sports.oscaracademy.databinding.SingleDashboardRcvBinding;
+import com.sports.oscaracademy.homeActivities.PayAndPlay;
+import com.sports.oscaracademy.homeActivities.Students;
+import com.sports.oscaracademy.homeActivities.attendance;
+import com.sports.oscaracademy.homeActivities.news_feeds;
 
 import org.jetbrains.annotations.NotNull;
 
@@ -82,7 +82,7 @@ public class dashBoard_adapter extends RecyclerView.Adapter<dashBoard_adapter.ho
                     break;
 
                 case "Pay & Play":
-                    context.startActivity(new Intent(context, payAndPlay.class));
+                    context.startActivity(new Intent(context, PayAndPlay.class));
                     break;
 
                 case "Add Student":

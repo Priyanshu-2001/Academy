@@ -1,4 +1,4 @@
-package com.sports.oscaracademy.HomeActivities.payAndPlayFragments
+package com.sports.oscaracademy.homeActivities.payAndPlayFragments
 
 import android.app.Activity
 import android.content.Context
