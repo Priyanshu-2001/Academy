@@ -5,6 +5,7 @@ import android.os.Bundle
 import android.util.Log
 import android.view.Menu
 import android.view.MenuItem
+import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.ViewModelProvider
@@ -84,6 +85,7 @@ class payAndPlay : AppCompatActivity(), PaymentResultListener {
     }
 
     override fun onPaymentError(p0: Int, p1: String?) {
+        Toast.makeText(this, "Some Error Occurred while Payment", Toast.LENGTH_LONG).show()
         Log.e("TAG", "onPaymentError: $p1")
     }
 
