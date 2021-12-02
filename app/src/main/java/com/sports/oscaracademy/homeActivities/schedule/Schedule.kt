@@ -24,6 +24,10 @@ class Schedule : AppCompatActivity() {
             setDisplayShowTitleEnabled(false)
         }
         viewModel.getUserSchedule().observe(this, {
+            binding.timings.visibility = View.VISIBLE
+            binding.textView8.visibility = View.VISIBLE
+            binding.timings.animate().translationY(-200f)
+            binding.textView8.animate().translationY(-200f)
             binding.progressBar.visibility = View.GONE
             binding.progressBarBelow.visibility = View.GONE
             binding.session.text = it.session
