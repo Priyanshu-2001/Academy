@@ -23,6 +23,7 @@
         <entry key="..\:/OscarAcademy/app/src/main/res/drawable/opt_send_selected.xml" value="0.19166666666666668" />
         <entry key="..\:/OscarAcademy/app/src/main/res/drawable/privacy.xml" value="0.23703703703703705" />
         <entry key="..\:/OscarAcademy/app/src/main/res/drawable/receive_drawable.xml" value="0.23703703703703705" />
+        <entry key="..\:/OscarAcademy/app/src/main/res/drawable/schedule_foreground.xml" value="0.2490740740740741" />
         <entry key="..\:/OscarAcademy/app/src/main/res/drawable/sent_drawable.xml" value="0.23703703703703705" />
         <entry key="..\:/OscarAcademy/app/src/main/res/drawable/unselected_btn.xml" value="0.2351851851851852" />
         <entry key="..\:/OscarAcademy/app/src/main/res/drawable/white_back_button.xml" value="0.15625" />
@@ -36,6 +37,7 @@
         <entry key="..\:/OscarAcademy/app/src/main/res/layout/activity_login.xml" value="0.264" />
         <entry key="..\:/OscarAcademy/app/src/main/res/layout/activity_main.xml" value="0.17760416666666667" />
         <entry key="..\:/OscarAcademy/app/src/main/res/layout/activity_pay_and_play.xml" value="0.152" />
+        <entry key="..\:/OscarAcademy/app/src/main/res/layout/activity_schedule.xml" value="0.264" />
         <entry key="..\:/OscarAcademy/app/src/main/res/layout/activity_sign_up.xml" value="0.264" />
         <entry key="..\:/OscarAcademy/app/src/main/res/layout/activity_students.xml" value="0.176" />
         <entry key="..\:/OscarAcademy/app/src/main/res/layout/activity_upcoming_tournament.xml" value="0.264" />
@@ -72,8 +74,11 @@
         <entry key="..\:/OscarAcademy/app/src/main/res/layout/slot_selector_bottom_sheet.xml" value="0.152" />
         <entry key="..\:/OscarAcademy/app/src/main/res/layout/slot_selector_single.xml" value="0.176" />
         <entry key="..\:/OscarAcademy/app/src/main/res/layout/topbar.xml" value="0.17760416666666667" />
-        <entry key="..\:/OscarAcademy/app/src/main/res/menu/drawer.xml" value="0.4" />
+        <entry key="..\:/OscarAcademy/app/src/main/res/menu/drawer.xml" value="0.2" />
         <entry key="..\:/OscarAcademy/app/src/main/res/menu/pay_play_menu.xml" value="0.176" />
+        <entry key="..\:/OscarAcademy/app/src/main/res/mipmap-anydpi-v26/ic_launcher.xml" value="0.2490740740740741" />
+        <entry key="..\:/OscarAcademy/app/src/main/res/mipmap-anydpi-v26/schedule.xml" value="0.2490740740740741" />
+        <entry key="..\:/OscarAcademy/app/src/main/res/mipmap-anydpi-v26/schedule_round.xml" value="0.2490740740740741" />
       </map>
     </option>
   </component>

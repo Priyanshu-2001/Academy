@@ -54,6 +54,7 @@ public class Dashboard extends AppCompatActivity implements bottomSheetOtpVerifi
     String currentuserID;
     private boolean homeFrag;
     SharedPreferences.Editor prefEditor;
+    SharedPreferences pref;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -63,6 +64,7 @@ public class Dashboard extends AppCompatActivity implements bottomSheetOtpVerifi
         currentuserID = mAuth.getUid();
         com.sports.oscaracademy.databinding.ActivityDashboardBinding binding = DataBindingUtil.setContentView(this, R.layout.activity_dashboard);
         prefEditor = getSharedPreferences("tokenFile", MODE_PRIVATE).edit();
+        pref = getSharedPreferences("tokenFile", MODE_PRIVATE);
         binding.setLifecycleOwner(Dashboard.this);
         Toolbar toolbar = binding.toolbar;
         drawer = binding.drawer;
@@ -116,7 +118,9 @@ public class Dashboard extends AppCompatActivity implements bottomSheetOtpVerifi
         });
 
         homeFrag = true;
-        CheckforStudent();
+        if (pref.getInt("roll", -1) == -1) {
+            CheckforStudent();
+        }
         manager.beginTransaction().add(R.id.frameContainer, HomeFragment, "home").commit();
         manager.beginTransaction().add(R.id.frameContainer, verifyContactFragment, "verify").hide(verifyContactFragment).commit();
         manager.beginTransaction().add(R.id.frameContainer, contactAcademy, "contactUs").hide(contactAcademy).commit();
@@ -240,10 +244,12 @@ public class Dashboard extends AppCompatActivity implements bottomSheetOtpVerifi
     private void getRollNo() {
         firestore.collection("students").document(currentuserID).get().addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
             @Override
-            public void onSuccess(DocumentSnapshot documentSnapshot) {
+            public void onSuccess(@NonNull DocumentSnapshot documentSnapshot) {
                 Integer rollNo = documentSnapshot.get("RollNo", Integer.class);
+                String Session = documentSnapshot.getString("session");
                 SharedPreferences.Editor pref = getSharedPreferences("tokenFile", MODE_PRIVATE).edit();
                 pref.putInt("roll", rollNo);
+                pref.putString("session", Session);
                 pref.apply();
             }
         }).addOnFailureListener(new OnFailureListener() {

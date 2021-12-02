@@ -19,7 +19,7 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.OscarAcademy">
         <activity
-            android:name=".homeActivities.schedule.ScheduleAdmin"
+            android:name=".homeActivities.schedule.Schedule"
             android:exported="false" />
         <activity
             android:name=".homeActivities.payAndPlayFragments.BookingSuccessActivity"

@@ -16,6 +16,7 @@ import com.sports.oscaracademy.homeActivities.PayAndPlay;
 import com.sports.oscaracademy.homeActivities.Students;
 import com.sports.oscaracademy.homeActivities.attendance;
 import com.sports.oscaracademy.homeActivities.news_feeds;
+import com.sports.oscaracademy.homeActivities.schedule.Schedule;
 
 import org.jetbrains.annotations.NotNull;
 
@@ -74,6 +75,8 @@ public class dashBoard_adapter extends RecyclerView.Adapter<dashBoard_adapter.ho
                     context.startActivity(i);
                     break;
                 case "Schedule":
+                    i = new Intent(context, Schedule.class);
+                    context.startActivity(i);
                     break;
                 case "Students":
                     i = new Intent(context, Students.class);
