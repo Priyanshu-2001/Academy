@@ -75,18 +75,16 @@
         <activity
             android:name=".Dashboard"
             android:exported="false"
-            android:screenOrientation="portrait"
-            android:theme="@style/NoActionBar" />
+            android:launchMode="singleTask"
+            android:screenOrientation="portrait" />
         <activity
             android:name=".LoginActivity"
             android:screenOrientation="portrait"
-            android:exported="false"
-            android:theme="@style/NoActionBar" />
+            android:exported="false" />
         <activity
             android:name=".MainActivity"
             android:screenOrientation="portrait"
-            android:exported="true"
-            android:theme="@style/NoActionBar">
+            android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
