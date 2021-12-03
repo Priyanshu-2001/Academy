@@ -51,7 +51,7 @@
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
             android:layout_gravity="start"
-            android:layout_marginTop="45dp"
+            android:layout_marginTop="65dp"
             app:elevation="10dp"
             app:headerLayout="@layout/header"
             android:background="#0B0B0B"

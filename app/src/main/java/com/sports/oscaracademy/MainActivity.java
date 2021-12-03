@@ -5,6 +5,8 @@ import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.os.Handler;
 import android.util.Log;
+import android.view.Window;
+import android.view.WindowManager;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.app.AppCompatDelegate;
@@ -29,8 +31,8 @@ public class MainActivity extends AppCompatActivity {
 
     private void updateUI(FirebaseUser currentUser) {
 //        getWindow().setStatusBarColor(getColor(R.color.app_compat_light));
-        Handler mHandeler = new Handler();
-        mHandeler.postDelayed(new Runnable() {
+        Handler mHandler = new Handler();
+        mHandler.postDelayed(new Runnable() {
             @Override
             public void run() {
                 prefEditor = getSharedPreferences("tokenFile", MODE_PRIVATE).edit();
@@ -50,16 +52,16 @@ public class MainActivity extends AppCompatActivity {
                     }
                     else{
                         i = new Intent(MainActivity.this, EmailVerification.class);
-                        i.putExtra("email" ,currentUser.getEmail());
+                        i.putExtra("email", currentUser.getEmail());
                     }
                 } else {
-                        i = new Intent(MainActivity.this, LoginActivity.class);
+                    i = new Intent(MainActivity.this, LoginActivity.class);
                 }
 
                 startActivity(i);
                 finish();
             }
-        }, 2000);
+        }, 1800);
 
     }
 
@@ -67,6 +69,9 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         mAuth = FirebaseAuth.getInstance();
         super.onCreate(savedInstanceState);
+        requestWindowFeature(Window.FEATURE_NO_TITLE);
+        getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN,
+                WindowManager.LayoutParams.FLAG_FULLSCREEN);
         setContentView(R.layout.activity_main);
 
     }

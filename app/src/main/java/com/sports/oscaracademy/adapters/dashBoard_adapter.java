@@ -12,6 +12,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.sports.oscaracademy.data.DashBoardData;
 import com.sports.oscaracademy.databinding.SingleDashboardRcvBinding;
+import com.sports.oscaracademy.homeActivities.FeesPayment;
 import com.sports.oscaracademy.homeActivities.PayAndPlay;
 import com.sports.oscaracademy.homeActivities.Students;
 import com.sports.oscaracademy.homeActivities.attendance;
@@ -66,6 +67,7 @@ public class dashBoard_adapter extends RecyclerView.Adapter<dashBoard_adapter.ho
             Intent i;
             switch (text.trim()) {
                 case "Fees & Payments":
+                    context.startActivity(new Intent(context, FeesPayment.class));
                     break;
                 case "Attendance":
                     context.startActivity(new Intent(context, attendance.class));

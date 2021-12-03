@@ -28,6 +28,7 @@ import com.sports.oscaracademy.service.studentsList;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Objects;
 
 public class chat_fragment extends Fragment {
     FragmentChatBinding binding;
@@ -57,7 +58,7 @@ public class chat_fragment extends Fragment {
                 .addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
                     @Override
                     public void onSuccess(DocumentSnapshot documentSnapshot) {
-                        SharedPreferences.Editor pref = requireContext().getSharedPreferences("tokenFile", Context.MODE_PRIVATE).edit();
+                        SharedPreferences.Editor pref = preferences.edit();
                         if (documentSnapshot.get("role").equals("Student_dashboard")) {
                             pref.putString("userType", "1");
                             userCategory.setValue("student");
@@ -67,7 +68,7 @@ public class chat_fragment extends Fragment {
                             userCategory.setValue("admin");
                         }
                         pref.apply();
-                        Log.e("TAG", "getuserType: " + "called" + documentSnapshot.get("role").equals("admin_dashboard"));
+                        Log.e("TAG", "getuserType: " + "called" + Objects.equals(documentSnapshot.get("role"), "admin_dashboard"));
 
                     }
                 });
@@ -85,12 +86,12 @@ public class chat_fragment extends Fragment {
         binding.progress.setIndeterminateDrawable(doubleBounce);
         binding.progress.setVisibility(View.VISIBLE);
 
-        userCategory.observeForever(new Observer<String>() {
+        userCategory.observe(this, new Observer<String>() {
             @Override
             public void onChanged(String s) {
                 if (preferences.getString("isStudent", "false").equals("true") && s.equals("student")) {
                     binding.textView5.setText("CHAT WITH FACULTY");
-                    service.getchatusers().observeForever(new Observer<Map<String, ArrayList<String>>>() {
+                    service.getchatusers().observe(chat_fragment.this, new Observer<Map<String, ArrayList<String>>>() {
                         @Override
                         public void onChanged(Map<String, ArrayList<String>> stringArrayListMap) {
                             Log.e("TAG", "onChanged:map " + stringArrayListMap.get("coach"));
@@ -123,7 +124,7 @@ public class chat_fragment extends Fragment {
     private void showAllAdminAndCoaches(Map<String, ArrayList<String>> chatusers) {
         ArrayList<String> adminID = chatusers.get("admin");
         ArrayList<String> coachesID = chatusers.get("coach");
-        service.getUsers().observe(getActivity(), new Observer<ArrayList<Studentdata>>() {
+        service.getUsers().observe(this, new Observer<ArrayList<Studentdata>>() {
             @Override
             public void onChanged(ArrayList<Studentdata> studentdata) {
                 ArrayList<Studentdata> admin = new ArrayList<>();

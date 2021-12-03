@@ -19,19 +19,27 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.OscarAcademy">
         <activity
+            android:name=".homeActivities.FeesPayment"
+            android:exported="false" />
+        <activity
             android:name=".homeActivities.schedule.Schedule"
+            android:screenOrientation="portrait"
             android:exported="false" />
         <activity
             android:name=".homeActivities.payAndPlayFragments.BookingSuccessActivity"
+            android:screenOrientation="portrait"
             android:exported="false" />
         <activity
             android:name=".homeActivities.PayAndPlay"
+            android:screenOrientation="portrait"
             android:exported="false" />
         <activity
             android:name=".chat_feature.chat_activity"
+            android:screenOrientation="portrait"
             android:exported="false" />
         <activity
             android:name=".homeActivities.news_feeds"
+            android:screenOrientation="portrait"
             android:exported="false"
             android:parentActivityName=".Dashboard">
             <intent-filter>
@@ -41,33 +49,42 @@
             </intent-filter>
         </activity>
         <activity
+            android:screenOrientation="portrait"
             android:name=".drawerFragments.profileActivity"
             android:exported="false" />
         <activity
             android:name=".homeActivities.Students"
+            android:screenOrientation="portrait"
             android:exported="false" />
         <activity
             android:name=".homeActivities.adminAttendance"
+            android:screenOrientation="portrait"
             android:exported="false" />
         <activity
             android:name=".homeActivities.attendance"
+            android:screenOrientation="portrait"
             android:exported="false" />
         <activity
             android:name=".EmailVerification"
+            android:screenOrientation="portrait"
             android:exported="false" />
         <activity
             android:name=".signUpActivity"
+            android:screenOrientation="portrait"
             android:exported="false" />
         <activity
             android:name=".Dashboard"
             android:exported="false"
+            android:screenOrientation="portrait"
             android:theme="@style/NoActionBar" />
         <activity
             android:name=".LoginActivity"
+            android:screenOrientation="portrait"
             android:exported="false"
             android:theme="@style/NoActionBar" />
         <activity
             android:name=".MainActivity"
+            android:screenOrientation="portrait"
             android:exported="true"
             android:theme="@style/NoActionBar">
             <intent-filter>

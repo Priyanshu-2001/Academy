@@ -13,6 +13,7 @@ import android.widget.Toast;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.ActionBarDrawerToggle;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.app.AppCompatDelegate;
 import androidx.appcompat.widget.Toolbar;
 import androidx.core.view.GravityCompat;
 import androidx.databinding.DataBindingUtil;
@@ -62,6 +63,7 @@ public class Dashboard extends AppCompatActivity implements bottomSheetOtpVerifi
         mAuth = FirebaseAuth.getInstance();
         firestore = FirebaseFirestore.getInstance();
         currentuserID = mAuth.getUid();
+        AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO);
         com.sports.oscaracademy.databinding.ActivityDashboardBinding binding = DataBindingUtil.setContentView(this, R.layout.activity_dashboard);
         prefEditor = getSharedPreferences("tokenFile", MODE_PRIVATE).edit();
         pref = getSharedPreferences("tokenFile", MODE_PRIVATE);
@@ -228,7 +230,7 @@ public class Dashboard extends AppCompatActivity implements bottomSheetOtpVerifi
                 if (isStudent.equals("true")) {
                     getRollNo();
                 } else {
-                    pref.putString("roll", "-1");
+                    pref.putInt("roll", -1);
                 }
                 pref.apply();
             }
