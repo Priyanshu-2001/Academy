@@ -27,11 +27,8 @@ import com.sports.oscaracademy.dialog.dialogs;
 
 import org.jetbrains.annotations.NotNull;
 
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.HashMap;
-import java.util.Locale;
 import java.util.Map;
 import java.util.Objects;
 
@@ -96,7 +93,7 @@ public class studentsList {
             public void onComplete(@NonNull @NotNull Task<QuerySnapshot> task) {
                 if (task.isSuccessful()) {
                     ArrayList<Studentdata> tempData = new ArrayList<>();
-                    String name, phone, userId, email, sex, Age, session;
+                    String name, phone, userId, email, sex, Age, session, membership;
                     Integer rollno;
                     Timestamp Dob;
                     try {
@@ -109,22 +106,13 @@ public class studentsList {
                             email = task.getResult().getDocuments().get(i).getString("email");
                             Dob = task.getResult().getDocuments().get(i).getTimestamp("Dob");
                             Age = task.getResult().getDocuments().get(i).getString("Age");
-                            Map<String, Object> feesObj = (Map<String, Object>) task.getResult().getDocuments().get(i).get("fees");
-                            Timestamp startDate = (Timestamp) feesObj.get("valid from");
-                            Timestamp EndDate = (Timestamp) feesObj.get("valid to");
+                            membership = task.getResult().getDocuments().get(i).getString("membership");
                             try {
                                 session = task.getResult().getDocuments().get(i).getString("session");
                             } catch (Exception e) {
                                 session = "N/A";
                             }
-                            Log.e("TAG", "onComplete: " + startDate);
-                            Log.e("TAG", "onComplete: " + EndDate);
-                            assert EndDate != null;
-                            Date d = startDate.toDate();
-                            SimpleDateFormat sfd = new SimpleDateFormat("dd-MM-yyyy", Locale.getDefault());
-                            Log.e("TAG", "onComplete: " + startDate.toDate());// Fri Jul 16 00:00:00 GMT+05:30 2021
-                            Log.e("TAG", "onComplete: " + sfd.format(d)); //16-02-2021
-                            tempData.add(new Studentdata(name, rollno, phone, userId, email, Dob, sex, Age, startDate, EndDate, session));
+                            tempData.add(new Studentdata(name, rollno, phone, userId, email, Dob, sex, Age, session, membership));
                         }
                     } catch (Exception e) {
                         e.printStackTrace();
@@ -146,7 +134,7 @@ public class studentsList {
             public void onComplete(@NonNull @NotNull Task<QuerySnapshot> task) {
                 if (task.isSuccessful()) {
                     ArrayList<Studentdata> tempData = new ArrayList<>();
-                    String name, phone, userId, email, sex, Age, session, joinedTill;
+                    String name, phone, userId, email, sex, Age, session, membershipValidity;
                     Integer RollNo;
                     Timestamp Dob;
                     try {
@@ -168,23 +156,29 @@ public class studentsList {
                             } catch (Exception e) {
                                 session = "N/A";
                             }
+                            try {
+                                membershipValidity = task.getResult().getDocuments().get(i).getString("membership");
+                            } catch (Exception e) {
+                                membershipValidity = "inactive";
+                            }
+                            data.setMemberShip(membershipValidity);
                             data.setSession(session);
                             if (RollNo != null) {
                                 data.setRollno(RollNo);
                             }
 
-                            try {
-                                joinedTill = task.getResult().getDocuments().get(i).getString("joinedTill");
-                                SimpleDateFormat formatter = new SimpleDateFormat("dd-MM-yyyy", Locale.getDefault());
-                                if (joinedTill != null) {
-                                    Date date = formatter.parse(joinedTill);
-                                    if (date != null) {
-                                        data.setEnd(new Timestamp(date));
-                                    }
-                                }
-                            } catch (Exception e) {
-
-                            }
+//                            try {
+//                                joinedTill = task.getResult().getDocuments().get(i).getString("joinedTill");
+//                                SimpleDateFormat formatter = new SimpleDateFormat("dd-MM-yyyy", Locale.getDefault());
+//                                if (joinedTill != null) {
+//                                    Date date = formatter.parse(joinedTill);
+//                                    if (date != null) {
+//                                        data.setEnd(new Timestamp(date));
+//                                    }
+//                                }
+//                            } catch (Exception e) {
+//
+//                            }
 
                             if (task.getResult().getDocuments().get(i).getString("isStudent").equals("false"))
                                 tempData.add(data);

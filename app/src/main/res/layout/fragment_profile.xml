@@ -277,7 +277,7 @@
                 android:layout_marginHorizontal="25dp"
                 android:layout_marginVertical="20dp"
                 android:background="@drawable/text_field_1"
-                android:hint="User Roll No"
+                android:hint="Roll No"
                 android:inputType="text"
                 android:paddingHorizontal="15dp"
                 android:paddingVertical="5dp"
@@ -304,40 +304,56 @@
 
             </com.google.android.material.textfield.TextInputLayout>
 
-            <com.google.android.material.textfield.TextInputLayout
-                android:id="@+id/feesVaildity"
+            <!--            <com.google.android.material.textfield.TextInputLayout-->
+            <!--                android:layout_width="match_parent"-->
+            <!--                android:layout_height="50dp"-->
+            <!--                android:layout_marginHorizontal="25dp"-->
+            <!--                android:layout_marginVertical="85dp"-->
+            <!--                android:background="@drawable/text_field_1"-->
+            <!--                android:hint="Membership Validity"-->
+            <!--                android:inputType="text"-->
+            <!--                android:paddingHorizontal="15dp"-->
+            <!--                android:paddingVertical="5dp"-->
+            <!--                android:singleLine="true"-->
+            <!--                android:textColor="@color/textColorBlack"-->
+            <!--                android:textColorHint="@color/colorPrimary"-->
+            <!--                android:textSize="14sp"-->
+            <!--                android:theme="@style/EditTextTheme"-->
+            <!--                >-->
+
+            <!--                <com.google.android.material.textfield.TextInputEditText-->
+            <!--                    android:id="@+id/StudentMember"-->
+            <!--                    android:layout_width="match_parent"-->
+            <!--                    android:layout_height="wrap_content"-->
+            <!--                    android:layout_marginTop="40dp"-->
+            <!--                    android:enabled="false"-->
+            <!--                    android:background="@null"-->
+            <!--                    android:gravity="center"-->
+            <!--                    android:inputType="phone"-->
+            <!--                    android:text="@{model.validTo}" />-->
+
+            <!--            </com.google.android.material.textfield.TextInputLayout>-->
+
+            <Spinner
+                android:id="@+id/feesValidity"
                 android:layout_width="match_parent"
                 android:layout_height="50dp"
                 android:layout_marginHorizontal="25dp"
-                android:layout_marginVertical="85dp"
+                android:layout_marginVertical="20dp"
                 android:background="@drawable/text_field_1"
-                android:hint="Membership Validity"
-                android:inputType="text"
+                android:entries="@array/validity"
                 android:paddingHorizontal="15dp"
                 android:paddingVertical="5dp"
+                android:popupBackground="@drawable/text_field_1"
                 android:singleLine="true"
+                android:textAlignment="center"
                 android:textColor="@color/textColorBlack"
                 android:textColorHint="@color/colorPrimary"
                 android:textSize="14sp"
-                android:theme="@style/EditTextTheme"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintHorizontal_bias="1.0"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/session">
-
-                <com.google.android.material.textfield.TextInputEditText
-                    android:id="@+id/StudentMember"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="40dp"
-                    android:enabled="false"
-                    android:background="@null"
-                    android:gravity="center"
-                    android:inputType="phone"
-                    android:text="@{model.validTo}" />
-
-            </com.google.android.material.textfield.TextInputLayout>
-
+                app:layout_constraintTop_toBottomOf="@+id/rollNo" />
             <Button
                 android:id="@+id/editbtn"
                 android:layout_width="wrap_content"
@@ -350,7 +366,7 @@
                 android:text="Edit"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/feesVaildity" />
+                app:layout_constraintTop_toBottomOf="@+id/feesValidity" />
 
             <Button
                 android:id="@+id/savebtn"
@@ -365,7 +381,7 @@
                 android:visibility="visible"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/feesVaildity" />
+                app:layout_constraintTop_toBottomOf="@+id/feesValidity" />
 
             <Button
                 android:id="@+id/addStudent"
@@ -379,7 +395,7 @@
                 android:visibility="gone"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/feesVaildity" />
+                app:layout_constraintTop_toBottomOf="@+id/feesValidity" />
 
             <Button
                 android:id="@+id/deleteStudent"
@@ -393,7 +409,7 @@
                 android:visibility="gone"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/feesVaildity" />
+                app:layout_constraintTop_toBottomOf="@+id/feesValidity" />
 
         </androidx.constraintlayout.widget.ConstraintLayout>
     </ScrollView>

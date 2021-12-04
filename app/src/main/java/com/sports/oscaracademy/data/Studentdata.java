@@ -16,12 +16,11 @@ public class Studentdata {
     Timestamp Dob = Timestamp.now();
     String sex;
     String Age;
-    Timestamp start;
-    Timestamp end;
+    String memberShip;
+//    Timestamp start;
+//    Timestamp end;
 
-    String session;
-
-    public Studentdata(String name, Integer rollno, String phone, String userId, String email, Timestamp dob, String sex, String age, Timestamp start, Timestamp end, String session) {
+    public Studentdata(String name, Integer rollno, String phone, String userId, String email, Timestamp dob, String sex, String age, String session, String membershipStatus) {
         this.name = name;
         this.rollno = rollno;
         this.phone = phone;
@@ -30,9 +29,18 @@ public class Studentdata {
         this.Dob = dob;
         this.sex = sex;
         Age = age;
-        this.start = start;
-        this.end = end;
         this.session = session;
+        memberShip = membershipStatus;
+    }
+
+    public String getMemberShip() {
+        return memberShip;
+    }
+
+    String session;
+
+    public void setMemberShip(String memberShip) {
+        this.memberShip = memberShip;
     }
 
     public String getSession() {
@@ -151,31 +159,31 @@ public class Studentdata {
     public void setDob(Timestamp dob) {
         Dob = dob;
     }
+//
+//    public Timestamp getStart() {
+//        return start;
+//    }
+//
+//    public void setStart(Timestamp start) {
+//        this.start = start;
+//    }
+//
+//    public Timestamp getEnd() {
+//        return end;
+//    }
+//
+//    public void setEnd(Timestamp end) {
+//        this.end = end;
+//    }
 
-    public Timestamp getStart() {
-        return start;
-    }
-
-    public void setStart(Timestamp start) {
-        this.start = start;
-    }
-
-    public Timestamp getEnd() {
-        return end;
-    }
-
-    public void setEnd(Timestamp end) {
-        this.end = end;
-    }
-
-    public String getValidTo() {
-        SimpleDateFormat sfd = new SimpleDateFormat("dd-MM-yyyy", Locale.getDefault());
-        String date = "NOT AVAILABLE";
-        try {
-            date = sfd.format(end.toDate());
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-        return date;
-    }
+//    public String getValidTo() {
+//        SimpleDateFormat sfd = new SimpleDateFormat("dd-MM-yyyy", Locale.getDefault());
+//        String date = "NOT AVAILABLE";
+//        try {
+//            date = sfd.format(end.toDate());
+//        } catch (Exception e) {
+//            e.printStackTrace();
+//        }
+//        return date;
+//    }
 }
