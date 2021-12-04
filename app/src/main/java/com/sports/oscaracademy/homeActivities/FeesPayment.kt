@@ -1,6 +1,7 @@
 package com.sports.oscaracademy.homeActivities
 
 import android.os.Bundle
+import android.util.Log
 import android.view.MenuItem
 import android.view.View
 import android.view.animation.AccelerateDecelerateInterpolator
@@ -9,25 +10,52 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.ViewModelProvider
 import com.google.android.material.bottomsheet.BottomSheetBehavior
+import com.razorpay.PaymentResultListener
 import com.sports.oscaracademy.R
 import com.sports.oscaracademy.adapters.FeesHistoryAdapter
 import com.sports.oscaracademy.databinding.ActivityFeesPaymentBinding
+import com.sports.oscaracademy.utils.FeesPaymentHelper
 import com.sports.oscaracademy.viewModel.FeesViewModel
 
-class FeesPayment : AppCompatActivity() {
+class FeesPayment : AppCompatActivity(), PaymentResultListener {
     lateinit var binding: ActivityFeesPaymentBinding
     lateinit var viewModel: FeesViewModel
+    lateinit var totalFees: String
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = DataBindingUtil.setContentView(this, R.layout.activity_fees_payment)
         viewModel = ViewModelProvider(this)[FeesViewModel::class.java]
 
         viewModel.getSessionDetail().observe(this, {
+            binding.feesStructure.priceProgressBar.visibility = View.GONE
+            binding.feesStructure.totalFees.animate().alpha(1f)
             binding.feesStructure.totalFees.text = String.format("₹ " + it.fees)
+            totalFees = it.fees
         })
 
+        viewModel.getPaymentStatus().observe(this, {
+            Log.e("TAG", "onCreate: validity $it")
+            if (it.lowercase().trim() == "active") {
+                binding.PayNow.visibility = View.VISIBLE
+                binding.PayNow.text = "Already Paid"
+                binding.PayNow.animate().alpha(1f)
+            }
+            if (it.lowercase().trim() == "inactive") {
+                binding.PayNow.visibility = View.VISIBLE
+                binding.PayNow.isEnabled = true
+                binding.PayNow.animate().alpha(1f)
+            }
+        })
         binding.PayNow.setOnClickListener {
-            viewModel.startPayment()
+            viewModel.getStudentData().observe(this, {
+                FeesPaymentHelper().startPayment(
+                    this,
+                    Integer.valueOf(totalFees),
+                    email = it.email,
+                    phoneNumber = it.phoneNumber,
+                    name = it.name
+                )
+            })
         }
 
         viewModel.getPaymentHistory().observe(this, {
@@ -99,5 +127,13 @@ class FeesPayment : AppCompatActivity() {
                 interpolator = AccelerateInterpolator()
             }
         }
+    }
+
+    override fun onPaymentSuccess(p0: String?) {
+        viewModel.startPayment()
+    }
+
+    override fun onPaymentError(p0: Int, p1: String?) {
+
     }
 }

@@ -29,7 +29,7 @@ class SessionDetailsService {
 
     fun getSpecificSchedule(context: Context): MutableLiveData<SessionData> {
         val pref = context.getSharedPreferences("tokenFile", MODE_PRIVATE)
-        if (!pref.getString("session", "-1")!!.isEmpty()) {
+        if (pref.getString("session", "-1") != "-1") {
             Log.e("TAG", "getSchedule 1: ${pref.getString("session", "-1")}")
             getSchedule(pref.getString("session", "-1")!!)
         } else {
@@ -43,6 +43,7 @@ class SessionDetailsService {
                     edit.putString("session", Session)
                     edit.apply()
                     Session?.let {
+                        Log.e("TAG", "getSpecificSchedule: $it")
                         getSchedule(session = it)
                     }
                 }.addOnFailureListener { e ->

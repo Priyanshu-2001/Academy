@@ -3,10 +3,7 @@ package com.sports.oscaracademy.viewModel
 import android.app.Application
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.MutableLiveData
-import com.sports.oscaracademy.service.FeesPaymentService
-import com.sports.oscaracademy.service.PaymentData
-import com.sports.oscaracademy.service.SessionData
-import com.sports.oscaracademy.service.SessionDetailsService
+import com.sports.oscaracademy.service.*
 
 class FeesViewModel(val app: Application) : AndroidViewModel(app) {
     private val sessionService = SessionDetailsService()
@@ -24,5 +21,13 @@ class FeesViewModel(val app: Application) : AndroidViewModel(app) {
 
     fun getPaymentHistory(): MutableLiveData<List<PaymentData>> {
         return feesPaymentService.getPaymentHistory()
+    }
+
+    fun getPaymentStatus(): MutableLiveData<String> {
+        return feesPaymentService.getMonthlyPaymentStatus()
+    }
+
+    fun getStudentData(): MutableLiveData<PaymentStudentData> {
+        return feesPaymentService.getStudentDataForPayment()
     }
 }

@@ -3,6 +3,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="wrap_content"
     android:layout_height="wrap_content"
+    xmlns:tools="http://schemas.android.com/tools"
     android:backgroundTint="@color/chatReceiveBg"
     android:padding="25dp"
     app:cardCornerRadius="15dp">
@@ -27,7 +28,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_margin="15dp"
-            android:text="Total Charges"
+            android:text="Total Fees"
             android:textColor="@color/textColor"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toEndOf="@+id/imageView4"
@@ -38,13 +39,25 @@
             android:layout_width="wrap_content"
             android:layout_height="55dp"
             android:gravity="center"
-            android:text="1500"
+            android:alpha="0"
+            tools:text="Rs 1500"
             android:textColor="@color/textColor"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.5"
             app:layout_constraintStart_toEndOf="@+id/imageView4"
             app:layout_constraintTop_toBottomOf="@+id/textView13" />
+
+        <ProgressBar
+            android:id="@+id/priceProgressBar"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:indeterminateTint="@color/white"
+            android:visibility="visible"
+            app:layout_constraintBottom_toBottomOf="@+id/totalFees"
+            app:layout_constraintEnd_toEndOf="@+id/totalFees"
+            app:layout_constraintStart_toStartOf="@+id/totalFees"
+            app:layout_constraintTop_toTopOf="@+id/totalFees" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 
