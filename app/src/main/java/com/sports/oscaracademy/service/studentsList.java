@@ -120,6 +120,7 @@ public class studentsList {
                     } catch (Exception e) {
                         e.printStackTrace();
                     }
+                    Log.e("TAG", "onComplete: " + tempData);
                     filterData.setValue(tempData);
                 } else {
                     filterData.setValue(null);
@@ -223,7 +224,7 @@ public class studentsList {
                 }
             }
         });
-        Log.d("TAG", "getStudents: " + data);
+        Log.d("TAG", "getStudents: " + data.getValue());
         return data;
     }
 

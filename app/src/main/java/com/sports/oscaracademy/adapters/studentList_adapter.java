@@ -2,7 +2,6 @@ package com.sports.oscaracademy.adapters;
 
 import android.content.Context;
 import android.content.Intent;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -53,9 +52,6 @@ public class studentList_adapter extends RecyclerView.Adapter<studentList_adapte
                 mContext.startActivity(i);
             }
         });
-        Log.e("TAG", "onBindViewHolder: " + data.get(pos).getRollno());
-        Log.e("TAG", "onBindViewHolder: " + data.get(pos).getPhone());
-        Log.e("TAG", "onBindViewHolder: " + data.get(pos).getName());
     }
 
     @Override

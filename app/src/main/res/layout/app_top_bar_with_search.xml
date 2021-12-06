@@ -50,8 +50,8 @@
 
             <ImageButton
                 android:id="@+id/search_btn"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+                android:layout_width="25dp"
+                android:layout_height="25dp"
                 android:layout_marginEnd="15dp"
                 android:background="@color/black"
                 android:clickable="true"
@@ -62,15 +62,45 @@
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
 
+            <ImageButton
+                android:id="@+id/ActionSearch_btn"
+                android:layout_width="25dp"
+                android:layout_height="25dp"
+                android:layout_marginEnd="15dp"
+                android:background="@color/black"
+                android:clickable="true"
+                android:contentDescription="Search Button"
+                android:focusable="true"
+                android:src="@drawable/search_toolbar"
+                android:visibility="invisible"
+                app:layout_constraintBottom_toBottomOf="@+id/edit_search"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toTopOf="@+id/edit_search" />
+
+
+            <ImageButton
+                android:id="@+id/EndSearch_btn"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="15dp"
+                android:background="@color/black"
+                android:clickable="true"
+                android:contentDescription="Search Button"
+                android:focusable="true"
+                android:src="@drawable/end_search"
+                android:visibility="gone"
+                app:layout_constraintBottom_toBottomOf="@+id/topTitleName"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
             <EditText
                 android:id="@+id/edit_search"
-                android:layout_width="350dp"
+                android:layout_width="0dp"
                 android:layout_height="50dp"
-                android:layout_marginStart="30dp"
+                android:layout_marginStart="10dp"
                 android:layout_marginTop="25dp"
-                android:layout_marginEnd="30dp"
+                android:layout_marginEnd="10dp"
                 android:background="@drawable/edit_text_search"
-                android:drawableEnd="@drawable/search_edit_text"
                 android:hint="@string/search_here"
                 android:inputType="text"
                 android:paddingStart="30dp"
@@ -83,9 +113,10 @@
                 android:textSize="14sp"
                 android:theme="@style/EditTextTheme"
                 android:visibility="gone"
-                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintEnd_toStartOf="@+id/ActionSearch_btn"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/topTitleName" />
+
 
             <HorizontalScrollView
                 android:id="@+id/searchFilter"
@@ -144,6 +175,7 @@
                         android:layout_marginVertical="5dp"
                         android:background="@drawable/search_filter_btn"
                         android:text="Phone Number"
+                        android:paddingHorizontal="10dp"
                         app:layout_constraintEnd_toStartOf="@+id/filter_email"
                         app:layout_constraintHorizontal_bias="0.5"
                         app:layout_constraintStart_toEndOf="@+id/filter_rollNo"
