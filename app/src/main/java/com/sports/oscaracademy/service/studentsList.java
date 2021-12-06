@@ -34,7 +34,9 @@ import java.util.Objects;
 
 public class studentsList {
     private final MutableLiveData<ArrayList<Studentdata>> data = new MutableLiveData<>();
+    private final MutableLiveData<ArrayList<Studentdata>> filterData = new MutableLiveData<>();
     private final MutableLiveData<ArrayList<Studentdata>> users = new MutableLiveData<>();
+    private final MutableLiveData<ArrayList<Studentdata>> filterUsers = new MutableLiveData<>();
     private final FirebaseFirestore store = FirebaseFirestore.getInstance();
     private final FirebaseDatabase db = FirebaseDatabase.getInstance();
     private final Context mContext;
@@ -87,15 +89,17 @@ public class studentsList {
         this.mContext = c;
     }
 
-    public MutableLiveData<ArrayList<Studentdata>> getStudents() {
-        store.collection("students").orderBy("RollNo", Query.Direction.ASCENDING).get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+    public MutableLiveData<ArrayList<Studentdata>> filteredStudentList(String filterType, Object filter) {
+        store.collection("students")
+                .whereGreaterThanOrEqualTo(filterType, filter)
+//                .orderBy("RollNo", Query.Direction.ASCENDING)
+                .get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
             @Override
             public void onComplete(@NonNull @NotNull Task<QuerySnapshot> task) {
                 if (task.isSuccessful()) {
                     ArrayList<Studentdata> tempData = new ArrayList<>();
                     String name, phone, userId, email, sex, Age, session, membership;
                     Integer rollno;
-                    Timestamp Dob;
                     try {
                         for (int i = 0; i < task.getResult().getDocuments().size(); i++) {
                             name = task.getResult().getDocuments().get(i).getString("name");
@@ -104,7 +108,6 @@ public class studentsList {
                             rollno = task.getResult().getDocuments().get(i).get("RollNo", Integer.class);
                             sex = task.getResult().getDocuments().get(i).getString("Sex");
                             email = task.getResult().getDocuments().get(i).getString("email");
-                            Dob = task.getResult().getDocuments().get(i).getTimestamp("Dob");
                             Age = task.getResult().getDocuments().get(i).getString("Age");
                             membership = task.getResult().getDocuments().get(i).getString("membership");
                             try {
@@ -112,7 +115,103 @@ public class studentsList {
                             } catch (Exception e) {
                                 session = "N/A";
                             }
-                            tempData.add(new Studentdata(name, rollno, phone, userId, email, Dob, sex, Age, session, membership));
+                            tempData.add(new Studentdata(name, rollno, phone, userId, email, sex, Age, session, membership));
+                        }
+                    } catch (Exception e) {
+                        e.printStackTrace();
+                    }
+                    filterData.setValue(tempData);
+                } else {
+                    filterData.setValue(null);
+                    Toast.makeText(mContext, Objects.requireNonNull(task.getException()).getLocalizedMessage(), Toast.LENGTH_SHORT).show();
+                }
+            }
+        });
+        Log.d("TAG", "getStudents: filter service" + filterData);
+        return filterData;
+    }
+
+    public MutableLiveData<ArrayList<Studentdata>> filteredUserList(String filterType, Object filter) {
+        store.collection("user")
+                .whereGreaterThanOrEqualTo(filterType, filter)
+//                .orderBy("RollNo", Query.Direction.DESCENDING)
+                .get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+            @Override
+            public void onComplete(@NonNull @NotNull Task<QuerySnapshot> task) {
+                if (task.isSuccessful()) {
+                    ArrayList<Studentdata> tempData = new ArrayList<>();
+                    String name, phone, userId, email, sex, Age, session, membershipValidity;
+                    Integer RollNo;
+                    try {
+                        for (int i = 0; i < task.getResult().getDocuments().size(); i++) {
+                            name = task.getResult().getDocuments().get(i).getString("name");
+                            phone = task.getResult().getDocuments().get(i).getString("phone number");
+                            userId = task.getResult().getDocuments().get(i).getString("userID");
+                            sex = task.getResult().getDocuments().get(i).getString("Sex");
+                            email = task.getResult().getDocuments().get(i).getString("email");
+                            Age = task.getResult().getDocuments().get(i).getString("Age");
+                            Studentdata data = new Studentdata(name, phone, userId, email, sex, Age);
+                            try {
+                                RollNo = task.getResult().getDocuments().get(i).get("RollNo", Integer.class);
+                            } catch (Exception e) {
+                                RollNo = null;
+                            }
+                            try {
+                                session = task.getResult().getDocuments().get(i).getString("session");
+                            } catch (Exception e) {
+                                session = "N/A";
+                            }
+                            try {
+                                membershipValidity = task.getResult().getDocuments().get(i).getString("membership");
+                            } catch (Exception e) {
+                                membershipValidity = "inactive";
+                            }
+                            data.setMemberShip(membershipValidity);
+                            data.setSession(session);
+                            if (RollNo != null) {
+                                data.setRollno(RollNo);
+                            }
+                            if (task.getResult().getDocuments().get(i).getString("isStudent").equals("false"))
+                                tempData.add(data);
+                        }
+                    } catch (Exception e) {
+                        e.printStackTrace();
+                    }
+                    filterUsers.setValue(tempData);
+                } else {
+                    Toast.makeText(mContext, task.getException().getLocalizedMessage(), Toast.LENGTH_SHORT).show();
+                }
+            }
+        });
+        Log.d("TAG", "getStudents: service filter " + filterUsers);
+        return filterUsers;
+    }
+
+
+    public MutableLiveData<ArrayList<Studentdata>> getStudents() {
+        store.collection("students").orderBy("RollNo", Query.Direction.ASCENDING).get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+            @Override
+            public void onComplete(@NonNull @NotNull Task<QuerySnapshot> task) {
+                if (task.isSuccessful()) {
+                    ArrayList<Studentdata> tempData = new ArrayList<>();
+                    String name, phone, userId, email, sex, Age, session, membership;
+                    Integer rollno;
+                    try {
+                        for (int i = 0; i < task.getResult().getDocuments().size(); i++) {
+                            name = task.getResult().getDocuments().get(i).getString("name");
+                            phone = task.getResult().getDocuments().get(i).getString("phone number");
+                            userId = task.getResult().getDocuments().get(i).getString("userID");
+                            rollno = task.getResult().getDocuments().get(i).get("RollNo", Integer.class);
+                            sex = task.getResult().getDocuments().get(i).getString("Sex");
+                            email = task.getResult().getDocuments().get(i).getString("email");
+                            Age = task.getResult().getDocuments().get(i).getString("Age");
+                            membership = task.getResult().getDocuments().get(i).getString("membership");
+                            try {
+                                session = task.getResult().getDocuments().get(i).getString("session");
+                            } catch (Exception e) {
+                                session = "N/A";
+                            }
+                            tempData.add(new Studentdata(name, rollno, phone, userId, email, sex, Age, session, membership));
                         }
                     } catch (Exception e) {
                         e.printStackTrace();
@@ -166,20 +265,6 @@ public class studentsList {
                             if (RollNo != null) {
                                 data.setRollno(RollNo);
                             }
-
-//                            try {
-//                                joinedTill = task.getResult().getDocuments().get(i).getString("joinedTill");
-//                                SimpleDateFormat formatter = new SimpleDateFormat("dd-MM-yyyy", Locale.getDefault());
-//                                if (joinedTill != null) {
-//                                    Date date = formatter.parse(joinedTill);
-//                                    if (date != null) {
-//                                        data.setEnd(new Timestamp(date));
-//                                    }
-//                                }
-//                            } catch (Exception e) {
-//
-//                            }
-
                             if (task.getResult().getDocuments().get(i).getString("isStudent").equals("false"))
                                 tempData.add(data);
                         }
@@ -192,7 +277,7 @@ public class studentsList {
                 }
             }
         });
-        Log.d("TAG", "getStudents: " + data);
+        Log.d("TAG", "getStudents: service " + data);
         return users;
     }
 

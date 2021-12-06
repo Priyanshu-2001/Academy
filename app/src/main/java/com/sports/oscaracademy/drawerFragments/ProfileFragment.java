@@ -257,7 +257,7 @@ public class ProfileFragment extends Fragment {
         ProfileData.put("email", binding.studentMail.getText().toString().trim());
         ProfileData.put("Sex", binding.studentGender.getText().toString().trim());
         ProfileData.put("userID", currentStudent.getValue().getUserId());
-        ProfileData.put("Phone Number", binding.phoneNumber.getText().toString().trim());
+        ProfileData.put("phone number", binding.phoneNumber.getText().toString().trim());
         ProfileData.put("RollNo", Integer.valueOf(binding.StudentRollNo.getText().toString().trim()));
         ProfileData.put("membership", binding.feesValidity.getSelectedItem().toString().trim());
         ProfileData.put("session", binding.session.getSelectedItem().toString().trim());
