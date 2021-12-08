@@ -35,7 +35,7 @@ class Pay_playViewModel(val app: Application) : AndroidViewModel(app) {
     private var totalCourts = MutableLiveData<String>()
     private var minCourtAvailableList = MutableLiveData<HashMap<String, Long>>()
     private var currentCourtPrice = 350
-    private val remoteConfig = (app as MyApplication).remoteConfig
+    private val remoteConfig = (app as MyApplication).getRemoteConfigInstance()
     private var name = String()
     private var email = String()
     private var phoneNumber = String()
@@ -176,7 +176,9 @@ class Pay_playViewModel(val app: Application) : AndroidViewModel(app) {
     }
 
     fun setSingleCourtPrice() {
-        currentCourtPrice = remoteConfig.getValue("courtPrice").asLong().toInt()
+        if (remoteConfig != null) {
+            currentCourtPrice = remoteConfig.getValue("courtPrice").asLong().toInt()
+        }
     }
 
     fun getSingleCourtPrice(): Int {

@@ -7,14 +7,20 @@ import android.view.ViewGroup;
 
 import androidx.databinding.DataBindingUtil;
 import androidx.fragment.app.Fragment;
+import androidx.lifecycle.MutableLiveData;
 
+import com.google.firebase.remoteconfig.FirebaseRemoteConfig;
+import com.sports.oscaracademy.Application.MyApplication;
 import com.sports.oscaracademy.R;
 import com.sports.oscaracademy.chat_feature.chat_fragment;
 import com.sports.oscaracademy.databinding.FragmentContactAcademyBinding;
 
 public class ContactAcademy extends Fragment {
 
-    // TODO: Rename and change types of parameters
+    private final MutableLiveData<Long> phoneNumber = new MutableLiveData<>();
+    private final MutableLiveData<String> email = new MutableLiveData<>();
+    private FirebaseRemoteConfig remoteConfig;
+
     public ContactAcademy() {
         // Required empty public constructor
     }
@@ -27,10 +33,6 @@ public class ContactAcademy extends Fragment {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-//        if (getArguments() != null) {
-//            mParam1 = getArguments().getString(ARG_PARAM1);
-//            mParam2 = getArguments().getString(ARG_PARAM2);
-//        }
     }
 
     FragmentContactAcademyBinding binding;
@@ -38,10 +40,16 @@ public class ContactAcademy extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        // Inflate the layout for this fragment
         binding = DataBindingUtil.inflate(inflater, R.layout.fragment_contact_academy, container, false);
-        getFragmentManager().beginTransaction().add(R.id.chatsystem, chat_fragment.newInstance()).commit();
-//        getChildFragmentManager().beginTransaction().replace(R.id.chatsystem,chat_fragment.newInstance()).commit();
+        getParentFragmentManager().beginTransaction().add(R.id.chatsystem, chat_fragment.newInstance()).commit();
+        remoteConfig = ((MyApplication) (requireActivity().getApplication())).getRemoteConfig1();
+        phoneNumber.setValue(remoteConfig.getValue("academyContactNumber").asLong());
+        email.setValue(remoteConfig.getValue("academyContactEmail").asString());
+
+        phoneNumber.observe(this, aLong -> {
+            binding.phoneNumber.setText("Contact Us At \n" + aLong.toString());
+        });
+        email.observe(this, email -> binding.academyEmail.setText("Mail us at \n" + email));
         return binding.getRoot();
     }
 }

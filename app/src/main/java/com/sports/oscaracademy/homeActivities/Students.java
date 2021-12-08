@@ -30,7 +30,7 @@ public class Students extends AppCompatActivity {
     ActivityStudentsBinding binding;
     AdminStudentsViewModel viewModel;
     Button tempFilterSelection, filter_rollNo, filter_name, filter_phoneNumber, filter_email;
-    String filterType = "RollNo";
+    String filterType = "name";
     String catcher = null;
 
 
@@ -62,7 +62,7 @@ public class Students extends AppCompatActivity {
         filter_email = binding.topBar.filterEmail;
         filter_phoneNumber = binding.topBar.filterPhoneNumber;
 
-        tempFilterSelection = filter_rollNo;
+        tempFilterSelection = filter_name;
 
         setSupportActionBar((Toolbar) binding.topBar.getRoot());
         getSupportActionBar().setDisplayShowTitleEnabled(false);

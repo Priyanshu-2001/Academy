@@ -5,10 +5,20 @@ import com.google.firebase.remoteconfig.FirebaseRemoteConfig
 import com.sports.oscaracademy.utils.RemoteConfigHelper
 
 class MyApplication : Application() {
-    lateinit var remoteConfig: FirebaseRemoteConfig
+    var remoteConfig: FirebaseRemoteConfig? = null
 
     override fun onCreate() {
         super.onCreate()
-        remoteConfig = RemoteConfigHelper.getInstance()
+        if (remoteConfig == null) {
+            remoteConfig = RemoteConfigHelper.getInstance()
+        }
+    }
+
+    @JvmName("getRemoteConfig1")
+    fun getRemoteConfigInstance(): FirebaseRemoteConfig {
+        if (remoteConfig == null) {
+            remoteConfig = RemoteConfigHelper.getInstance()
+        }
+        return remoteConfig as FirebaseRemoteConfig
     }
 }
