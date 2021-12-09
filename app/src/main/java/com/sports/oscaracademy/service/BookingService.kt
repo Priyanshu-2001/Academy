@@ -8,11 +8,11 @@ import android.widget.Toast
 import androidx.lifecycle.MutableLiveData
 import com.github.ybq.android.spinkit.SpinKitView
 import com.google.android.gms.tasks.OnCompleteListener
+import com.google.firebase.Timestamp
 import com.google.firebase.database.DataSnapshot
 import com.google.firebase.database.DatabaseError
 import com.google.firebase.database.FirebaseDatabase
 import com.google.firebase.database.ValueEventListener
-import com.google.firebase.firestore.FieldValue
 import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.firestore.SetOptions
 import com.sports.oscaracademy.data.BookedDATA
@@ -39,7 +39,7 @@ class BookingService {
     }
 
     val TAG = "BOOKING SERVICE"
-    fun BookCourt(
+    fun bookCourt(
         selectedDate: MutableLiveData<Date>,
         selectedslots: MutableLiveData<ArrayList<SlotsData>>,
         bookingData: MutableLiveData<BookingData>,
@@ -62,39 +62,58 @@ class BookingService {
         val day: String = formatter.format(d?.date?.toLong())
         val date = d?.year?.plus(1900).toString() + "-" + mon + "-" + day
 //        val date = tempDateFormat
-        selectedslots.value?.forEach { selectedSlot ->
-            val tempList = bookingData.value!!.courtID?.get(selectedSlot.slotID)
-            val nonNestedList = ArrayList<String>()
 
-//            val db = firestore.collection("slotBooking").document(date.toString())
-//                .collection(selectedSlot.slotID).document(bookingData.value!!.userID)
-            val db = firestore.collection("user")
-                .document(bookingData.value!!.userID)
-                .collection("Booked Slots")
-                .document(date)
-                .collection(selectedSlot.slotID)
-                .document()
 
-            val dataCourtIDs: HashMap<String, Any> = HashMap()
-            tempList?.forEach { courtID ->
-                nonNestedList.add(courtID)
-                db.get().addOnSuccessListener {
-                    dataCourtIDs["courtID"] = nonNestedList
-                    if (it["courtID"] != null) {
-                        Log.e(TAG, "BookCourt: $courtID")
-                        db.update("courtID", FieldValue.arrayUnion(courtID))
-                    } else {
-                        db.set(dataCourtIDs, SetOptions.merge())
-                    }
-                }
-            }
-
-            db.set(data, SetOptions.merge()).addOnSuccessListener {
-                Log.e("TAG", "BookCourt: Booking Successfully")
-            }.addOnFailureListener {
-                Log.e("TAG", "BookCourt: " + it.localizedMessage)
-            }
+        val individualBookingData = data
+        individualBookingData["timeStamp"] = Timestamp.now()
+        val slotMap = HashMap<String, String>()
+        val courtMap = bookingData.value!!.courtID!!
+        selectedslots.value?.forEach {
+            slotMap[it.slotID] = it.slot
         }
+
+        individualBookingData["slotsBooked"] = slotMap
+        individualBookingData["courtBooked"] = courtMap
+
+        val db = firestore.collection("user")
+            .document(bookingData.value!!.userID)
+            .collection("Booked Slots")
+            .document()
+        db.set(individualBookingData, SetOptions.merge())
+
+//        selectedslots.value?.forEach { selectedSlot ->
+//            val tempList = bookingData.value!!.courtID?.get(selectedSlot.slotID)
+//            val nonNestedList = ArrayList<String>()
+//
+////            val db = firestore.collection("slotBooking").document(date.toString())
+////                .collection(selectedSlot.slotID).document(bookingData.value!!.userID)
+//            val db = firestore.collection("user")
+//                .document(bookingData.value!!.userID)
+//                .collection("Booked Slots")
+//                .document(date)
+//                .collection(selectedSlot.slotID)
+//                .document()
+//
+//            val dataCourtIDs: HashMap<String, Any> = HashMap()
+//            tempList?.forEach { courtID ->
+//                nonNestedList.add(courtID)
+//                db.get().addOnSuccessListener {
+//                    dataCourtIDs["courtID"] = nonNestedList
+//                    if (it["courtID"] != null) {
+//                        Log.e(TAG, "BookCourt: $courtID")
+//                        db.update("courtID", FieldValue.arrayUnion(courtID))
+//                    } else {
+//                        db.set(dataCourtIDs, SetOptions.merge())
+//                    }
+//                }
+//            }
+//
+//            db.set(data, SetOptions.merge()).addOnSuccessListener {
+//                Log.e("TAG", "BookCourt: Booking Successfully")
+//            }.addOnFailureListener {
+//                Log.e("TAG", "BookCourt: " + it.localizedMessage)
+//            }
+//        }
         saveRefference(
             date,
             randomKey.toString(),

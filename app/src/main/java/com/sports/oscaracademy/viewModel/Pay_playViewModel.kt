@@ -137,7 +137,7 @@ class Pay_playViewModel(val app: Application) : AndroidViewModel(app) {
         setCurrentBookingData()
         if (bookingData.value!!.courtID != null) {
             if (bookingData.value!!.courtID?.size != 0) {
-                bookingService.BookCourt(selectedDate, selectedslots, bookingData, progress)
+                bookingService.bookCourt(selectedDate, selectedslots, bookingData, progress)
             } else {
                 val snackbar =
                     Snackbar.make(v, "Hey... U didn't select any Court", Snackbar.LENGTH_LONG)
