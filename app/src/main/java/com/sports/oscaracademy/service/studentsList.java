@@ -190,27 +190,30 @@ public class studentsList {
 
 
     public MutableLiveData<ArrayList<Studentdata>> getStudents() {
-        store.collection("students").orderBy("RollNo", Query.Direction.ASCENDING).get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
-            @Override
-            public void onComplete(@NonNull @NotNull Task<QuerySnapshot> task) {
-                if (task.isSuccessful()) {
-                    ArrayList<Studentdata> tempData = new ArrayList<>();
-                    String name, phone, userId, email, sex, Age, session, membership;
-                    Integer rollno;
-                    try {
-                        for (int i = 0; i < task.getResult().getDocuments().size(); i++) {
-                            name = task.getResult().getDocuments().get(i).getString("name");
-                            phone = task.getResult().getDocuments().get(i).getString("phone number");
-                            userId = task.getResult().getDocuments().get(i).getString("userID");
-                            rollno = task.getResult().getDocuments().get(i).get("RollNo", Integer.class);
-                            sex = task.getResult().getDocuments().get(i).getString("Sex");
-                            email = task.getResult().getDocuments().get(i).getString("email");
-                            Age = task.getResult().getDocuments().get(i).getString("Age");
-                            membership = task.getResult().getDocuments().get(i).getString("membership");
+        store.collection("students")
+                .orderBy("RollNo", Query.Direction.ASCENDING)
+                .get()
+                .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+                    @Override
+                    public void onComplete(@NonNull @NotNull Task<QuerySnapshot> task) {
+                        if (task.isSuccessful()) {
+                            ArrayList<Studentdata> tempData = new ArrayList<>();
+                            String name, phone, userId, email, sex, Age, session, membership;
+                            Integer rollno;
                             try {
-                                session = task.getResult().getDocuments().get(i).getString("session");
-                            } catch (Exception e) {
-                                session = "N/A";
+                                for (int i = 0; i < task.getResult().getDocuments().size(); i++) {
+                                    name = task.getResult().getDocuments().get(i).getString("name");
+                                    phone = task.getResult().getDocuments().get(i).getString("phone number");
+                                    userId = task.getResult().getDocuments().get(i).getString("userID");
+                                    rollno = task.getResult().getDocuments().get(i).get("RollNo", Integer.class);
+                                    sex = task.getResult().getDocuments().get(i).getString("Sex");
+                                    email = task.getResult().getDocuments().get(i).getString("email");
+                                    Age = task.getResult().getDocuments().get(i).getString("Age");
+                                    membership = task.getResult().getDocuments().get(i).getString("membership");
+                                    try {
+                                        session = task.getResult().getDocuments().get(i).getString("session");
+                                    } catch (Exception e) {
+                                        session = "N/A";
                             }
                             tempData.add(new Studentdata(name, rollno, phone, userId, email, sex, Age, session, membership));
                         }
@@ -229,7 +232,9 @@ public class studentsList {
     }
 
     public MutableLiveData<ArrayList<Studentdata>> getUsers() {
-        store.collection("user").orderBy("RollNo", Query.Direction.DESCENDING).get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+        store.collection("user")
+//                .orderBy("name",Oue )
+                .get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
             @Override
             public void onComplete(@NonNull @NotNull Task<QuerySnapshot> task) {
                 if (task.isSuccessful()) {

@@ -8,12 +8,19 @@ import com.google.firebase.remoteconfig.ktx.remoteConfigSettings
 
 abstract class RemoteConfigHelper {
 
+
     companion object {
+        private var INSTANCE: FirebaseRemoteConfig? = null
+
         private val PRICE = "courtPrice"
+        private val ACADEMY_CONTACT = "academyContactNumber"
+        private val ACADEMY_EMAIL = "academyContactEmail"
         private val DEFAULTS: HashMap<String, Any> = hashMapOf(
-            PRICE to 350
+            PRICE to 350,
+            ACADEMY_CONTACT to 123456789,
+            ACADEMY_EMAIL to "academy.oscarbansal@gmail.com"
         )
-        var INSTANCE: FirebaseRemoteConfig? = null
+
         fun getInstance(): FirebaseRemoteConfig {
             if (INSTANCE == null) {
                 synchronized(this) {
@@ -25,7 +32,7 @@ abstract class RemoteConfigHelper {
                         setConfigSettingsAsync(configSettings)
                         setDefaultsAsync(DEFAULTS)
                         fetchAndActivate().addOnCompleteListener {
-                            Log.e("TAG", "getInstance: ${it.result}")
+                            Log.e("TAG", "Remote getInstance : ${it.result}")
                         }
                     }
                 }

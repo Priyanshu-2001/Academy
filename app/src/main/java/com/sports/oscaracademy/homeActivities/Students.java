@@ -38,6 +38,7 @@ public class Students extends AppCompatActivity {
     protected void onRestart() {
         super.onRestart();
         binding.progress.setVisibility(View.VISIBLE);
+        viewModel.refreshData();
         updateFullData();
     }
 

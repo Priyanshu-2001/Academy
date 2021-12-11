@@ -246,7 +246,7 @@ public class ProfileFragment extends Fragment {
 
     private void deleteStudents() {
         Map<String, Object> data = getDataFromTxtViews();
-        displayConfirmationDialog("DELETE", "Please Connfirm Your Deletion", getContext(), data);
+        displayConfirmationDialog("DELETE", "Please Confirm Your Deletion", getContext(), data);
 
     }
 
@@ -258,9 +258,21 @@ public class ProfileFragment extends Fragment {
         ProfileData.put("Sex", binding.studentGender.getText().toString().trim());
         ProfileData.put("userID", currentStudent.getValue().getUserId());
         ProfileData.put("phone number", binding.phoneNumber.getText().toString().trim());
-        ProfileData.put("RollNo", Integer.valueOf(binding.StudentRollNo.getText().toString().trim()));
-        ProfileData.put("membership", binding.feesValidity.getSelectedItem().toString().trim());
-        ProfileData.put("session", binding.session.getSelectedItem().toString().trim());
+        try {
+            ProfileData.put("RollNo", Integer.valueOf(binding.StudentRollNo.getText().toString().trim()));
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        try {
+            ProfileData.put("membership", binding.feesValidity.getSelectedItem().toString().trim());
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        try {
+            ProfileData.put("session", binding.session.getSelectedItem().toString().trim());
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
         return ProfileData;
     }
 
@@ -275,7 +287,7 @@ public class ProfileFragment extends Fragment {
         ProfileData.put("userID", currentStudent.getValue().getUserId());
         ProfileData.put("session", binding.session.getSelectedItem().toString().trim());
         ProfileData.put("membership", binding.feesValidity.getSelectedItem().toString().trim());
-        if (binding.StudentRollNo.getText().toString().isEmpty()) {
+        if (binding.StudentRollNo.getText().toString().equals("null")) {
             studentsList service = new studentsList(getContext());
             service.getRoll(userID).observe(requireActivity(), new Observer<Integer>() {
                 @Override

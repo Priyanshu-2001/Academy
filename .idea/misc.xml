@@ -23,6 +23,7 @@
         <entry key="..\:/OscarAcademy/app/src/main/res/drawable/ic_send.xml" value="0.23703703703703705" />
         <entry key="..\:/OscarAcademy/app/src/main/res/drawable/opt_send_btn.xml" value="0.2351851851851852" />
         <entry key="..\:/OscarAcademy/app/src/main/res/drawable/opt_send_selected.xml" value="0.19166666666666668" />
+        <entry key="..\:/OscarAcademy/app/src/main/res/drawable/premium_bg.xml" value="0.14583333333333334" />
         <entry key="..\:/OscarAcademy/app/src/main/res/drawable/premium_btn.xml" value="0.20185185185185187" />
         <entry key="..\:/OscarAcademy/app/src/main/res/drawable/privacy.xml" value="0.23703703703703705" />
         <entry key="..\:/OscarAcademy/app/src/main/res/drawable/receive_drawable.xml" value="0.23703703703703705" />
@@ -58,16 +59,19 @@
         <entry key="..\:/OscarAcademy/app/src/main/res/layout/bottom_sheet_news_feed.xml" value="0.176" />
         <entry key="..\:/OscarAcademy/app/src/main/res/layout/chat_top_bar.xml" value="0.264" />
         <entry key="..\:/OscarAcademy/app/src/main/res/layout/court_selector.xml" value="0.536" />
+        <entry key="..\:/OscarAcademy/app/src/main/res/layout/detailed_booking_history.xml" value="0.536" />
         <entry key="..\:/OscarAcademy/app/src/main/res/layout/fees_bottom_sheet.xml" value="0.176" />
-        <entry key="..\:/OscarAcademy/app/src/main/res/layout/fees_history_single.xml" value="0.4" />
+        <entry key="..\:/OscarAcademy/app/src/main/res/layout/fees_history_single.xml" value="0.2" />
         <entry key="..\:/OscarAcademy/app/src/main/res/layout/fees_structure.xml" value="0.4" />
         <entry key="..\:/OscarAcademy/app/src/main/res/layout/fragment_admin__booking.xml" value="0.176" />
         <entry key="..\:/OscarAcademy/app/src/main/res/layout/fragment_booking_details.xml" value="0.2" />
         <entry key="..\:/OscarAcademy/app/src/main/res/layout/fragment_chat.xml" value="0.176" />
         <entry key="..\:/OscarAcademy/app/src/main/res/layout/fragment_contact_academy.xml" value="0.264" />
         <entry key="..\:/OscarAcademy/app/src/main/res/layout/fragment_home_fragment.xml" value="0.17760416666666667" />
+        <entry key="..\:/OscarAcademy/app/src/main/res/layout/fragment_individual_booking_details.xml" value="0.176" />
+        <entry key="..\:/OscarAcademy/app/src/main/res/layout/fragment_individual_booking_history.xml" value="0.2" />
         <entry key="..\:/OscarAcademy/app/src/main/res/layout/fragment_pay_and_play.xml" value="0.155859375" />
-        <entry key="..\:/OscarAcademy/app/src/main/res/layout/fragment_pay_play.xml" value="0.264" />
+        <entry key="..\:/OscarAcademy/app/src/main/res/layout/fragment_pay_play.xml" value="0.2" />
         <entry key="..\:/OscarAcademy/app/src/main/res/layout/fragment_profile.xml" value="0.264" />
         <entry key="..\:/OscarAcademy/app/src/main/res/layout/fragment_verify_contact_details.xml" value="0.264" />
         <entry key="..\:/OscarAcademy/app/src/main/res/layout/header.xml" value="0.19537037037037036" />
@@ -82,6 +86,7 @@
         <entry key="..\:/OscarAcademy/app/src/main/res/layout/single_chat_profile.xml" value="0.264" />
         <entry key="..\:/OscarAcademy/app/src/main/res/layout/single_dashboard_rcv.xml" value="0.176" />
         <entry key="..\:/OscarAcademy/app/src/main/res/layout/single_order_review.xml" value="0.2" />
+        <entry key="..\:/OscarAcademy/app/src/main/res/layout/single_pay_play_user_history.xml" value="0.34312210200927357" />
         <entry key="..\:/OscarAcademy/app/src/main/res/layout/single_selected_slots.xml" value="0.4" />
         <entry key="..\:/OscarAcademy/app/src/main/res/layout/single_student_rcv.xml" value="0.176" />
         <entry key="..\:/OscarAcademy/app/src/main/res/layout/single_upcoming_tournament.xml" value="0.264" />

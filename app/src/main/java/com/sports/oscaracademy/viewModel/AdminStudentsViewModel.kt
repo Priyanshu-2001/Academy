@@ -19,6 +19,11 @@ class AdminStudentsViewModel(app: Application) : AndroidViewModel(app) {
         return usersData
     }
 
+    fun refreshData() {
+        usersData = null
+        studentData = null
+    }
+
     fun getStudentData(): MutableLiveData<ArrayList<Studentdata>>? {
         if (studentData == null) {
             studentData = service.students
@@ -35,7 +40,6 @@ class AdminStudentsViewModel(app: Application) : AndroidViewModel(app) {
         }
         val temp = studentData?.value
         return filterProcess(temp, filterType, filter)
-//        return service.filteredStudentList(filterType,filter)
     }
 
     fun getUserDataFiltered(
@@ -54,37 +58,47 @@ class AdminStudentsViewModel(app: Application) : AndroidViewModel(app) {
         data: ArrayList<Studentdata>?,
         filterType: String,
         filter: Any
-    ): MutableLiveData<ArrayList<Studentdata>>? {
+    ): MutableLiveData<ArrayList<Studentdata>> {
 
         var temp: List<Studentdata>? = null
 
         if (filterType == "name") {
             temp = data?.filter {
-                it.name.toString().contains(filter.toString(), true)
+                if (it.name != null)
+                    it.name.toString().contains(filter.toString(), true)
+                else
+                    false
             }
 
         }
         if (filterType == "phone number") {
             temp = data?.filter {
-                it.phone.toString().contains(filter.toString(), true)
+                Log.e("TAG", "filterProcess: ${it.phone}")
+                if (it.phone != null)
+                    it.phone.toString().contains(filter.toString(), true)
+                else
+                    false
             }
         }
 
 
         if (filterType == "email") {
             temp = data?.filter {
-                it.email.toString().contains(filter.toString(), true)
+                if (it.email != null)
+                    it.email.toString().contains(filter.toString(), true)
+                else
+                    false
             }
         }
 
 
         if (filterType == "RollNo") {
             temp = data?.filter {
-                it.rollno.toString().contains(filter.toString(), true)
+                if (it.rollno != null)
+                    it.rollno.toString().contains(filter.toString(), true)
+                else
+                    false
             }
-        }
-        temp?.forEach {
-            Log.e("TAG", "filterProcess: ${it.name}")
         }
         return MutableLiveData(temp as ArrayList<Studentdata>)
     }
