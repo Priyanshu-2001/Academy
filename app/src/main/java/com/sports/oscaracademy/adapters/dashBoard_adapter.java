@@ -2,10 +2,12 @@ package com.sports.oscaracademy.adapters;
 
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
@@ -26,9 +28,16 @@ import java.util.ArrayList;
 public class dashBoard_adapter extends RecyclerView.Adapter<dashBoard_adapter.holder> {
     private final ArrayList<DashBoardData> data;
     Context context;
+    private final SharedPreferences pref;
+    private final String isStudent;
+    private final String role;
+
     public dashBoard_adapter(ArrayList<DashBoardData> data, Context context) {
         this.data = data;
         this.context = context;
+        pref = context.getSharedPreferences("tokenFile", Context.MODE_PRIVATE);
+        isStudent = pref.getString("isStudent", "false");
+        role = pref.getString("userType", "-1");
     }
 
     @NonNull
@@ -67,18 +76,28 @@ public class dashBoard_adapter extends RecyclerView.Adapter<dashBoard_adapter.ho
             Intent i;
             switch (text.trim()) {
                 case "Fees & Payments":
-                    context.startActivity(new Intent(context, FeesPayment.class));
+                    if (isStudent.equals("true")) {
+                        context.startActivity(new Intent(context, FeesPayment.class));
+                    } else {
+                        Toast.makeText(context, "Only Available For Enrolled Students", Toast.LENGTH_SHORT).show();
+                    }
                     break;
                 case "Attendance":
-                    context.startActivity(new Intent(context, attendance.class));
+                    if (isStudent.equals("true") || role.equals("-2")) {
+                        context.startActivity(new Intent(context, attendance.class));
+                    } else {
+                        Toast.makeText(context, "Only Available For Enrolled Students", Toast.LENGTH_SHORT).show();
+                    }
                     break;
                 case "News Feeds": //for both admin and students
-                    i = new Intent(context, news_feeds.class);
-                    context.startActivity(i);
+                    context.startActivity(new Intent(context, news_feeds.class));
                     break;
                 case "Schedule":
-                    i = new Intent(context, Schedule.class);
-                    context.startActivity(i);
+                    if (isStudent.equals("true")) {
+                        context.startActivity(new Intent(context, Schedule.class));
+                    } else {
+                        Toast.makeText(context, "Only Available For Enrolled Students", Toast.LENGTH_SHORT).show();
+                    }
                     break;
                 case "Students":
                     i = new Intent(context, Students.class);
