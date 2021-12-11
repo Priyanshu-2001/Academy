@@ -43,7 +43,8 @@ class BookingService {
         selectedDate: MutableLiveData<Date>,
         selectedslots: MutableLiveData<ArrayList<SlotsData>>,
         bookingData: MutableLiveData<BookingData>,
-        progress: SpinKitView
+        progress: SpinKitView,
+        checkOutPrice: CharSequence
     ) {
         val firestore: FirebaseFirestore = FirebaseFirestore.getInstance()
         val randomKey = FirebaseDatabase.getInstance().reference.push().key
@@ -74,6 +75,8 @@ class BookingService {
 
         individualBookingData["slotsBooked"] = slotMap
         individualBookingData["courtBooked"] = courtMap
+        individualBookingData["bookingDate"] = date
+        individualBookingData["totalAmountPaid"] = checkOutPrice
 
         val db = firestore.collection("user")
             .document(bookingData.value!!.userID)

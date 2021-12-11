@@ -8,26 +8,40 @@ import com.sports.oscaracademy.service.*
 class FeesViewModel(val app: Application) : AndroidViewModel(app) {
     private val sessionService = SessionDetailsService()
     private val feesPaymentService = FeesPaymentService()
-    private var sessionDetails = MutableLiveData<SessionData>()
+    private var sessionDetails: MutableLiveData<SessionData>? = null
+    private var paymentHistoryData: MutableLiveData<List<PaymentData>>? = null
+    private var paymentStatus: MutableLiveData<String>? = null
+    private var studentData: MutableLiveData<PaymentStudentData>? = null
 
-    fun getSessionDetail(): MutableLiveData<SessionData> {
-        sessionDetails = sessionService.getSpecificSchedule(app.applicationContext)
+    fun getSessionDetail(): MutableLiveData<SessionData>? {
+        if (sessionDetails == null)
+            sessionDetails = sessionService.getSpecificSchedule(app.applicationContext)
         return sessionDetails
     }
 
     fun startPayment() {
-        feesPaymentService.payNow(sessionDetails)
+        feesPaymentService.payNow(sessionDetails!!)
     }
 
-    fun getPaymentHistory(): MutableLiveData<List<PaymentData>> {
-        return feesPaymentService.getPaymentHistory()
+    fun getFeesPayementObserver(): MutableLiveData<Boolean> {
+        return feesPaymentService.feesPaymentObserver
     }
 
-    fun getPaymentStatus(): MutableLiveData<String> {
-        return feesPaymentService.getMonthlyPaymentStatus()
+    fun getPaymentHistory(): MutableLiveData<List<PaymentData>>? {
+        if (paymentHistoryData == null)
+            paymentHistoryData = feesPaymentService.getPaymentHistory()
+        return paymentHistoryData
     }
 
-    fun getStudentData(): MutableLiveData<PaymentStudentData> {
-        return feesPaymentService.getStudentDataForPayment()
+    fun getPaymentStatus(): MutableLiveData<String>? {
+        if (paymentStatus == null)
+            paymentStatus = feesPaymentService.getMonthlyPaymentStatus()
+        return paymentStatus
+    }
+
+    fun getStudentData(): MutableLiveData<PaymentStudentData>? {
+        if (studentData == null)
+            studentData = feesPaymentService.getStudentDataForPayment()
+        return studentData
     }
 }

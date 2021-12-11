@@ -119,6 +119,6 @@
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:tint="@color/absent_span" />
+            app:tint="@color/colorPrimaryDarker" />
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

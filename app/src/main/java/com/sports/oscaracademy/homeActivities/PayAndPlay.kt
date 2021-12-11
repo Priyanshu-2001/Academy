@@ -53,7 +53,8 @@ class PayAndPlay : AppCompatActivity(), PaymentResultListener {
         val prefs = getSharedPreferences("tokenFile", MODE_PRIVATE)
         role = prefs.getString("userType", "-1")!!
 
-        if (role == "-2" && navController.currentDestination?.id == navController.graph.startDestinationId)
+//        if (role == "-2" && navController.currentDestination?.id == navController.graph.startDestinationId)
+        if (navController.currentDestination?.id == navController.graph.startDestinationId)
             menuInflater.inflate(R.menu.pay_play_menu, menu)
         return super.onCreateOptionsMenu(menu)
 
@@ -70,11 +71,17 @@ class PayAndPlay : AppCompatActivity(), PaymentResultListener {
                 navController.navigateUp()
                 return true
             }
-
             R.id.viewBookings -> {
-                navController.navigate(
-                    R.id.action_pay_play2_to_adminBooking,
-                )
+                Log.e("hey ", "onOptionsItemSelected: clicked $role")
+                if (role == "-2") {
+                    navController.navigate(
+                        R.id.action_pay_play2_to_adminBooking
+                    )
+                } else {
+                    navController.navigate(
+                        R.id.action_pay_play2_to_individualBookingHistory
+                    )
+                }
             }
         }
         return super.onOptionsItemSelected(item)

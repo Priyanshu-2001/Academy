@@ -11,10 +11,17 @@
         <action
             android:id="@+id/action_pay_play2_to_adminBooking"
             app:destination="@id/adminBooking"
-            app:enterAnim="@anim/nav_default_enter_anim"
+            app:enterAnim="@android:anim/slide_in_left"
             app:exitAnim="@android:anim/slide_out_right"
             app:launchSingleTop="false"
-            app:popEnterAnim="@anim/nav_default_pop_enter_anim"
+            app:popEnterAnim="@android:anim/slide_in_left"
+            app:popExitAnim="@android:anim/slide_out_right" />
+        <action
+            android:id="@+id/action_pay_play2_to_individualBookingHistory"
+            app:destination="@id/individualBookingHistory"
+            app:enterAnim="@android:anim/slide_in_left"
+            app:exitAnim="@android:anim/slide_out_right"
+            app:popEnterAnim="@android:anim/slide_in_left"
             app:popExitAnim="@android:anim/slide_out_right" />
     </fragment>
     <fragment
@@ -24,9 +31,9 @@
         <action
             android:id="@+id/action_adminBooking_to_bookingDetails"
             app:destination="@id/bookingDetails"
-            app:enterAnim="@android:anim/slide_out_right"
+            app:enterAnim="@android:anim/slide_in_left"
             app:exitAnim="@android:anim/slide_out_right"
-            app:popEnterAnim="@android:anim/slide_out_right"
+            app:popEnterAnim="@android:anim/slide_in_left"
             app:popExitAnim="@android:anim/slide_out_right"
             app:popUpToInclusive="false" />
         <argument
@@ -38,4 +45,21 @@
         android:name="com.sports.oscaracademy.homeActivities.payAndPlayFragments.BookingDetailsViewer"
         android:label="fragment_booking_details"
         tools:layout="@layout/fragment_booking_details" />
+    <fragment
+        android:id="@+id/individualBookingHistory"
+        android:name="com.sports.oscaracademy.homeActivities.payAndPlayFragments.IndividualBookingHistory"
+        android:label="fragment_individual_booking_history"
+        tools:layout="@layout/fragment_individual_booking_history">
+        <action
+            android:id="@+id/action_individualBookingHistory_to_individualBookingDetails"
+            app:destination="@id/individualBookingDetails"
+            app:enterAnim="@android:anim/fade_in"
+            app:exitAnim="@android:anim/fade_out"
+            app:popEnterAnim="@android:anim/fade_in"
+            app:popExitAnim="@android:anim/fade_out" />
+    </fragment>
+    <fragment
+        android:id="@+id/individualBookingDetails"
+        android:name="com.sports.oscaracademy.homeActivities.payAndPlayFragments.IndividualBookingDetails"
+        android:label="IndividualBookingDetails" />
 </navigation>

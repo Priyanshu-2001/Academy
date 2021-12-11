@@ -1,11 +1,13 @@
 package com.sports.oscaracademy.homeActivities
 
+import android.app.ProgressDialog
 import android.os.Bundle
 import android.util.Log
 import android.view.MenuItem
 import android.view.View
 import android.view.animation.AccelerateDecelerateInterpolator
 import android.view.animation.AccelerateInterpolator
+import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.ViewModelProvider
@@ -14,6 +16,7 @@ import com.razorpay.PaymentResultListener
 import com.sports.oscaracademy.R
 import com.sports.oscaracademy.adapters.FeesHistoryAdapter
 import com.sports.oscaracademy.databinding.ActivityFeesPaymentBinding
+import com.sports.oscaracademy.service.PaymentStudentData
 import com.sports.oscaracademy.utils.FeesPaymentHelper
 import com.sports.oscaracademy.viewModel.FeesViewModel
 
@@ -21,19 +24,23 @@ class FeesPayment : AppCompatActivity(), PaymentResultListener {
     lateinit var binding: ActivityFeesPaymentBinding
     lateinit var viewModel: FeesViewModel
     lateinit var totalFees: String
+    lateinit var progressBar: ProgressDialog
+    var CurrentStudentData: PaymentStudentData? = null
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = DataBindingUtil.setContentView(this, R.layout.activity_fees_payment)
         viewModel = ViewModelProvider(this)[FeesViewModel::class.java]
+        progressBar = ProgressDialog(this, R.style.AlertDialog)
+        progressBar.setMessage("Confirming Payment")
 
-        viewModel.getSessionDetail().observe(this, {
+        viewModel.getSessionDetail()?.observe(this, {
             binding.feesStructure.priceProgressBar.visibility = View.GONE
             binding.feesStructure.totalFees.animate().alpha(1f)
             binding.feesStructure.totalFees.text = String.format("₹ " + it.fees)
             totalFees = it.fees
         })
 
-        viewModel.getPaymentStatus().observe(this, {
+        viewModel.getPaymentStatus()?.observe(this, {
             Log.e("TAG", "onCreate: validity $it")
             if (it.lowercase().trim() == "active") {
                 binding.PayNow.visibility = View.VISIBLE
@@ -47,18 +54,45 @@ class FeesPayment : AppCompatActivity(), PaymentResultListener {
             }
         })
         binding.PayNow.setOnClickListener {
-            viewModel.getStudentData().observe(this, {
+            progressBar.show()
+            viewModel.getFeesPayementObserver().observe(this, {
+                if (it) {
+                    viewModel.getPaymentStatus()
+                    viewModel.getPaymentHistory()
+                    progressBar.dismiss()
+                } else {
+                    progressBar.dismiss()
+                    Toast.makeText(
+                        this,
+                        "Payment Failed please contact Academy For more Details",
+                        Toast.LENGTH_SHORT
+                    ).show()
+                }
+            })
+            if (CurrentStudentData == null) {
+                viewModel.getStudentData()?.observe(this, {
+                    CurrentStudentData = it
+                    Log.e("TAG", "onCreate: payment Called")
+                    FeesPaymentHelper().startPayment(
+                        this,
+                        Integer.valueOf(totalFees),
+                        email = it.email,
+                        phoneNumber = it.phoneNumber,
+                        name = it.name
+                    )
+                })
+            } else {
                 FeesPaymentHelper().startPayment(
                     this,
                     Integer.valueOf(totalFees),
-                    email = it.email,
-                    phoneNumber = it.phoneNumber,
-                    name = it.name
+                    email = CurrentStudentData!!.email,
+                    phoneNumber = CurrentStudentData!!.phoneNumber,
+                    name = CurrentStudentData!!.name
                 )
-            })
+            }
         }
 
-        viewModel.getPaymentHistory().observe(this, {
+        viewModel.getPaymentHistory()?.observe(this, {
             val adapter = FeesHistoryAdapter(it)
             binding.bottomSheet.paymentRcv.adapter = adapter
         })
@@ -134,6 +168,6 @@ class FeesPayment : AppCompatActivity(), PaymentResultListener {
     }
 
     override fun onPaymentError(p0: Int, p1: String?) {
-
+        progressBar.dismiss()
     }
 }

@@ -17,6 +17,7 @@ class FeesPaymentService {
     private var paymentStudentData = MutableLiveData<PaymentStudentData>()
     val firestore = FirebaseFirestore.getInstance()
     val uid = FirebaseAuth.getInstance().currentUser!!.uid
+    val feesPaymentObserver = MutableLiveData<Boolean>()
 
     fun payNow(sessionDetails: MutableLiveData<SessionData>) {
         val referenceKey = FirebaseDatabase.getInstance().reference.push().key
@@ -44,6 +45,7 @@ class FeesPaymentService {
                     .collection("students")
                     .document(uid)
                     .set(mem, SetOptions.merge())
+                feesPaymentObserver.value = true
             }
     }
 
@@ -92,7 +94,9 @@ class FeesPaymentService {
             .get()
             .addOnSuccessListener {
                 paymentStudentData.value = PaymentStudentData(
-                    it["name"] as String, it["email"] as String, it["Phone Number"] as String
+                    it["name"] as String,
+                    it["email"] as String,
+                    it["phone number"] as String
                 )
             }
         return paymentStudentData

@@ -1,15 +1,16 @@
 package com.sports.oscaracademy.homeActivities.payAndPlayFragments
 
-import android.app.Activity
 import android.content.Context
 import android.graphics.Color
 import android.os.Bundle
 import android.os.Handler
 import android.util.Log
 import android.util.TypedValue
-import android.view.*
+import android.view.LayoutInflater
+import android.view.View
 import android.view.View.GONE
 import android.view.View.VISIBLE
+import android.view.ViewGroup
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.constraintlayout.widget.ConstraintLayout
@@ -184,9 +185,6 @@ class pay_play : Fragment(), DatePickerListener {
                 snackbar.show()
             }
         }
-
-
-//        binding.courtRcv.layoutManager = stagLayout
         court_adapter.setData(courtID, model)
         binding.courtRcv.adapter = court_adapter
 
@@ -211,14 +209,11 @@ class pay_play : Fragment(), DatePickerListener {
             }
 
         }
-
-        if (role == "-2") {
-            val c = context
-            (binding.topTitleName.layoutParams as ConstraintLayout.LayoutParams).apply {
-                marginEnd = c?.let {
-                    0.dpToPixels(it)
-                }!!
-            }
+        val c = context
+        (binding.topTitleName.layoutParams as ConstraintLayout.LayoutParams).apply {
+            marginEnd = c?.let {
+                0.dpToPixels(it)
+            }!!
         }
         return binding.root
     }
@@ -240,36 +235,5 @@ class pay_play : Fragment(), DatePickerListener {
             }
 
         }
-    }
-
-    override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
-        super.onCreateOptionsMenu(menu, inflater)
-        context?.apply {
-            val prefs = getSharedPreferences("tokenFile", AppCompatActivity.MODE_PRIVATE)
-            role = prefs.getString("userType", "-1")!!
-
-            if (role == "-2")
-                inflater.inflate(R.menu.pay_play_menu, menu)
-        }
-    }
-
-    override fun onOptionsItemSelected(item: MenuItem): Boolean {
-        when (item.itemId) {
-            android.R.id.home -> {
-                if (navController.currentDestination?.id == navController.graph.startDestinationId) {
-                    (context as Activity).finish()
-                    return true
-                }
-                navController.navigateUp()
-                return true
-            }
-
-            R.id.viewBookings -> {
-                navController.navigate(
-                    R.id.action_pay_play2_to_adminBooking,
-                )
-            }
-        }
-        return super.onOptionsItemSelected(item)
     }
 }
