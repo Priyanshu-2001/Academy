@@ -189,8 +189,8 @@ public class studentsList {
     }
 
 
-    public MutableLiveData<ArrayList<Studentdata>> getStudents() {
-        store.collection("students")
+    public MutableLiveData<ArrayList<Studentdata>> getStudents() {//TODO here i can use firebase WhereEqualTo method user collection
+        store.collection("students")      //TODO isStudent==true for list instead of creating different collextion and wasting space
                 .orderBy("RollNo", Query.Direction.ASCENDING)
                 .get()
                 .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
@@ -234,6 +234,7 @@ public class studentsList {
     public MutableLiveData<ArrayList<Studentdata>> getUsers() {
         store.collection("user")
 //                .orderBy("name",Oue )
+                .whereEqualTo("isStudent", "false")
                 .get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
             @Override
             public void onComplete(@NonNull @NotNull Task<QuerySnapshot> task) {
@@ -271,7 +272,7 @@ public class studentsList {
                             if (RollNo != null) {
                                 data.setRollno(RollNo);
                             }
-                            if (task.getResult().getDocuments().get(i).getString("isStudent").equals("false"))
+//                            if (task.getResult().getDocuments().get(i).getString("isStudent").equals("false"))
                                 tempData.add(data);
                         }
                     } catch (Exception e) {
