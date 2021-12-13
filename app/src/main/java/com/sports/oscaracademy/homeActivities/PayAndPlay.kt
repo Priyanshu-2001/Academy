@@ -14,7 +14,6 @@ import androidx.navigation.fragment.NavHostFragment
 import com.github.ybq.android.spinkit.SpinKitView
 import com.github.ybq.android.spinkit.sprite.Sprite
 import com.github.ybq.android.spinkit.style.WanderingCubes
-import com.razorpay.Checkout
 import com.razorpay.PaymentResultListener
 import com.sports.oscaracademy.R
 import com.sports.oscaracademy.databinding.ActivityPayAndPlayBinding
@@ -38,7 +37,7 @@ class PayAndPlay : AppCompatActivity(), PaymentResultListener {
         val navHostFragment =
             supportFragmentManager.findFragmentById(R.id.fragmentHolder) as NavHostFragment
         model = ViewModelProvider(this).get(Pay_playViewModel::class.java)
-        Checkout.preload(this)
+//        Checkout.preload(this)
 
         progressBar = binding.progress
         val doubleBounce: Sprite = WanderingCubes()

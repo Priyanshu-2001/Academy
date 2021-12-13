@@ -35,56 +35,65 @@
                 android:textStyle="bold" />
         </androidx.appcompat.widget.Toolbar>
 
-        <com.prolificinteractive.materialcalendarview.MaterialCalendarView xmlns:app="http://schemas.android.com/apk/res-auto"
+        <com.prolificinteractive.materialcalendarview.MaterialCalendarView
             android:id="@+id/calendarView"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            app:layout_constraintEnd_toEndOf="parent"
-            android:layout_marginTop="30dp"
-            app:layout_constraintStart_toStartOf="parent"
+            android:layout_width="wrap_content"
+            android:layout_height="0dp"
+            android:layout_marginTop="10dp"
             android:background="#43FFFFFF"
-            app:mcv_dateTextAppearance="@style/CalendarWidgetdate"
-            app:mcv_headerTextAppearance="@style/CalendarWidgetHeader"
+            app:layout_constraintBottom_toTopOf="@+id/guideline6"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/toolbar"
-            app:mcv_weekDayTextAppearance="@style/CalendarWidgetDay"
+            app:mcv_dateTextAppearance="@style/CalendarWidgetdate"
             app:mcv_firstDayOfWeek="monday"
+            app:mcv_headerTextAppearance="@style/CalendarWidgetHeader"
             app:mcv_selectionColor="@color/colorPrimary"
-            app:mcv_showOtherDates="all" />
+            app:mcv_showOtherDates="all"
+            app:mcv_weekDayTextAppearance="@style/CalendarWidgetDay" />
 
         <ScrollView
             android:id="@+id/AdminScrollView"
             android:layout_width="match_parent"
             android:layout_height="0dp"
-            android:visibility="gone"
+            android:visibility="visible"
             app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/calendarView">
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="@+id/guideline6">
 
             <RelativeLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center">
+
                 <Button
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_margin="20dp"
                     android:id="@+id/markAttendance"
-                    android:padding="20dp"
-                    android:text="Mark Attendance"
-                    android:layout_centerHorizontal="true"
-                    android:background="@drawable/btn_theme_1"
-                    android:textColor="@color/white"/>
-                <Button
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:id="@+id/getAttend"
-                    android:text="Get Attendance"
-                    android:textColor="@color/white"
-                    android:padding="20dp"
-                    android:layout_below="@+id/markAttendance"
+                    android:layout_centerHorizontal="true"
+                    android:layout_marginStart="20dp"
+                    android:layout_marginTop="20dp"
+                    android:layout_marginEnd="20dp"
+                    android:layout_marginBottom="20dp"
+                    android:padding="5dp"
                     android:background="@drawable/btn_theme_1"
+                    android:paddingHorizontal="10dp"
+                    android:text="Mark Attendance"
+                    android:textColor="@color/white" />
+
+                <Button
+                    android:id="@+id/getAttend"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@+id/markAttendance"
                     android:layout_centerHorizontal="true"
                     android:layout_marginTop="10dp"
-                    />
+                    android:background="@drawable/btn_theme_1"
+                    android:padding="5dp"
+                    android:paddingHorizontal="10dp"
+                    android:text="Get Attendance"
+                    android:textColor="@color/white" />
             </RelativeLayout>
 
         </ScrollView>
@@ -92,14 +101,15 @@
         <ScrollView
             android:id="@+id/studentScrollView"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="0dp"
             android:visibility="visible"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/calendarView">
+            app:layout_constraintTop_toTopOf="@+id/guideline6">
 
-            <RelativeLayout
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:id="@+id/relativeLayout"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
@@ -109,91 +119,121 @@
                     android:id="@+id/leaveButton"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_centerInParent="true"
+                    android:layout_centerHorizontal="true"
+                    android:layout_centerVertical="true"
                     android:background="@drawable/btn_theme_1"
-                    android:padding="20dp"
+                    android:padding="5dp"
+                    android:paddingHorizontal="10dp"
                     android:text="Apply For Leave"
                     android:textColor="@color/white"
                     android:textSize="14sp"
-                    android:visibility="gone" />
+                    android:visibility="gone"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintLeft_toLeftOf="parent"
+                    app:layout_constraintRight_toRightOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+
                 <Button
                     android:id="@+id/cancelLeave"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_centerInParent="true"
+                    android:layout_centerHorizontal="true"
+                    android:layout_centerVertical="true"
                     android:background="@drawable/btn_theme_1"
-                    android:padding="20dp"
+                    android:padding="5dp"
+                    android:paddingHorizontal="10dp"
                     android:text="Cancel Leave"
                     android:textColor="@color/white"
                     android:textSize="14sp"
-                    android:visibility="gone" />
+                    android:visibility="gone"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintLeft_toLeftOf="parent"
+                    app:layout_constraintRight_toRightOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
 
                 <de.hdodenhof.circleimageview.CircleImageView
                     android:id="@+id/absent"
-                    android:layout_width="10dp"
-                    android:layout_height="10dp"
-                    android:layout_margin="10dp"
-                    android:layout_marginTop="25dp"
-                    android:src="@drawable/absent_span" />
+                    android:layout_width="15dp"
+                    android:layout_height="15dp"
+                    android:layout_marginStart="10dp"
+                    android:src="@drawable/absent_span"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
 
                 <de.hdodenhof.circleimageview.CircleImageView
                     android:id="@+id/present"
-                    android:layout_width="10dp"
-                    android:layout_height="10dp"
-                    android:layout_below="@id/absent"
-                    android:layout_centerVertical="true"
-                    android:layout_margin="10dp"
-                    android:src="@drawable/present_span" />
+                    android:layout_width="15dp"
+                    android:layout_height="15dp"
+                    android:layout_marginStart="10dp"
+                    android:layout_marginTop="10dp"
+                    android:layout_marginBottom="10dp"
+                    android:src="@drawable/present_span"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/absent"
+                    app:layout_constraintTop_toTopOf="parent" />
 
                 <de.hdodenhof.circleimageview.CircleImageView
                     android:id="@+id/leave"
-                    android:layout_width="10dp"
-                    android:layout_height="10dp"
-                    android:layout_below="@id/present"
-                    android:layout_margin="10dp"
-                    android:src="@drawable/leave_span" />
+                    android:layout_width="15dp"
+                    android:layout_height="15dp"
+                    android:layout_marginStart="10dp"
+                    android:layout_marginTop="10dp"
+                    android:layout_marginEnd="10dp"
+                    android:layout_marginBottom="10dp"
+                    android:src="@drawable/leave_span"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/present" />
 
                 <TextView
                     android:id="@+id/absentText"
                     android:layout_width="wrap_content"
                     android:layout_height="12dp"
-                    android:layout_alignParentTop="true"
-                    android:layout_marginStart="2dp"
-                    android:textColor="@color/white"
-                    android:layout_marginTop="10dp"
-                    android:layout_marginEnd="10dp"
-                    android:layout_marginBottom="10dp"
-                    android:layout_toEndOf="@id/absent"
+                    android:layout_marginStart="10dp"
                     android:text="Absent"
-                    android:textSize="8sp" />
+                    android:textColor="@color/white"
+                    android:textSize="8sp"
+                    app:layout_constraintStart_toEndOf="@+id/absent"
+                    app:layout_constraintTop_toTopOf="parent" />
 
                 <TextView
                     android:id="@+id/presentText"
                     android:layout_width="wrap_content"
                     android:layout_height="12dp"
-                    android:layout_below="@id/absentText"
-                    android:layout_marginStart="2dp"
-                    android:textColor="@color/white"
-                    android:layout_marginTop="6dp"
-                    android:layout_toEndOf="@id/present"
+                    android:layout_marginStart="10dp"
+                    android:layout_marginTop="3dp"
                     android:text="Present"
-                    android:textSize="8sp" />
+                    android:textColor="@color/white"
+                    android:textSize="8sp"
+                    app:layout_constraintBaseline_toBaselineOf="@+id/present"
+                    app:layout_constraintBottom_toBottomOf="@+id/present"
+                    app:layout_constraintStart_toEndOf="@id/present"
+                    app:layout_constraintTop_toBottomOf="@id/absentText" />
 
                 <TextView
                     android:id="@+id/leaveText"
                     android:layout_width="wrap_content"
                     android:layout_height="12dp"
-                    android:textColor="@color/white"
-                    android:layout_below="@id/presentText"
-                    android:layout_marginStart="2dp"
+                    android:layout_marginStart="10dp"
                     android:layout_marginTop="16dp"
                     android:layout_toEndOf="@id/leave"
                     android:text="Leave"
-                    android:textSize="8sp" />
+                    android:textColor="@color/white"
+                    android:textSize="8sp"
+                    app:layout_constraintBottom_toBottomOf="@+id/leave"
+                    app:layout_constraintStart_toEndOf="@id/leave"
+                    app:layout_constraintTop_toBottomOf="@id/presentText" />
 
 
-            </RelativeLayout>
+            </androidx.constraintlayout.widget.ConstraintLayout>
 
         </ScrollView>
+
+        <androidx.constraintlayout.widget.Guideline
+            android:id="@+id/guideline6"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            app:layout_constraintGuide_percent="0.7" />
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

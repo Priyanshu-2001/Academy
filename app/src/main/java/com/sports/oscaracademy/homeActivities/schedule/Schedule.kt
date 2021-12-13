@@ -32,6 +32,13 @@ class Schedule : AppCompatActivity() {
             binding.progressBarBelow.visibility = View.GONE
             binding.session.text = it.session
             binding.timings.text = it.schedule
+            if (it.schedule == "null") {
+                binding.session.visibility = View.GONE
+                binding.textView6.visibility = View.GONE
+                binding.textView8.visibility = View.GONE
+                binding.timings.visibility = View.GONE
+                binding.NoDataImage.visibility = View.VISIBLE
+            }
         })
     }
 

@@ -3,6 +3,7 @@ package com.sports.oscaracademy.homeActivities
 import android.app.ProgressDialog
 import android.os.Bundle
 import android.util.Log
+import android.view.Gravity
 import android.view.MenuItem
 import android.view.View
 import android.view.animation.AccelerateDecelerateInterpolator
@@ -25,7 +26,7 @@ class FeesPayment : AppCompatActivity(), PaymentResultListener {
     lateinit var viewModel: FeesViewModel
     lateinit var totalFees: String
     lateinit var progressBar: ProgressDialog
-    var CurrentStudentData: PaymentStudentData? = null
+    private var CurrentStudentData: PaymentStudentData? = null
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = DataBindingUtil.setContentView(this, R.layout.activity_fees_payment)
@@ -36,21 +37,35 @@ class FeesPayment : AppCompatActivity(), PaymentResultListener {
         viewModel.getSessionDetail()?.observe(this, {
             binding.feesStructure.priceProgressBar.visibility = View.GONE
             binding.feesStructure.totalFees.animate().alpha(1f)
-            binding.feesStructure.totalFees.text = String.format("₹ " + it.fees)
-            totalFees = it.fees
+            if (it.fees != "null") {
+                binding.feesStructure.totalFees.text = String.format("₹ " + it.fees)
+                totalFees = it.fees
+            } else {
+                binding.feesStructure.totalFees.text = "N/A"
+            }
         })
 
         viewModel.getPaymentStatus()?.observe(this, {
             Log.e("TAG", "onCreate: validity $it")
-            if (it.lowercase().trim() == "active") {
-                binding.PayNow.visibility = View.VISIBLE
-                binding.PayNow.text = "Already Paid"
-                binding.PayNow.animate().alpha(1f)
-            }
-            if (it.lowercase().trim() == "inactive") {
-                binding.PayNow.visibility = View.VISIBLE
-                binding.PayNow.isEnabled = true
-                binding.PayNow.animate().alpha(1f)
+            if (it != null) {
+                if (it.lowercase().trim() == "active") {
+                    binding.PayNow.visibility = View.VISIBLE
+                    binding.PayNow.text = "Already Paid"
+                    binding.PayNow.animate().alpha(1f)
+                }
+                if (it.lowercase().trim() == "inactive") {
+                    binding.PayNow.visibility = View.VISIBLE
+                    binding.PayNow.isEnabled = true
+                    binding.PayNow.animate().alpha(1f)
+                }
+            } else {
+                val toast = Toast.makeText(
+                    this,
+                    "Hey Your Fees Details are not ready yet \n    Check out this Section in sometime",
+                    Toast.LENGTH_LONG
+                )
+                toast.setGravity(Gravity.CENTER, 0, 0)
+                toast.show()
             }
         })
         binding.PayNow.setOnClickListener {

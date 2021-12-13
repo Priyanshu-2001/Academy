@@ -58,6 +58,18 @@
                     app:layout_constraintStart_toEndOf="@+id/textView11"
                     tools:text="25 feb 2022" />
 
+                <TextView
+                    android:id="@+id/textView14"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="15dp"
+                    android:text="Slots Booked"
+                    android:textColor="@color/textColor"
+                    android:textSize="15sp"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/detailsSection" />
+
                 <include
                     android:id="@+id/detailsSection"
                     layout="@layout/detailed_booking_history"
@@ -69,10 +81,23 @@
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@+id/textView11" />
 
-                <EditText
+                <androidx.recyclerview.widget.RecyclerView
+                    android:id="@+id/SlotsRcv"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_margin="25dp"
+                    app:layoutManager="androidx.recyclerview.widget.StaggeredGridLayoutManager"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/textView14"
+                    app:spanCount="3"
+                    tools:listitem="@layout/single_order_review" />
+
+                <EditText
+                    android:id="@+id/feedbackTV"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginHorizontal="25dp"
+                    android:layout_marginVertical="35dp"
                     android:background="@drawable/edit_text_search"
                     android:gravity="bottom"
                     android:hint="Any Improvement Needed ? Tell Us Now"
@@ -82,9 +107,22 @@
                     android:textColorHint="@color/textColorBlack"
                     android:textSize="15sp"
                     app:layout_constraintBottom_toBottomOf="parent"
-                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintEnd_toStartOf="@+id/submitBtn"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/detailsSection" />
+                    app:layout_constraintTop_toBottomOf="@+id/SlotsRcv" />
+
+                <Button
+                    android:id="@+id/submitBtn"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginEnd="15dp"
+                    android:background="@drawable/premium_btn"
+                    android:text="submit"
+                    android:textColor="@color/textColor"
+                    android:visibility="gone"
+                    app:layout_constraintBottom_toBottomOf="@id/feedbackTV"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintTop_toTopOf="@id/feedbackTV" />
             </androidx.constraintlayout.widget.ConstraintLayout>
         </ScrollView>
 

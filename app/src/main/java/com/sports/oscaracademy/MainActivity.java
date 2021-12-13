@@ -13,6 +13,7 @@ import androidx.appcompat.app.AppCompatDelegate;
 
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+import com.razorpay.Checkout;
 
 public class MainActivity extends AppCompatActivity {
     private FirebaseAuth mAuth;
@@ -24,44 +25,39 @@ public class MainActivity extends AppCompatActivity {
         AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO);
         super.onStart();
         FirebaseUser currentUser = mAuth.getCurrentUser();
-
+        Checkout.preload(this);
         updateUI(currentUser);
 
     }
 
     private void updateUI(FirebaseUser currentUser) {
-//        getWindow().setStatusBarColor(getColor(R.color.app_compat_light));
         Handler mHandler = new Handler();
-        mHandler.postDelayed(new Runnable() {
-            @Override
-            public void run() {
-                prefEditor = getSharedPreferences("tokenFile", MODE_PRIVATE).edit();
-                prefEditor.putBoolean("isAppOpened", true);
-                prefEditor.commit();
-                if (currentUser != null) {
-                    if (currentUser.isEmailVerified()) {
-                        i = new Intent(MainActivity.this, Dashboard.class);
-                        if (getIntent().getExtras() != null) {
-                            try {
-                                i.putExtra("notification", true);
-                                Log.e("TAG", "run: getintent main " + getIntent().getExtras().getBoolean("notification"));
-                            } catch (Exception e) {
-                                e.printStackTrace();
-                            }
+        mHandler.postDelayed(() -> {
+            prefEditor = getSharedPreferences("tokenFile", MODE_PRIVATE).edit();
+            prefEditor.putBoolean("isAppOpened", true);
+            prefEditor.commit();
+            if (currentUser != null) {
+                if (currentUser.isEmailVerified()) {
+                    i = new Intent(MainActivity.this, Dashboard.class);
+                    if (getIntent().getExtras() != null) {
+                        try {
+                            i.putExtra("notification", true);
+                            Log.e("TAG", "run: getintent main " + getIntent().getExtras().getBoolean("notification"));
+                        } catch (Exception e) {
+                            e.printStackTrace();
                         }
                     }
-                    else{
-                        i = new Intent(MainActivity.this, EmailVerification.class);
-                        i.putExtra("email", currentUser.getEmail());
-                    }
                 } else {
-                    i = new Intent(MainActivity.this, LoginActivity.class);
+                    i = new Intent(MainActivity.this, EmailVerification.class);
+                    i.putExtra("email", currentUser.getEmail());
                 }
-
-                startActivity(i);
-                finish();
+            } else {
+                i = new Intent(MainActivity.this, LoginActivity.class);
             }
-        }, 1800);
+
+            startActivity(i);
+            finish();
+        }, 1500);
 
     }
 
