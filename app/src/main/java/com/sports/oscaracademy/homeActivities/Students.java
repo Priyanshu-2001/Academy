@@ -2,6 +2,8 @@ package com.sports.oscaracademy.homeActivities;
 
 import android.animation.LayoutTransition;
 import android.os.Bundle;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
@@ -89,6 +91,23 @@ public class Students extends AppCompatActivity {
         binding.topBar.ActionSearchBtn.setOnClickListener(v -> {
             Object query = binding.topBar.editSearch.getText().toString();
             applyFilter(query);
+        });
+
+        binding.topBar.editSearch.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+                applyFilter(s);
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+
+            }
         });
 
         filter_phoneNumber.setOnClickListener(v -> {
