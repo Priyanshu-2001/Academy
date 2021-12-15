@@ -59,7 +59,29 @@ public class chat_activity extends AppCompatActivity {
     String receiverRoom;
     String receiverToken;
     SharedPreferences pref;
+    final Handler handler = new Handler();
+    ValueEventListener receiverEvent;
+    ValueEventListener senderEvent;
+    TextWatcher textWatcher = new TextWatcher() {
+        final Runnable userStoppedTyping = () -> database.getReference().child("presence").child(senderUid).setValue("Online");
 
+        @Override
+        public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+            binding.sendBtn.setEnabled(count != 0);
+        }
+
+        @Override
+        public void onTextChanged(CharSequence s, int start, int before, int count) {
+            binding.sendBtn.setEnabled(count != 0);
+        }
+
+        @Override
+        public void afterTextChanged(Editable s) {
+            database.getReference().child("presence").child(senderUid).setValue("typing...");
+            handler.removeCallbacksAndMessages(null);
+            handler.postDelayed(userStoppedTyping, 1000);
+        }
+    };
     @Override
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
         if (item.getItemId() == android.R.id.home) {
@@ -81,26 +103,7 @@ public class chat_activity extends AppCompatActivity {
         receiverRoom = receiverUid + senderUid;
         senderRoom = senderUid + receiverUid;
         getuserName();
-        FirebaseFirestore.getInstance().collection("token").document(receiverUid).get()
-                .addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
-                    @Override
-                    public void onComplete(@NonNull Task<DocumentSnapshot> task) {
-                        receiverToken = task.getResult().get("token", String.class);
-                        Log.e("TAG", "onComplete: token" + receiverToken);
-                    }
-                });
-        binding.sendBtn.setEnabled(false);
-        Sprite doubleBounce = new WanderingCubes();
-        binding.progress.setIndeterminateDrawable(doubleBounce);
-        binding.progress.setVisibility(View.VISIBLE);
-        binding.toolbar.topTitleName.setText(receiverName);
-        getSupportActionBar().setDisplayShowTitleEnabled(false);
-        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-        adapter = new chatMessageAdapter(this, messages, senderRoom, receiverRoom);
-        binding.recyclerView.setAdapter(adapter);
-
-
-        database.getReference().child("presence").child(receiverUid).addValueEventListener(new ValueEventListener() {
+        receiverEvent = new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
                 if (snapshot.exists()) {
@@ -122,65 +125,65 @@ public class chat_activity extends AppCompatActivity {
             public void onCancelled(@NonNull DatabaseError error) {
 
             }
-        });
+        };
+        senderEvent = new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                messages.clear();
+                for (DataSnapshot snapshot1 : snapshot.getChildren()) {
+                    Message message = snapshot1.getValue(Message.class);
+                    message.setMessageId(snapshot1.getKey());
+                    messages.add(message);
+                }
+
+                adapter.notifyDataSetChanged();
+                try {
+                    binding.recyclerView.smoothScrollToPosition(adapter.getItemCount() - 1);
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+
+                //                        binding.recyclerView.smoothScrollToPosition(-1);
+                binding.progress.setVisibility(View.GONE);
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+
+            }
+        };
+        FirebaseFirestore.getInstance().collection("token").document(receiverUid).get()
+                .addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
+                    @Override
+                    public void onComplete(@NonNull Task<DocumentSnapshot> task) {
+                        receiverToken = task.getResult().get("token", String.class);
+                        Log.e("TAG", "onComplete: token" + receiverToken);
+                    }
+                });
+        binding.sendBtn.setEnabled(false);
+        Sprite doubleBounce = new WanderingCubes();
+        binding.progress.setIndeterminateDrawable(doubleBounce);
+        binding.progress.setVisibility(View.VISIBLE);
+        binding.toolbar.topTitleName.setText(receiverName);
+        getSupportActionBar().setDisplayShowTitleEnabled(false);
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        adapter = new chatMessageAdapter(this, messages, senderRoom, receiverRoom);
+        binding.recyclerView.setAdapter(adapter);
+
+
+        database.getReference()
+                .child("presence")
+                .child(receiverUid).
+                addValueEventListener(receiverEvent);
 
 
         database.getReference().child("chats")
                 .child(senderRoom)
                 .child("messages")
-                .addValueEventListener(new ValueEventListener() {
-                    @Override
-                    public void onDataChange(@NonNull DataSnapshot snapshot) {
-                        messages.clear();
-                        for (DataSnapshot snapshot1 : snapshot.getChildren()) {
-                            Message message = snapshot1.getValue(Message.class);
-                            message.setMessageId(snapshot1.getKey());
-                            messages.add(message);
-                        }
+                .addValueEventListener(senderEvent);
 
-                        adapter.notifyDataSetChanged();
-                        try {
-                            binding.recyclerView.smoothScrollToPosition(adapter.getItemCount() - 1);
-                        } catch (Exception e) {
-                            e.printStackTrace();
-                        }
 
-                        //                        binding.recyclerView.smoothScrollToPosition(-1);
-                        binding.progress.setVisibility(View.GONE);
-                    }
-
-                    @Override
-                    public void onCancelled(@NonNull DatabaseError error) {
-
-                    }
-                });
-
-        final Handler handler = new Handler();
-        binding.messageBox.addTextChangedListener(new TextWatcher() {
-            final Runnable userStoppedTyping = new Runnable() {
-                @Override
-                public void run() {
-                    database.getReference().child("presence").child(senderUid).setValue("Online");
-                }
-            };
-
-            @Override
-            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
-                binding.sendBtn.setEnabled(count != 0);
-            }
-
-            @Override
-            public void onTextChanged(CharSequence s, int start, int before, int count) {
-                binding.sendBtn.setEnabled(count != 0);
-            }
-
-            @Override
-            public void afterTextChanged(Editable s) {
-                database.getReference().child("presence").child(senderUid).setValue("typing...");
-                handler.removeCallbacksAndMessages(null);
-                handler.postDelayed(userStoppedTyping, 1000);
-            }
-        });
+        binding.messageBox.addTextChangedListener(textWatcher);
 
 
         binding.sendBtn.setOnClickListener(new View.OnClickListener() {
@@ -294,11 +297,29 @@ public class chat_activity extends AppCompatActivity {
             queue.add(request);
 
 
-        } catch (Exception ex) {
+        } catch (Exception ignored) {
 
         }
+    }
+
+    @Override
+    protected void onStop() {
+        super.onStop();
+        Log.e("TAG", "onStop: " + receiverEvent);
+        database.getReference()
+                .child("presence")
+                .child(receiverUid).
+                removeEventListener(receiverEvent);
 
 
+        database.getReference().child("chats")
+                .child(senderRoom)
+                .child("messages")
+                .removeEventListener(senderEvent);
+        receiverEvent = null;
+        Log.e("TAG", "onStop: " + receiverEvent);
+        senderEvent = null;
+        textWatcher = null;
     }
 
     @Override

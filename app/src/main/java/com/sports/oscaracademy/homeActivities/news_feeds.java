@@ -15,7 +15,6 @@ import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.app.AppCompatDelegate;
 import androidx.databinding.DataBindingUtil;
-import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.ItemTouchHelper;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -33,8 +32,6 @@ import com.sports.oscaracademy.data.feedsData;
 import com.sports.oscaracademy.databinding.NewsFeedsBinding;
 import com.sports.oscaracademy.service.feedsService;
 import com.sports.oscaracademy.viewModel.feedsViewModel;
-
-import java.util.ArrayList;
 
 public class news_feeds extends AppCompatActivity {
 
@@ -98,43 +95,40 @@ public class news_feeds extends AppCompatActivity {
         adapter = new newsFeedAdapter(this);
 
         LinearLayoutManager LLmanager = new LinearLayoutManager(this);
-        viewModel.getData().observeForever(new Observer<ArrayList<feedsData>>() {
-            @Override
-            public void onChanged(ArrayList<feedsData> feedsData) {
-                Log.e("TAG", "onChanged: " + feedsData);
-                adapter.setNewData(feedsData);
-                binding.recyclerView.setLayoutManager(LLmanager);
-                binding.recyclerView.setAdapter(adapter);
-                progressBar.setVisibility(View.GONE);
-                adapter.notifyDataSetChanged();
-                Log.e("TAG", "onChanged: ");
-                if (role.equals("-2")) {
-                    new ItemTouchHelper(new ItemTouchHelper.SimpleCallback(0,
-                            ItemTouchHelper.LEFT | ItemTouchHelper.RIGHT) {
-                        @Override
-                        public boolean onMove(@NonNull RecyclerView recyclerView, @NonNull RecyclerView.ViewHolder viewHolder, @NonNull RecyclerView.ViewHolder target) {
-                            return false;
-                        }
+        viewModel.getData().observe(this, feedsData -> {
+            Log.e("TAG", "onChanged: " + feedsData);
+            adapter.setNewData(feedsData);
+            binding.recyclerView.setLayoutManager(LLmanager);
+            binding.recyclerView.setAdapter(adapter);
+            progressBar.setVisibility(View.GONE);
+            adapter.notifyDataSetChanged();
+            Log.e("TAG", "onChanged: ");
+            if (role.equals("-2")) {
+                new ItemTouchHelper(new ItemTouchHelper.SimpleCallback(0,
+                        ItemTouchHelper.LEFT | ItemTouchHelper.RIGHT) {
+                    @Override
+                    public boolean onMove(@NonNull RecyclerView recyclerView, @NonNull RecyclerView.ViewHolder viewHolder, @NonNull RecyclerView.ViewHolder target) {
+                        return false;
+                    }
 
-                        @Override
-                        public void onSwiped(@NonNull RecyclerView.ViewHolder viewHolder, int direction) {
-                            int pos = viewHolder.getAdapterPosition();
-                            data = adapter.getDataAt(pos);
+                    @Override
+                    public void onSwiped(@NonNull RecyclerView.ViewHolder viewHolder, int direction) {
+                        int pos = viewHolder.getAdapterPosition();
+                        data = adapter.getDataAt(pos);
 
-                            AlertDialog.Builder dialogBuilder = new AlertDialog.Builder(news_feeds.this, R.style.AlertDialog);
-                            adapter.HoldDelete(pos);
-                            dialogBuilder.setTitle("Confirm Deletion").setPositiveButton("Sure", (dialog, which) -> {
+                        AlertDialog.Builder dialogBuilder = new AlertDialog.Builder(news_feeds.this, R.style.AlertDialog);
+                        adapter.HoldDelete(pos);
+                        dialogBuilder.setTitle("Confirm Deletion").setPositiveButton("Sure", (dialog, which) -> {
 //                                adapter.notifyItemRemoved(pos);
-                                service.delete_feeds(data);
-                                showUndoSnackbar(adapter);
-                                Log.e("TAG", "onSwiped: count on +ve btn" + adapter.getItemCount());
-                            }).setNegativeButton("Cancel", (dialog, which) -> {
-                                adapter.addDeleted(pos, data);
-                                Log.e("TAG", "onSwiped: count on canceled" + adapter.getItemCount());
-                            }).setMessage("Are Sure u wanna Delete this Feed ?").show();
-                        }
-                    }).attachToRecyclerView(binding.recyclerView);
-                }
+                            service.delete_feeds(data);
+                            showUndoSnackbar(adapter);
+                            Log.e("TAG", "onSwiped: count on +ve btn" + adapter.getItemCount());
+                        }).setNegativeButton("Cancel", (dialog, which) -> {
+                            adapter.addDeleted(pos, data);
+                            Log.e("TAG", "onSwiped: count on canceled" + adapter.getItemCount());
+                        }).setMessage("Are Sure u wanna Delete this Feed ?").show();
+                    }
+                }).attachToRecyclerView(binding.recyclerView);
             }
         });
         if (role.equals("-2")) //admin

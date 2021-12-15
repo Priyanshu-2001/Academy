@@ -87,6 +87,7 @@ dependencies {
     implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
 //razorPay
     implementation 'com.razorpay:checkout:1.6.12'
+    debugImplementation 'com.squareup.leakcanary:leakcanary-android:2.7'
 
 }
 repositories {
