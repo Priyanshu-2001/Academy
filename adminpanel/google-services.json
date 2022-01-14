@@ -1,0 +1,114 @@
+{
+  "project_info": {
+    "project_number": "472435979804",
+    "firebase_url": "https://oscar-academy-c95ef-default-rtdb.firebaseio.com",
+    "project_id": "oscar-academy-c95ef",
+    "storage_bucket": "oscar-academy-c95ef.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:472435979804:android:e6ae38398ed1c48b7991d9",
+        "android_client_info": {
+          "package_name": "com.geek.academyadmin"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "472435979804-25st7nusdfv00v4qh2sfin40m7irt7co.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.geek.academyadmin",
+            "certificate_hash": "7982e9812ce736896f00c2bb2f6fd95b6b418647"
+          }
+        },
+        {
+          "client_id": "472435979804-vt1q2tmnm4co97je2amdrd732r4lab8c.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyArUqTRAVsc8JSf4vnBaVIMPSaWVb1LkeE"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "472435979804-vt1q2tmnm4co97je2amdrd732r4lab8c.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:472435979804:android:91ba16d7488a43847991d9",
+        "android_client_info": {
+          "package_name": "com.geek.adminpanel"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "472435979804-vt1q2tmnm4co97je2amdrd732r4lab8c.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyArUqTRAVsc8JSf4vnBaVIMPSaWVb1LkeE"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "472435979804-vt1q2tmnm4co97je2amdrd732r4lab8c.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:472435979804:android:71089340510dc89a7991d9",
+        "android_client_info": {
+          "package_name": "com.sports.oscaracademy"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "472435979804-m9oefb3orgor48vjbqbgtsfsj5poi5v2.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.sports.oscaracademy",
+            "certificate_hash": "7982e9812ce736896f00c2bb2f6fd95b6b418647"
+          }
+        },
+        {
+          "client_id": "472435979804-vt1q2tmnm4co97je2amdrd732r4lab8c.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyArUqTRAVsc8JSf4vnBaVIMPSaWVb1LkeE"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "472435979804-vt1q2tmnm4co97je2amdrd732r4lab8c.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

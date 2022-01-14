@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/main_nav_graph"
+    app:startDestination="@id/signIn2">
+
+    <fragment
+        android:id="@+id/signIn2"
+        android:name="com.geek.adminpanel.SignIn"
+        android:label="SignIn">
+        <action
+            android:id="@+id/action_signIn2_to_adminDashboard2"
+            app:destination="@id/adminDashboard" />
+    </fragment>
+    <fragment
+        android:id="@+id/adminDashboard"
+        android:name="com.geek.adminpanel.fragments.AdminDashboard"
+        android:label="AdminDashboard">
+        <action
+            android:id="@+id/action_adminDashboard_to_userFeedbacks"
+            app:destination="@id/userFeedbacks" />
+        <action
+            android:id="@+id/action_adminDashboard_to_feesPayments"
+            app:destination="@id/feesPayments" />
+        <action
+            android:id="@+id/action_adminDashboard_to_slotTimings"
+            app:destination="@id/slotTimings" />
+        <action
+            android:id="@+id/action_adminDashboard_to_changeSchedule"
+            app:destination="@id/changeSchedule" />
+    </fragment>
+    <fragment
+        android:id="@+id/slotTimings"
+        android:name="com.geek.adminpanel.fragments.SlotTimings"
+        android:label="SlotTimings" />
+    <fragment
+        android:id="@+id/userFeedbacks"
+        android:name="com.geek.adminpanel.fragments.UserFeedbacks"
+        android:label="feedback_fragment"
+        tools:layout="@layout/feedback_fragment" />
+    <fragment
+        android:id="@+id/feesPayments"
+        android:name="com.geek.adminpanel.fragments.FeesPayments"
+        android:label="fragment_fees_payments"
+        tools:layout="@layout/fragment_fees_payments" />
+    <fragment
+        android:id="@+id/changeSchedule"
+        android:name="com.geek.adminpanel.fragments.ChangeSchedule"
+        android:label="fragment_change_schedule"
+        tools:layout="@layout/fragment_change_schedule" />
+
+</navigation>
