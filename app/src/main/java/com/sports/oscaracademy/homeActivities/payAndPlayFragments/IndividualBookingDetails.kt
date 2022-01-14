@@ -108,6 +108,9 @@ class IndividualBookingDetails : Fragment(R.layout.fragment_individual_booking_d
         val data = HashMap<String, Any>()
         data["uid"] = FirebaseAuth.getInstance().uid!!
         data["feedback"] = feedBack
+        data["timestamp"] = Timestamp.now().seconds
+        data["new"] = true
+        data["starred"] = false
         FirebaseDatabase.getInstance()
             .reference.child("feedback")
             .child(FirebaseDatabase.getInstance().reference.push().key.toString())
@@ -118,7 +121,6 @@ class IndividualBookingDetails : Fragment(R.layout.fragment_individual_booking_d
             }.addOnFailureListener {
                 Toast.makeText(context, "Something went wrong", Toast.LENGTH_SHORT).show()
             }
-
     }
 
     override fun onDestroy() {

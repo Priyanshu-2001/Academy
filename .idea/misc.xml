@@ -3,6 +3,41 @@
   <component name="DesignSurface">
     <option name="filePathToZoomLevelMap">
       <map>
+        <entry key="..\:/OscarAcademy/academyadmin/src/main/res/drawable-v24/app_back.xml" value="0.1675925925925926" />
+        <entry key="..\:/OscarAcademy/academyadmin/src/main/res/drawable-v24/ic_launcher_foreground.xml" value="0.24666666666666667" />
+        <entry key="..\:/OscarAcademy/academyadmin/src/main/res/drawable-v24/white_back_button.xml" value="0.1675925925925926" />
+        <entry key="..\:/OscarAcademy/academyadmin/src/main/res/drawable/add.xml" value="0.26614583333333336" />
+        <entry key="..\:/OscarAcademy/academyadmin/src/main/res/drawable/delete_icon.xml" value="0.26614583333333336" />
+        <entry key="..\:/OscarAcademy/academyadmin/src/main/res/drawable/new_icon.xml" value="0.26614583333333336" />
+        <entry key="..\:/OscarAcademy/academyadmin/src/main/res/drawable/text_field_1.xml" value="0.1685185185185185" />
+        <entry key="..\:/OscarAcademy/academyadmin/src/main/res/font/andada.xml" value="0.1675925925925926" />
+        <entry key="..\:/OscarAcademy/academyadmin/src/main/res/font/fredoka_one.xml" value="0.1675925925925926" />
+        <entry key="..\:/OscarAcademy/academyadmin/src/main/res/layout/activity_main.xml" value="0.176" />
+        <entry key="..\:/OscarAcademy/academyadmin/src/main/res/layout/edit_session_details.xml" value="0.8800000000000001" />
+        <entry key="..\:/OscarAcademy/academyadmin/src/main/res/layout/feedback_fragment.xml" value="0.25" />
+        <entry key="..\:/OscarAcademy/academyadmin/src/main/res/layout/fragment_admin_dashboard.xml" value="0.152" />
+        <entry key="..\:/OscarAcademy/academyadmin/src/main/res/layout/fragment_change_schedule.xml" value="0.25" />
+        <entry key="..\:/OscarAcademy/academyadmin/src/main/res/layout/fragment_contacts.xml" value="0.2" />
+        <entry key="..\:/OscarAcademy/academyadmin/src/main/res/layout/fragment_edit_court_price.xml" value="0.152" />
+        <entry key="..\:/OscarAcademy/academyadmin/src/main/res/layout/fragment_fees_payments.xml" value="0.25" />
+        <entry key="..\:/OscarAcademy/academyadmin/src/main/res/layout/fragment_new_slot_adder.xml" value="0.25" />
+        <entry key="..\:/OscarAcademy/academyadmin/src/main/res/layout/fragment_profile.xml" value="0.2" />
+        <entry key="..\:/OscarAcademy/academyadmin/src/main/res/layout/fragment_sign_in.xml" value="0.2" />
+        <entry key="..\:/OscarAcademy/academyadmin/src/main/res/layout/fragment_slot_timings.xml" value="0.264" />
+        <entry key="..\:/OscarAcademy/academyadmin/src/main/res/layout/single_dashboard_rcv.xml" value="0.152" />
+        <entry key="..\:/OscarAcademy/academyadmin/src/main/res/layout/single_feedback.xml" value="0.2" />
+        <entry key="..\:/OscarAcademy/academyadmin/src/main/res/layout/single_session_details.xml" value="0.25" />
+        <entry key="..\:/OscarAcademy/academyadmin/src/main/res/layout/single_slot_timing.xml" value="0.264" />
+        <entry key="..\:/OscarAcademy/academyadmin/src/main/res/menu/feedback_menu.xml" value="0.176" />
+        <entry key="..\:/OscarAcademy/academyadmin/src/main/res/mipmap-anydpi-v26/ic_launcher_round.xml" value="0.24666666666666667" />
+        <entry key="..\:/OscarAcademy/adminpanel/src/main/res/drawable-v24/app_back.xml" value="0.14895833333333333" />
+        <entry key="..\:/OscarAcademy/adminpanel/src/main/res/drawable/add.xml" value="0.1484375" />
+        <entry key="..\:/OscarAcademy/adminpanel/src/main/res/layout/activity_main.xml" value="0.13229166666666667" />
+        <entry key="..\:/OscarAcademy/adminpanel/src/main/res/layout/edit_session_details.xml" value="0.13229166666666667" />
+        <entry key="..\:/OscarAcademy/adminpanel/src/main/res/layout/fragment_admin_dashboard.xml" value="0.1" />
+        <entry key="..\:/OscarAcademy/adminpanel/src/main/res/layout/fragment_fees_payments.xml" value="0.1328125" />
+        <entry key="..\:/OscarAcademy/adminpanel/src/main/res/layout/fragment_sign_in.xml" value="0.234375" />
+        <entry key="..\:/OscarAcademy/adminpanel/src/main/res/menu/feedback_menu.xml" value="0.1328125" />
         <entry key="..\:/OscarAcademy/app/src/main/res/drawable-v24/btn_theme_1.xml" value="0.264" />
         <entry key="..\:/OscarAcademy/app/src/main/res/drawable-v24/btn_theme_2.xml" value="0.128515625" />
         <entry key="..\:/OscarAcademy/app/src/main/res/drawable-v24/text_field_1.xml" value="0.136" />
@@ -67,7 +102,7 @@
         <entry key="..\:/OscarAcademy/app/src/main/res/layout/fragment_booking_details.xml" value="0.2" />
         <entry key="..\:/OscarAcademy/app/src/main/res/layout/fragment_chat.xml" value="0.176" />
         <entry key="..\:/OscarAcademy/app/src/main/res/layout/fragment_contact_academy.xml" value="0.264" />
-        <entry key="..\:/OscarAcademy/app/src/main/res/layout/fragment_home_fragment.xml" value="0.17760416666666667" />
+        <entry key="..\:/OscarAcademy/app/src/main/res/layout/fragment_home_fragment.xml" value="0.16" />
         <entry key="..\:/OscarAcademy/app/src/main/res/layout/fragment_individual_booking_details.xml" value="0.2" />
         <entry key="..\:/OscarAcademy/app/src/main/res/layout/fragment_individual_booking_history.xml" value="0.2" />
         <entry key="..\:/OscarAcademy/app/src/main/res/layout/fragment_pay_and_play.xml" value="0.155859375" />
@@ -84,11 +119,12 @@
         <entry key="..\:/OscarAcademy/app/src/main/res/layout/single_admin_slolts.xml" value="0.264" />
         <entry key="..\:/OscarAcademy/app/src/main/res/layout/single_attend_marker_rcv.xml" value="0.176" />
         <entry key="..\:/OscarAcademy/app/src/main/res/layout/single_chat_profile.xml" value="0.264" />
-        <entry key="..\:/OscarAcademy/app/src/main/res/layout/single_dashboard_rcv.xml" value="0.176" />
+        <entry key="..\:/OscarAcademy/app/src/main/res/layout/single_dashboard_rcv.xml" value="0.136" />
         <entry key="..\:/OscarAcademy/app/src/main/res/layout/single_order_review.xml" value="0.264" />
         <entry key="..\:/OscarAcademy/app/src/main/res/layout/single_pay_play_user_history.xml" value="0.34312210200927357" />
         <entry key="..\:/OscarAcademy/app/src/main/res/layout/single_selected_slots.xml" value="0.4" />
         <entry key="..\:/OscarAcademy/app/src/main/res/layout/single_slot_detail.xml" value="0.536" />
+        <entry key="..\:/OscarAcademy/app/src/main/res/layout/single_slot_timing.xml" value="0.234375" />
         <entry key="..\:/OscarAcademy/app/src/main/res/layout/single_student_rcv.xml" value="0.176" />
         <entry key="..\:/OscarAcademy/app/src/main/res/layout/single_upcoming_tournament.xml" value="0.264" />
         <entry key="..\:/OscarAcademy/app/src/main/res/layout/slot_selector_bottom_sheet.xml" value="0.152" />

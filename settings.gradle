@@ -1,2 +1,4 @@
 rootProject.name = "OscarAcademy"
 include ':app'
+include ':academyadmin'
+include ':adminpanel'

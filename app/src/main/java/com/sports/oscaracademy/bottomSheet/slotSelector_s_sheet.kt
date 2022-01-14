@@ -19,16 +19,15 @@ class slotSelector_s_sheet : BottomSheetDialogFragment() {
 
     var TAG = "BOTTOMSHEET"
 
-    lateinit var binding: SlotSelectorBottomSheetBinding
+    var binding: SlotSelectorBottomSheetBinding? = null
     lateinit var model: Pay_playViewModel
-    var totalSlots: ArrayList<SlotsData> = ArrayList()
-    var totalAvailableSlots: ArrayList<SlotsData> = ArrayList()
-    var available_courts = ArrayList<Int>()
-    lateinit var booked_Court: ArrayList<courtSlot>
-    lateinit var slotsBsheetAdapter: slots_bsheet_adapter
+    private var totalSlots: ArrayList<SlotsData> = ArrayList()
+    private var totalAvailableSlots: ArrayList<SlotsData> = ArrayList()
+    private lateinit var booked_Court: ArrayList<courtSlot>
+    private lateinit var slotsBsheetAdapter: slots_bsheet_adapter
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        model = ViewModelProvider(requireActivity()).get(Pay_playViewModel::class.java)
+        model = ViewModelProvider(requireActivity())[Pay_playViewModel::class.java]
     }
 
     override fun onCreateView(
@@ -40,13 +39,13 @@ class slotSelector_s_sheet : BottomSheetDialogFragment() {
             DataBindingUtil.inflate(inflater, R.layout.slot_selector_bottom_sheet, container, false)
 
 
-        model.getTotalSlots().observe(this, Observer {
-            totalSlots = it
+        model.getTotalSlots().observe(this, { TotalSlots ->
+            totalSlots = TotalSlots
             totalAvailableSlots = totalSlots
             booked_Court = ArrayList()
             val tempRemoverList = ArrayList<SlotsData>()
             model.getBookedData().observe(viewLifecycleOwner, Observer {
-                Log.e(TAG, "onCreateView: bookeddata " + it)
+                Log.e(TAG, "onCreateView: bookeddata $it")
                 it.forEach {
                     if (it.totalCourtBooked == model.getTotalCourt().value?.toLong()) {
                         try {
@@ -68,15 +67,20 @@ class slotSelector_s_sheet : BottomSheetDialogFragment() {
                         model.getTotalCourt().value
                     ) // now total has been reduced by boooked slots
 
-                binding.SlotsRcv.adapter = slotsBsheetAdapter
+                binding!!.SlotsRcv.adapter = slotsBsheetAdapter
             })
 
         })
 
-        binding.cancelBtn.setOnClickListener {
+        binding!!.cancelBtn.setOnClickListener {
             dismiss()
         }
-        return binding.root
+        return binding!!.root
+    }
+
+    override fun onDestroy() {
+        super.onDestroy()
+        binding = null
     }
 }
 

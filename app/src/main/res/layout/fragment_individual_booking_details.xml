@@ -35,11 +35,14 @@
                     android:id="@+id/textView11"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_margin="20dp"
+                    android:layout_marginTop="16dp"
                     android:fontFamily="@font/fredoka_one"
                     android:text="Booking Date "
                     android:textColor="@color/textColor"
-                    android:textSize="20sp"
+                    android:textSize="18sp"
+                    app:layout_constraintEnd_toStartOf="@+id/DateBooked"
+                    app:layout_constraintHorizontal_bias="0.5"
+                    app:layout_constraintHorizontal_chainStyle="spread"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent" />
 
@@ -47,14 +50,13 @@
                     android:id="@+id/DateBooked"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_margin="10dp"
-                    android:autoSizeMinTextSize="15dp"
                     android:fontFamily="@font/fredoka_one"
                     android:singleLine="true"
+                    android:textSize="20sp"
                     android:textColor="@color/present_spam"
-                    android:textSize="25sp"
                     app:layout_constraintBaseline_toBaselineOf="@+id/textView11"
                     app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintHorizontal_bias="0.5"
                     app:layout_constraintStart_toEndOf="@+id/textView11"
                     tools:text="25 feb 2022" />
 
