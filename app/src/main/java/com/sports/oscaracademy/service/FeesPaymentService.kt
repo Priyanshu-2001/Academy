@@ -33,7 +33,7 @@ class FeesPaymentService {
         data["timeStamp"] = Timestamp.now()
 
         firestore
-            .collection("students")
+            .collection("user")
             .document(uid)
             .collection("fees")
             .document() //think of using month-year as document reference over here
@@ -46,12 +46,14 @@ class FeesPaymentService {
                     .document(uid)
                     .set(mem, SetOptions.merge())
                 feesPaymentObserver.value = true
+                getMonthlyPaymentStatus()
+                getPaymentHistory()
             }
     }
 
     fun getPaymentHistory(): MutableLiveData<List<PaymentData>> {
         firestore
-            .collection("students")
+            .collection("user")
             .document(uid)
             .collection("fees")
             .orderBy("timeStamp", Query.Direction.DESCENDING)
