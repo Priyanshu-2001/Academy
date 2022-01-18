@@ -11,8 +11,8 @@
         android:title="star"
         app:showAsAction="always" />
     <item
-        android:id="@+id/action_unstart"
-        android:title="Unstart" />
+        android:id="@+id/action_unstar"
+        android:title="Unstar" />
     <item
         android:id="@+id/action_userName"
         android:title="User Profile" />

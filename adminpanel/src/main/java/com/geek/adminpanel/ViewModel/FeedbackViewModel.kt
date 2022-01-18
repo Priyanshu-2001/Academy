@@ -17,11 +17,23 @@ class FeedbackViewModel : ViewModel() {
         return finalData
     }
 
-    fun star(pos: Int) {
-        repository.star(finalData.value!![pos])
+    fun star(pos: Int): Int {
+        return if (!finalData.value!![pos].starred) {
+            repository.star(finalData.value!![pos])
+            1
+        } else
+            -1
     }
 
     fun delete(pos: Int) {
         repository.delete(finalData.value!![pos])
+    }
+
+    fun unStar(pos: Int): Int {
+        return if (finalData.value!![pos].starred) {
+            repository.unStar(finalData.value!![pos])
+            1
+        } else
+            -1
     }
 }

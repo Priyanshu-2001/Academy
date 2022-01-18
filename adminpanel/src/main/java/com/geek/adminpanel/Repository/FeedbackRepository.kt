@@ -75,4 +75,16 @@ class FeedbackRepository {
             }
     }
 
+    fun unStar(feedbackData: FeedbackData) {
+        val map = hashMapOf<String, Any>(Pair("starred", false))
+        FirebaseDatabase.getInstance()
+            .reference
+            .child("feedback")
+            .child(feedbackData.feedbackID)
+            .updateChildren(map)
+            .addOnSuccessListener {
+                getFeedBack()
+            }
+    }
+
 }

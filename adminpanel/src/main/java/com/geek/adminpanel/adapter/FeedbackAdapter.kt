@@ -1,6 +1,5 @@
 package com.geek.adminpanel.adapter
 
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -25,7 +24,6 @@ class FeedbackAdapter(val data: ArrayList<FeedbackData>, val feedbackInterface: 
         }
 
         override fun onLongClick(v: View?): Boolean {
-            Log.e("TAG", "onLongClick: clicked $adapterPosition")
             val menu = PopupMenu(v!!.context, v)
             menu.inflate(R.menu.feedback_menu)
             menu.setOnMenuItemClickListener {
@@ -40,6 +38,10 @@ class FeedbackAdapter(val data: ArrayList<FeedbackData>, val feedbackInterface: 
                     }
                     R.id.action_userName -> {
                         feedbackInterface.navigateToProfile(adapterPosition)
+                        true
+                    }
+                    R.id.action_unstar -> {
+                        feedbackInterface.unStar(adapterPosition)
                         true
                     }
                     else -> {
@@ -70,7 +72,7 @@ class FeedbackAdapter(val data: ArrayList<FeedbackData>, val feedbackInterface: 
             val seconds: Long = reqData.timestamp as Long
             val millis = seconds * 1000
             val date = Date(millis)
-            val sdf = SimpleDateFormat("EEE,d MM yyyy", Locale.ENGLISH)
+            val sdf = SimpleDateFormat("EEE,d MMM yyyy", Locale.ENGLISH)
             sdf.timeZone = TimeZone.getTimeZone("UTC")
             val formattedDate: String = sdf.format(date)
             timeStamp.text = formattedDate
@@ -88,4 +90,5 @@ interface FeedBackInterface {
     fun deleteItem(pos: Int)
     fun star(pos: Int)
     fun navigateToProfile(adapterPosition: Int)
+    fun unStar(pos: Int)
 }

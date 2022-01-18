@@ -10,13 +10,11 @@ import com.geek.adminpanel.R
 import com.geek.adminpanel.ViewModel.FeedbackViewModel
 import com.geek.adminpanel.adapter.FeedBackInterface
 import com.geek.adminpanel.adapter.FeedbackAdapter
-import com.geek.adminpanel.dataModel.FeedbackData
 import com.geek.adminpanel.databinding.FeedbackFragmentBinding
 
 class UserFeedbacks : Fragment(R.layout.feedback_fragment), FeedBackInterface {
     lateinit var binding: FeedbackFragmentBinding
     lateinit var viewModel: FeedbackViewModel
-    lateinit var data: ArrayList<FeedbackData>
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         binding = FeedbackFragmentBinding.bind(view)
@@ -26,14 +24,15 @@ class UserFeedbacks : Fragment(R.layout.feedback_fragment), FeedBackInterface {
             setDisplayHomeAsUpEnabled(true)
             setDisplayShowTitleEnabled(false)
         }
+        Toast.makeText(context, "Press and hold for more options", Toast.LENGTH_LONG).show()
+
         viewModel = ViewModelProvider(this)[FeedbackViewModel::class.java]
 
         viewModel.getFeedBacks().observe(this, {
             if (it.isEmpty()) {
                 Toast.makeText(context, "Nothing to Show", Toast.LENGTH_SHORT).show()
             } else {
-                Toast.makeText(context, "Press and hold for more options", Toast.LENGTH_LONG).show()
-                data = it
+                it.sortByDescending { data -> data.starred }
                 val adapter = FeedbackAdapter(it, this)
                 binding.feedbackRcv.adapter = adapter
             }
@@ -45,7 +44,10 @@ class UserFeedbacks : Fragment(R.layout.feedback_fragment), FeedBackInterface {
     }
 
     override fun star(pos: Int) {
-        viewModel.star(pos)
+        val res = viewModel.star(pos)
+        if (res == -1) {
+            Toast.makeText(context, "Already Starred", Toast.LENGTH_SHORT).show()
+        }
     }
 
     override fun navigateToProfile(adapterPosition: Int) {
@@ -53,5 +55,12 @@ class UserFeedbacks : Fragment(R.layout.feedback_fragment), FeedBackInterface {
 //            R.id.action_userFeedbacks_to_profileFragment,
 //            bundleOf(Pair("uid", data[adapterPosition].uid))
 //        )
+    }
+
+    override fun unStar(pos: Int) {
+        val res = viewModel.unStar(pos)
+        if (res == -1) {
+            Toast.makeText(context, "Can't Perform This Function", Toast.LENGTH_SHORT).show()
+        }
     }
 }
