@@ -73,6 +73,10 @@ class DashboardAdapter(
                     Navigation.findNavController(binding.root)
                         .navigate(R.id.action_adminDashboard_to_userFeedbacks)
                 }
+                "Admin/Coaches" -> {
+                    Navigation.findNavController(binding.root)
+                        .navigate(R.id.action_adminDashboard_to_adminCoach)
+                }
             }
         }
 

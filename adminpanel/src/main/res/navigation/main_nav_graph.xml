@@ -29,6 +29,9 @@
         <action
             android:id="@+id/action_adminDashboard_to_changeSchedule"
             app:destination="@id/changeSchedule" />
+        <action
+            android:id="@+id/action_adminDashboard_to_adminCoach"
+            app:destination="@id/adminCoach" />
     </fragment>
     <fragment
         android:id="@+id/slotTimings"
@@ -49,5 +52,9 @@
         android:name="com.geek.adminpanel.fragments.ChangeSchedule"
         android:label="fragment_change_schedule"
         tools:layout="@layout/fragment_change_schedule" />
+    <fragment
+        android:id="@+id/adminCoach"
+        android:name="com.geek.adminpanel.fragments.AdminCoach"
+        android:label="AdminCoach" />
 
 </navigation>

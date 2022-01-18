@@ -22,12 +22,13 @@ class AdminDashboard : Fragment(R.layout.fragment_admin_dashboard), OnClickInter
         navController = findNavController()
         binding = FragmentAdminDashboardBinding.bind(view)
         val data = ArrayList<DashboardData>()
-        data.add(DashboardData(R.drawable.app_back, "Change Schedule"))
+        data.add(DashboardData(R.drawable.ic_baseline_schedule_24, "Change Schedule"))
 //        data.add(DashboardData(R.drawable.app_back,"Edit Court Price"))
         data.add(DashboardData(R.drawable.app_back, "Slots Timings"))
 //        data.add(DashboardData(R.drawable.app_back,"Academy Contacts"))
         data.add(DashboardData(R.drawable.app_back, "Fees History"))
         data.add(DashboardData(R.drawable.app_back, "User Feedback"))
+        data.add(DashboardData(R.drawable.app_back, "Admin/Coaches"))
 
         val adapter = DashboardAdapter(data, requireContext(), navController, this)
         binding.MainRCV.adapter = adapter
