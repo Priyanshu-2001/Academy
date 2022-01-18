@@ -1,6 +1,5 @@
 package com.geek.adminpanel.adapter
 
-import android.content.Context
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import android.widget.PopupMenu
@@ -12,7 +11,7 @@ import com.geek.adminpanel.dataModel.UserData
 import com.geek.adminpanel.databinding.SingleStudentRcvBinding
 
 class AdminCoachAdapter(
-    val context: Context,
+//    val context: Context,
     val data: ArrayList<UserData>,
     private val onLongClickAdmin: onLongClickAdmin
 ) :
@@ -35,11 +34,11 @@ class AdminCoachAdapter(
         val d = data[position]
         if (d.isAdmin) {
             holder.binding.back.background =
-                ResourcesCompat.getDrawable(context.resources, R.drawable.admin, null)
+                ResourcesCompat.getDrawable(holder.binding.root.resources, R.drawable.admin, null)
         }
         if (d.isCoach) {
             holder.binding.back.background =
-                ResourcesCompat.getDrawable(context.resources, R.drawable.coach, null)
+                ResourcesCompat.getDrawable(holder.binding.root.resources, R.drawable.coach, null)
         }
         holder.binding.roll.text = d.rollNo.toString()
         holder.binding.name.text = d.name

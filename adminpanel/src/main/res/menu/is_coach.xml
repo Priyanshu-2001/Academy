@@ -4,8 +4,8 @@
     <item
         android:id="@+id/removeCoach"
         android:title="Remove Coach" />
-    <item
-        android:id="@+id/assignAdmin"
-        android:title="Assign Admin" />
+    <!--    <item-->
+    <!--        android:id="@+id/assignAdmin"-->
+    <!--        android:title="Assign Admin" />-->
 
 </menu>
