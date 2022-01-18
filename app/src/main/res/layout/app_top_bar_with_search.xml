@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 
+
 <layout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
@@ -11,6 +12,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:animateLayoutChanges="true"
+        android:id="@+id/toolbar"
         android:background="@color/black"
         android:elevation="4dp"
         app:contentInsetStart="0dp">
@@ -19,6 +21,7 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:animateLayoutChanges="true"
+            android:id="@+id/ConstraintLayoutContainer"
             android:paddingVertical="15dp"
             app:layout_constraintEnd_toStartOf="@+id/topTitleName"
             app:layout_constraintStart_toStartOf="@+id/topTitleName">
@@ -191,9 +194,20 @@
                         android:background="@drawable/search_filter_btn"
                         android:text="Email"
                         app:layout_constraintBaseline_toBaselineOf="@+id/filter_phoneNumber"
-                        app:layout_constraintEnd_toEndOf="parent"
-                        app:layout_constraintHorizontal_bias="0.5"
                         app:layout_constraintStart_toEndOf="@+id/filter_phoneNumber" />
+
+                    <Button
+                        android:id="@+id/filter_Active"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center_horizontal"
+                        android:layout_marginHorizontal="10dp"
+                        android:layout_marginVertical="5dp"
+                        android:background="@drawable/search_filter_btn"
+                        android:text="InActive"
+                        app:layout_constraintBaseline_toBaselineOf="@+id/filter_email"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toEndOf="@+id/filter_email" />
 
                 </androidx.constraintlayout.widget.ConstraintLayout>
 

@@ -2,11 +2,13 @@ package com.sports.oscaracademy.adapters;
 
 import android.content.Context;
 import android.content.Intent;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
 import androidx.annotation.NonNull;
+import androidx.core.content.res.ResourcesCompat;
 import androidx.databinding.DataBindingUtil;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -42,6 +44,15 @@ public class studentList_adapter extends RecyclerView.Adapter<studentList_adapte
     public void onBindViewHolder(@NonNull @NotNull studentList_adapter.studentsHolder holder, int position) {
         int pos = position;
         holder.binding.setStudent(data.get(pos));
+        try {
+            if (data.get(pos).getMemberShip().equalsIgnoreCase("Active"))
+                holder.binding.back.setBackground(ResourcesCompat.getDrawable(mContext.getResources(), R.drawable.admin, null));
+            else
+                holder.binding.back.setBackground(ResourcesCompat.getDrawable(mContext.getResources(), R.drawable.coach, null));
+
+        } catch (Exception e) {
+            Log.e("TAG", "onBindViewHolder: Membership not available");
+        }
         holder.binding.cardView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

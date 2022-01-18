@@ -31,9 +31,10 @@ public class Students extends AppCompatActivity {
 
     ActivityStudentsBinding binding;
     AdminStudentsViewModel viewModel;
-    Button tempFilterSelection, filter_rollNo, filter_name, filter_phoneNumber, filter_email;
+    Button tempFilterSelection, filter_rollNo, filter_name, filter_phoneNumber, filter_email, filter_InActive;
     String filterType = "name";
     String catcher = null;
+    private boolean isInActiveBtnActive = false;
 
 
     @Override
@@ -58,29 +59,28 @@ public class Students extends AppCompatActivity {
         binding = DataBindingUtil.setContentView(this, R.layout.activity_students);
         binding.progress.setIndeterminateDrawable(doubleBounce);
         binding.progress.setVisibility(View.VISIBLE);
-        binding.topBar.EndSearchBtn.animate().translationX(1000f);
 
-        filter_rollNo = binding.topBar.filterRollNo;
-        filter_name = binding.topBar.filerName;
-        filter_email = binding.topBar.filterEmail;
-        filter_phoneNumber = binding.topBar.filterPhoneNumber;
 
-        tempFilterSelection = filter_name;
-
-        setSupportActionBar((Toolbar) binding.topBar.getRoot());
+        setSupportActionBar((Toolbar) binding.topBar);
         getSupportActionBar().setDisplayShowTitleEnabled(false);
-        binding.topBar.topTitleName.setText("Students List");
-        binding.topBar.backBtn.setOnClickListener(v -> {
+        binding.topTitleName.setText("Students List");
+        binding.backBtn.setOnClickListener(v -> {
             finish();
         });
+        binding.EndSearchBtn.animate().translationX(1000f);
 
-        binding.topBar.searchBtn.setOnClickListener(v -> {
+        filter_rollNo = binding.filterRollNo;
+        filter_name = binding.filerName;
+        filter_email = binding.filterEmail;
+        filter_InActive = binding.filterActive;
+        filter_phoneNumber = binding.filterPhoneNumber;
+        binding.searchBtn.setOnClickListener(v -> {
             LayoutTransition layoutTransition = binding.layoutContainer.getLayoutTransition();
             layoutTransition.enableTransitionType(LayoutTransition.CHANGING);
             openSearchbar();
         });
-
-        binding.topBar.EndSearchBtn.setOnClickListener(v -> {
+        tempFilterSelection = filter_name;
+        binding.EndSearchBtn.setOnClickListener(v -> {
             exitSearchBar();
         });
 
@@ -88,12 +88,12 @@ public class Students extends AppCompatActivity {
             updateFullData();
         }
 
-        binding.topBar.ActionSearchBtn.setOnClickListener(v -> {
-            Object query = binding.topBar.editSearch.getText().toString();
+        binding.ActionSearchBtn.setOnClickListener(v -> {
+            Object query = binding.editSearch.getText().toString();
             applyFilter(query);
         });
 
-        binding.topBar.editSearch.addTextChangedListener(new TextWatcher() {
+        binding.editSearch.addTextChangedListener(new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence s, int start, int count, int after) {
 
@@ -137,23 +137,40 @@ public class Students extends AppCompatActivity {
             tempFilterSelection = filter_rollNo;
             setColorToSelected(tempFilterSelection);
         });
+
+        filter_InActive.setOnClickListener(v -> {
+            isInActiveBtnActive = !isInActiveBtnActive;
+            setColorToDefault();
+//            filterType = "inActive";
+//            tempFilterSelection = filter_InActive;
+            setColorToSelected(tempFilterSelection);
+            if (isInActiveBtnActive) {
+                applyFilter("");
+                filter_InActive.setTextColor(getResources().getColor(R.color.white, null));
+                filter_InActive.setBackground(AppCompatResources.getDrawable(this, R.drawable.premium_btn));
+            } else {
+                filter_InActive.setTextColor(getResources().getColor(R.color.black, null));
+                updateFullData();
+                filter_InActive.setBackground(AppCompatResources.getDrawable(this, R.drawable.btn_theme_2));
+            }
+        });
         setColorToSelected(tempFilterSelection);
     }
 
     private void openSearchbar() {
-        binding.topBar.searchBtn.animate().translationY(170f).withEndAction(() -> {
-            binding.topBar.ActionSearchBtn.setVisibility(View.VISIBLE);
-            binding.topBar.searchBtn.setVisibility(View.GONE);
+        binding.searchBtn.animate().translationY(170f).withEndAction(() -> {
+            binding.ActionSearchBtn.setVisibility(View.VISIBLE);
+            binding.searchBtn.setVisibility(View.GONE);
         });
-        binding.topBar.EndSearchBtn.setVisibility(View.VISIBLE);
-        binding.topBar.EndSearchBtn.animate().translationX(0f);
-        binding.topBar.editSearch.setVisibility(View.VISIBLE);
-        binding.topBar.searchFilter.setVisibility(View.VISIBLE);
+        binding.EndSearchBtn.setVisibility(View.VISIBLE);
+        binding.EndSearchBtn.animate().translationX(0f);
+        binding.editSearch.setVisibility(View.VISIBLE);
+        binding.searchFilter.setVisibility(View.VISIBLE);
     }
 
     @Override
     public void onBackPressed() {
-        if (binding.topBar.editSearch.getVisibility() == View.VISIBLE) {
+        if (binding.editSearch.getVisibility() == View.VISIBLE) {
             exitSearchBar();
         } else {
             super.onBackPressed();
@@ -162,24 +179,26 @@ public class Students extends AppCompatActivity {
     }
 
     private void exitSearchBar() {
-        binding.topBar.searchBtn.setVisibility(View.VISIBLE);
-        binding.topBar.EndSearchBtn.setVisibility(View.GONE);
-        binding.topBar.EndSearchBtn.animate().translationX(0f);
-        binding.topBar.searchBtn.animate().translationY(0f);
-        binding.topBar.ActionSearchBtn.animate().translationY(-20f);
-        binding.topBar.ActionSearchBtn.setVisibility(View.INVISIBLE);
-        binding.topBar.EndSearchBtn.animate().translationX(1000f);
-        binding.topBar.editSearch.setVisibility(View.GONE);
-        binding.topBar.searchFilter.setVisibility(View.GONE);
+        binding.searchBtn.setVisibility(View.VISIBLE);
+        binding.EndSearchBtn.setVisibility(View.GONE);
+        binding.EndSearchBtn.animate().translationX(0f);
+        binding.searchBtn.animate().translationY(0f);
+        binding.ActionSearchBtn.animate().translationY(-20f);
+        binding.ActionSearchBtn.setVisibility(View.INVISIBLE);
+        binding.EndSearchBtn.animate().translationX(1000f);
+        binding.editSearch.setVisibility(View.GONE);
+        binding.searchFilter.setVisibility(View.GONE);
         updateFullData();
     }
 
 
     public void setColorToDefault() {
+        tempFilterSelection.setTextColor(getResources().getColor(R.color.black, null));
         tempFilterSelection.setBackground(AppCompatResources.getDrawable(this, R.drawable.btn_theme_2));
     }
 
     public void setColorToSelected(Button btn) {
+        tempFilterSelection.setTextColor(getResources().getColor(R.color.white, null));
         btn.setBackground(AppCompatResources.getDrawable(this, R.drawable.btn_theme_1));
     }
 
@@ -208,17 +227,17 @@ public class Students extends AppCompatActivity {
         Log.e("TAG", "applyFilter: " + filterType + " " + filter);
         if (catcher != null) {
             if (catcher.equals("0")) {
-                viewModel.getStudentDataFiltered(filterType, filter).observe(this, studentData -> {
+                viewModel.getStudentDataFiltered(filterType, filter, isInActiveBtnActive).observe(this, studentData -> {
                     Log.e("TAG", "applyFilter: " + studentData);
                     adapter = new studentList_adapter(getApplicationContext(), studentData, "false");
                     binding.studentrcv.setAdapter(adapter);
                     binding.progress.setVisibility(View.GONE);
                 });
             } else {
-                viewModel.getUserDataFiltered(filterType, filter).observe(this, new Observer<ArrayList<Studentdata>>() {
+                viewModel.getUserDataFiltered(filterType, filter, isInActiveBtnActive).observe(this, new Observer<ArrayList<Studentdata>>() {
                     @Override
-                    public void onChanged(ArrayList<Studentdata> studentdata) {
-                        adapter = new studentList_adapter(getApplicationContext(), studentdata, "true");
+                    public void onChanged(ArrayList<Studentdata> studentData) {
+                        adapter = new studentList_adapter(getApplicationContext(), studentData, "true");
                         binding.studentrcv.setAdapter(adapter);
                         binding.progress.setVisibility(View.GONE);
                     }

@@ -15,12 +15,223 @@
         android:animateLayoutChanges="true"
         tools:context=".homeActivities.Students">
 
-        <include
+        <!--        <include-->
+        <!--            android:id="@+id/topBar"-->
+        <!--            layout="@layout/app_top_bar_with_search"-->
+        <!--            app:layout_constraintEnd_toEndOf="parent"-->
+        <!--            app:layout_constraintStart_toStartOf="parent"-->
+        <!--            app:layout_constraintTop_toTopOf="parent" />-->
+
+        <androidx.appcompat.widget.Toolbar
             android:id="@+id/topBar"
-            layout="@layout/app_top_bar_with_search"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:animateLayoutChanges="true"
+            android:background="@color/black"
+            android:elevation="4dp"
+            app:contentInsetStart="0dp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
+            app:layout_constraintTop_toTopOf="parent">
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:id="@+id/ConstraintLayoutContainer"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:animateLayoutChanges="true"
+                android:paddingVertical="15dp"
+                app:layout_constraintEnd_toStartOf="@+id/topTitleName"
+                app:layout_constraintStart_toStartOf="@+id/topTitleName">
+
+                <ImageButton
+                    android:id="@+id/backBtn"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginHorizontal="16dp"
+                    android:background="@color/black"
+                    app:layout_constraintBottom_toBottomOf="@+id/topTitleName"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="@+id/topTitleName"
+                    app:srcCompat="@drawable/white_back_button" />
+
+                <TextView
+                    android:id="@+id/topTitleName"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:fadingEdge="horizontal"
+                    android:gravity="center"
+                    android:textColor="@color/textColor"
+                    android:textSize="20sp"
+                    android:textStyle="bold"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+                <ImageButton
+                    android:id="@+id/search_btn"
+                    android:layout_width="25dp"
+                    android:layout_height="25dp"
+                    android:layout_marginEnd="15dp"
+                    android:background="@color/black"
+                    android:clickable="true"
+                    android:contentDescription="Search Button"
+                    android:focusable="true"
+                    android:src="@drawable/search_toolbar"
+                    app:layout_constraintBottom_toBottomOf="@+id/topTitleName"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+                <ImageButton
+                    android:id="@+id/ActionSearch_btn"
+                    android:layout_width="25dp"
+                    android:layout_height="25dp"
+                    android:layout_marginEnd="15dp"
+                    android:background="@color/black"
+                    android:clickable="true"
+                    android:contentDescription="Search Button"
+                    android:focusable="true"
+                    android:src="@drawable/search_toolbar"
+                    android:visibility="invisible"
+                    app:layout_constraintBottom_toBottomOf="@+id/edit_search"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintTop_toTopOf="@+id/edit_search" />
+
+
+                <ImageButton
+                    android:id="@+id/EndSearch_btn"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginEnd="15dp"
+                    android:background="@color/black"
+                    android:clickable="true"
+                    android:contentDescription="Search Button"
+                    android:focusable="true"
+                    android:src="@drawable/end_search"
+                    android:visibility="gone"
+                    app:layout_constraintBottom_toBottomOf="@+id/topTitleName"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+                <EditText
+                    android:id="@+id/edit_search"
+                    android:layout_width="0dp"
+                    android:layout_height="50dp"
+                    android:layout_marginStart="10dp"
+                    android:layout_marginTop="25dp"
+                    android:layout_marginEnd="10dp"
+                    android:background="@drawable/edit_text_search"
+                    android:hint="@string/search_here"
+                    android:inputType="text"
+                    android:paddingStart="30dp"
+                    android:paddingLeft="30dp"
+                    android:paddingEnd="30dp"
+                    android:paddingRight="30dp"
+                    android:singleLine="true"
+                    android:textColor="#8B91AB"
+                    android:textColorHint="#8B91AB"
+                    android:textSize="14sp"
+                    android:theme="@style/EditTextTheme"
+                    android:visibility="gone"
+                    app:layout_constraintEnd_toStartOf="@+id/ActionSearch_btn"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/topTitleName" />
+
+
+                <HorizontalScrollView
+                    android:id="@+id/searchFilter"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    android:visibility="gone"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/edit_search">
+
+                    <androidx.constraintlayout.widget.ConstraintLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal"
+                        android:paddingHorizontal="10dp"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintTop_toBottomOf="@+id/edit_search">
+
+                        <Button
+                            android:id="@+id/filer_name"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="center_horizontal"
+                            android:layout_marginHorizontal="10dp"
+                            android:layout_marginVertical="5dp"
+                            android:background="@drawable/search_filter_btn"
+                            android:text="Name"
+                            app:layout_constraintBaseline_toBaselineOf="@+id/filter_rollNo"
+                            app:layout_constraintEnd_toStartOf="@+id/filter_rollNo"
+                            app:layout_constraintHorizontal_bias="0.5"
+                            app:layout_constraintHorizontal_chainStyle="spread"
+                            app:layout_constraintStart_toStartOf="parent" />
+
+                        <Button
+                            android:id="@+id/filter_rollNo"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="center_horizontal"
+                            android:layout_marginHorizontal="10dp"
+                            android:layout_marginVertical="5dp"
+                            android:background="@drawable/search_filter_btn"
+                            android:text="Roll No"
+                            app:layout_constraintBaseline_toBaselineOf="@+id/filter_phoneNumber"
+                            app:layout_constraintEnd_toStartOf="@+id/filter_phoneNumber"
+                            app:layout_constraintHorizontal_bias="0.5"
+                            app:layout_constraintStart_toEndOf="@+id/filer_name" />
+
+                        <Button
+                            android:id="@+id/filter_phoneNumber"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="center_horizontal"
+                            android:layout_marginHorizontal="10dp"
+                            android:layout_marginVertical="5dp"
+                            android:background="@drawable/search_filter_btn"
+                            android:paddingHorizontal="10dp"
+                            android:text="Phone Number"
+                            app:layout_constraintEnd_toStartOf="@+id/filter_email"
+                            app:layout_constraintHorizontal_bias="0.5"
+                            app:layout_constraintStart_toEndOf="@+id/filter_rollNo"
+                            app:layout_constraintTop_toTopOf="parent" />
+
+                        <Button
+                            android:id="@+id/filter_email"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="center_horizontal"
+                            android:layout_marginHorizontal="10dp"
+                            android:layout_marginVertical="5dp"
+                            android:background="@drawable/search_filter_btn"
+                            android:text="Email"
+                            app:layout_constraintBaseline_toBaselineOf="@+id/filter_phoneNumber"
+                            app:layout_constraintStart_toEndOf="@+id/filter_phoneNumber" />
+
+                        <Button
+                            android:id="@+id/filter_Active"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="center_horizontal"
+                            android:layout_marginHorizontal="10dp"
+                            android:layout_marginVertical="5dp"
+                            android:background="@drawable/search_filter_btn"
+                            android:text="InActive"
+                            app:layout_constraintBaseline_toBaselineOf="@+id/filter_email"
+                            app:layout_constraintEnd_toEndOf="parent"
+                            app:layout_constraintStart_toEndOf="@+id/filter_email" />
+
+                    </androidx.constraintlayout.widget.ConstraintLayout>
+
+                </HorizontalScrollView>
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
+        </androidx.appcompat.widget.Toolbar>
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:id="@+id/header"
