@@ -7,6 +7,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Toast;
 
 import androidx.databinding.DataBindingUtil;
 import androidx.fragment.app.Fragment;
@@ -15,9 +16,7 @@ import androidx.lifecycle.Observer;
 
 import com.github.ybq.android.spinkit.sprite.Sprite;
 import com.github.ybq.android.spinkit.style.WanderingCubes;
-import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.auth.FirebaseAuth;
-import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.sports.oscaracademy.R;
 import com.sports.oscaracademy.adapters.chat_profile_adapter;
@@ -26,9 +25,7 @@ import com.sports.oscaracademy.databinding.FragmentChatBinding;
 import com.sports.oscaracademy.service.studentsList;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.Map;
-import java.util.Objects;
 
 public class chat_fragment extends Fragment {
     FragmentChatBinding binding;
@@ -54,64 +51,118 @@ public class chat_fragment extends Fragment {
     public void getuserType() {
         Log.e("TAG", "getuserType: " + "called");
         String currentuserID = FirebaseAuth.getInstance().getUid();
-        FirebaseFirestore.getInstance().collection("userType_private").document(currentuserID).get()
-                .addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
-                    @Override
-                    public void onSuccess(DocumentSnapshot documentSnapshot) {
-                        SharedPreferences.Editor pref = preferences.edit();
-                        if (documentSnapshot.get("role").equals("Student_dashboard")) {
+        FirebaseFirestore store = FirebaseFirestore.getInstance();
+        SharedPreferences.Editor pref = preferences.edit();
+        store.collection("chatResponders")
+                .document("coaches")
+                .get()
+                .addOnCompleteListener(task -> {
+                    if (task.isSuccessful()) {
+                        ArrayList<String> coachList = (ArrayList<String>) task.getResult().get("coachesList");
+                        if (coachList.contains(currentuserID)) {
+                            userCategory.setValue("coach");
+                            Toast.makeText(getContext(), "welcome back Coach", Toast.LENGTH_SHORT).show();
                             pref.putString("userType", "1");
-                            userCategory.setValue("student");
-                        }
-                        if (documentSnapshot.get("role").equals("admin_dashboard")) {
-                            pref.putString("userType", "-2");
-                            userCategory.setValue("admin");
+                        } else {
+                            store.collection("chatResponders")
+                                    .document("Admin")
+                                    .get()
+                                    .addOnCompleteListener(it ->
+                                            {
+                                                if (it.isSuccessful()) {
+                                                    ArrayList<String> adminList = (ArrayList<String>) it.getResult().get("adminID");
+                                                    Log.e("TAG", "getuserType adminList " + adminList);
+                                                    Log.e("TAG", "getuserType adminList " + currentuserID);
+                                                    if (adminList.contains(currentuserID)) {
+                                                        pref.putString("userType", "-2");
+                                                        userCategory.setValue("admin");
+                                                        Toast.makeText(getContext(), "welcome back Admin", Toast.LENGTH_SHORT).show();
+                                                    }
+                                                } else {
+                                                    pref.putString("userType", "1");
+                                                    userCategory.setValue("student");
+                                                    Toast.makeText(getContext(), "welcome back Student", Toast.LENGTH_SHORT).show();
+                                                }
+                                            }
+                                    );
                         }
                         pref.apply();
-                        Log.e("TAG", "getuserType: " + "called" + Objects.equals(documentSnapshot.get("role"), "admin_dashboard"));
-
                     }
                 });
-
     }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         binding = DataBindingUtil.inflate(inflater, R.layout.fragment_chat, container, false);
-        Map<String, ArrayList<String>> chatusers = new HashMap<>();
-        final ArrayList[] chatStudentsList = new ArrayList[]{new ArrayList<>()};
         getuserType();
         Sprite doubleBounce = new WanderingCubes();
         binding.progress.setIndeterminateDrawable(doubleBounce);
         binding.progress.setVisibility(View.VISIBLE);
 
-        userCategory.observe(this, new Observer<String>() {
-            @Override
-            public void onChanged(String s) {
-                if (preferences.getString("isStudent", "false").equals("true") && s.equals("student")) {
-                    binding.textView5.setText("CHAT WITH FACULTY");
-                    service.getchatusers().observe(chat_fragment.this, new Observer<Map<String, ArrayList<String>>>() {
-                        @Override
-                        public void onChanged(Map<String, ArrayList<String>> stringArrayListMap) {
-                            Log.e("TAG", "onChanged:map " + stringArrayListMap.get("coach"));
-                            showAllAdminAndCoaches(stringArrayListMap);//list of coach and admin ID is here
-                        }
-                    });
-                } else if (s.equals("admin")) {
-                    binding.textView5.setText("CHAT WITH STUDENT");
-                    service.getStudents().observe(requireActivity(), new Observer<ArrayList<Studentdata>>() {
-                        @Override
-                        public void onChanged(ArrayList<Studentdata> studentdata) {
-                            showStudents(studentdata);
-                            Log.e("TAG", "onChanged: student size " + studentdata.size());
-                        }
-                    });
-                } else
-                    binding.progress.setVisibility(View.GONE);
+        userCategory.observe(this, s -> {
+            if (preferences.getString("isStudent", "false").equals("true") && s.equals("student")) {
+                binding.textView5.setText("CHAT WITH FACULTY");
+                service.getchatusers().observe(chat_fragment.this, new Observer<Map<String, ArrayList<String>>>() {
+                    @Override
+                    public void onChanged(Map<String, ArrayList<String>> stringArrayListMap) {
+                        Log.e("TAG", "onChanged:map " + stringArrayListMap.get("coach"));
+                        showAllAdminAndCoaches(stringArrayListMap);//list of coach and admin ID is here
+                    }
+                });
+            } else if (s.equals("admin") || s.equals("coach")) {
+                binding.textView5.setText("CHAT WITH STUDENT");
+                service.getStudents().observe(requireActivity(), studentdata -> {
+                    showStudents(studentdata);
+                    Log.e("TAG", "onChanged: student size " + studentdata.size());
+                });
             }
+
+
         });
+        if (preferences.getString("isStudent", "false").equals("false")) {
+            binding.textView5.setText("CHAT WITH FACULTY");
+            service.getchatusers().observe(chat_fragment.this, new Observer<Map<String, ArrayList<String>>>() {
+                @Override
+                public void onChanged(Map<String, ArrayList<String>> stringArrayListMap) {
+                    Log.e("TAG", "onChanged:map " + stringArrayListMap.get("coach"));
+                    showAllAdmin(stringArrayListMap);//list of coach and admin ID is here
+                }
+            });
+        }
+        String temp = preferences.getString("isStudent", "false");
+        Toast.makeText(getContext(), temp, Toast.LENGTH_SHORT).show();
+        binding.progress.setVisibility(View.GONE);
         return binding.getRoot();
+    }
+
+    private void showAllAdmin(Map<String, ArrayList<String>> chatusers) {
+        ArrayList<String> adminID = chatusers.get("admin");
+        ArrayList<String> coachesID = chatusers.get("coach");
+        service.getUsers().observe(this, studentdata -> {
+            ArrayList<Studentdata> admin = new ArrayList<>();
+            ArrayList<Studentdata> coach = new ArrayList<>();
+            for (Studentdata data : studentdata) {
+                if (adminID != null) {
+                    if (adminID.contains(data.getUserId())) {
+                        admin.add(data);
+                        Log.e("TAG", "onChanged: adminID" + data.getUserId());
+                        adminID.remove(data.getUserId());
+                    }
+                }
+                if (coachesID != null) {
+//                    if (coachesID.contains(data.getUserId())) {
+//                        coach.add(data);
+//                        Log.e("TAG", "onChanged: coachID" + data.getUserId());
+//                        coachesID.remove(data.getUserId());
+//                    }
+                }
+            }
+            chat_profile_adapter adapter = new chat_profile_adapter(getContext());
+            binding.rcvProfiles.setAdapter(adapter);
+            adapter.setData(coach, admin);
+            binding.progress.setVisibility(View.GONE);
+        });
     }
 
     private void showStudents(ArrayList<Studentdata> studentdata) {
@@ -124,33 +175,29 @@ public class chat_fragment extends Fragment {
     private void showAllAdminAndCoaches(Map<String, ArrayList<String>> chatusers) {
         ArrayList<String> adminID = chatusers.get("admin");
         ArrayList<String> coachesID = chatusers.get("coach");
-        service.getUsers().observe(this, new Observer<ArrayList<Studentdata>>() {
-            @Override
-            public void onChanged(ArrayList<Studentdata> studentdata) {
-                ArrayList<Studentdata> admin = new ArrayList<>();
-                ArrayList<Studentdata> coach = new ArrayList<>();
-                for (Studentdata data : studentdata) {
-                    if (adminID != null) {
-                        if (adminID.contains(data.getUserId())) {
-                            admin.add(data);
-                            Log.e("TAG", "onChanged: adminID" + data.getUserId());
-                            adminID.remove(data.getUserId());
-                        }
-                    }
-                    if (coachesID != null) {
-                        if (coachesID.contains(data.getUserId())) {
-                            coach.add(data);
-                            Log.e("TAG", "onChanged: coachID" + data.getUserId());
-                            coachesID.remove(data.getUserId());
-                        }
+        service.getUsers().observe(this, studentdata -> {
+            ArrayList<Studentdata> admin = new ArrayList<>();
+            ArrayList<Studentdata> coach = new ArrayList<>();
+            for (Studentdata data : studentdata) {
+                if (adminID != null) {
+                    if (adminID.contains(data.getUserId())) {
+                        admin.add(data);
+                        Log.e("TAG", "onChanged: adminID" + data.getUserId());
+                        adminID.remove(data.getUserId());
                     }
                 }
-                chat_profile_adapter adapter = new chat_profile_adapter(getContext());
-                binding.rcvProfiles.setAdapter(adapter);
-                adapter.setData(coach, admin);
-                binding.progress.setVisibility(View.GONE);
+                if (coachesID != null) {
+                    if (coachesID.contains(data.getUserId())) {
+                        coach.add(data);
+                        Log.e("TAG", "onChanged: coachID" + data.getUserId());
+                        coachesID.remove(data.getUserId());
+                    }
+                }
             }
-
+            chat_profile_adapter adapter = new chat_profile_adapter(getContext());
+            binding.rcvProfiles.setAdapter(adapter);
+            adapter.setData(coach, admin);
+            binding.progress.setVisibility(View.GONE);
         });
     }
 }
