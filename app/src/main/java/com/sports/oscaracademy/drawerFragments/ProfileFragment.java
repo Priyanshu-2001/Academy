@@ -36,7 +36,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-public class ProfileFragment extends Fragment {
+public class ProfileFragment extends Fragment implements View.OnClickListener {
 
     private static final String UID = "param1";
     private static final String EDITABLE = "editable";
@@ -87,6 +87,10 @@ public class ProfileFragment extends Fragment {
             binding.addStudent.setVisibility(View.VISIBLE);
         }
 
+        if (editable.equals("false") || editable.equals("true")) {
+            binding.contactStudent.setVisibility(View.VISIBLE);
+        }
+
         Sprite doubleBounce = new WanderingCubes();
         binding.progress.setIndeterminateDrawable(doubleBounce);
 
@@ -101,98 +105,84 @@ public class ProfileFragment extends Fragment {
         binding.studentGender.setDropDownBackgroundDrawable(AppCompatResources.getDrawable(requireContext(), R.drawable.text_field_1));
 
         binding.progress.setVisibility(View.GONE);
-        binding.editbtn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                binding.editbtn.setVisibility(View.GONE);
-                binding.savebtn.setVisibility(View.VISIBLE);
-                if (editable.equals("false") || editable.equals("true")) {
-                    enableAll();
-                }
-                if (editable.equals("user")) {
-                    enableAll();
-                    disableAdminEditable();
-                }
+        binding.editbtn.setOnClickListener(v -> {
+            binding.editbtn.setVisibility(View.GONE);
+            binding.savebtn.setVisibility(View.VISIBLE);
+            if (editable.equals("false") || editable.equals("true")) {
+                enableAll();
+            }
+            if (editable.equals("user")) {
+                enableAll();
+                disableAdminEditable();
             }
         });
-        binding.savebtn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                binding.editbtn.setVisibility(View.VISIBLE);
-                binding.savebtn.setVisibility(View.GONE);
-                UpdateDetails(prefs.getString("isStudent", "false"));
-                disableAll();
+        binding.savebtn.setOnClickListener(v -> {
+            binding.editbtn.setVisibility(View.VISIBLE);
+            binding.savebtn.setVisibility(View.GONE);
+            UpdateDetails(prefs.getString("isStudent", "false"));
+            disableAll();
+        });
+        binding.addStudent.setOnClickListener(v -> {
+            try {
+                AddStudentToAcademy();
+            } catch (ParseException e) {
+                Toast.makeText(getContext(), "Unable To Add Student", Toast.LENGTH_SHORT).show();
+                e.printStackTrace();
             }
         });
-        binding.addStudent.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                try {
-                    AddStudentToAcademy();
-                } catch (ParseException e) {
-                    Toast.makeText(getContext(), "Unable To Add Student", Toast.LENGTH_SHORT).show();
-                    e.printStackTrace();
-                }
-            }
-        });
-        binding.deleteStudent.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                deleteStudents();
-            }
-        });
+        binding.deleteStudent.setOnClickListener(v -> deleteStudents());
 
         //editable showing
         String isStudent = prefs.getString("isStudent", "false");
-        Log.e("TAG", "onCreateView: " + isStudent);
         studentsList list = new studentsList(getActivity());
 
         String role = prefs.getString("role", "0"); //(role.equals("1")) is admin
         if ((isStudent.equals("true") && prefs.getString("role", "0").equals("0") || editable.equals("false"))) {
-            list.getStudents().observe(requireActivity(), new Observer<ArrayList<Studentdata>>() {
-                @Override
-                public void onChanged(ArrayList<Studentdata> studentdata) {
-                    Log.d("TAG", "onChanged: req " + userID);
-                    for (int i = 0; i < studentdata.size(); i++) {
-                        Log.d("TAG", "onChanged: got " + studentdata.get(i).getUserId());
-                        if (studentdata.get(i).getUserId().equals(userID)) {
-                            Log.e("TAG", "onChanged: " + studentdata.get(i).getUserId());
-                            Log.e("TAG", "onChanged: " + studentdata.get(i).getName());
-                            binding.setModel(studentdata.get(i));
-                            currentStudent.setValue(studentdata.get(i));
-                            currentSelection = "student";
-                            disableAll();
-                        }
+            list.getStudents().observe(requireActivity(), studentdata -> {
+                Log.d("TAG", "onChanged: req " + userID);
+                for (int i = 0; i < studentdata.size(); i++) {
+                    Log.d("TAG", "onChanged: got " + studentdata.get(i).getUserId());
+                    if (studentdata.get(i).getUserId().equals(userID)) {
+                        Log.e("TAG", "onChanged: " + studentdata.get(i).getUserId());
+                        Log.e("TAG", "onChanged: " + studentdata.get(i).getName());
+                        binding.setModel(studentdata.get(i));
+                        currentStudent.setValue(studentdata.get(i));
+                        currentSelection = "student";
+                        disableAll();
                     }
                 }
             });
         } else {
-            list.getUsers().observe(requireActivity(), new Observer<ArrayList<Studentdata>>() {
-                @Override
-                public void onChanged(ArrayList<Studentdata> studentdata) {
-                    Log.d("TAG", "onChanged: req " + userID);
-                    for (int i = 0; i < studentdata.size(); i++) {
-                        Log.d("TAG", "onChanged: got " + studentdata.get(i).getUserId());
+            list.getUsers().observe(requireActivity(), studentdata -> {
+                Log.d("TAG", "onChanged: req " + userID);
+                for (int i = 0; i < studentdata.size(); i++) {
+                    Log.d("TAG", "onChanged: got " + studentdata.get(i).getUserId());
 
-                        if (studentdata.get(i).getUserId().equals(userID)) {
-                            Log.e("TAG", "onChanged: " + studentdata.get(i).getUserId());
-                            Log.e("TAG", "onChanged: " + studentdata.get(i).getPhone());
-                            binding.setModel(studentdata.get(i));
-                            disableAll();
-                            currentStudent.setValue(studentdata.get(i));
-                            currentSelection = "user";
-                        }
+                    if (studentdata.get(i).getUserId().equals(userID)) {
+                        Log.e("TAG", "onChanged: " + studentdata.get(i).getUserId());
+                        Log.e("TAG", "onChanged: " + studentdata.get(i).getPhone());
+                        binding.setModel(studentdata.get(i));
+                        disableAll();
+                        currentStudent.setValue(studentdata.get(i));
+                        currentSelection = "user";
                     }
                 }
             });
         }
+        binding.contactStudent.setEnabled(false);
         binding.savebtn.setVisibility(View.GONE);
         currentStudent.observe(requireActivity(), studentdata -> {
             binding.progress.setVisibility(View.GONE);
             try {
-                Log.e("TAG", "onCreateView: memebersjhip " + studentdata.getMemberShip());
+                binding.contactStudent.setEnabled(true);
+                binding.contactStudent.setOnClickListener(this);
+                Log.e("TAG", "onCreateView: membership " + studentdata.getMemberShip());
                 setSession(studentdata.getSession());
+                if (studentdata.getPhone() == null || studentdata.getPhone().isEmpty()) {
+                    binding.contactStudent.setVisibility(View.GONE);
+                }
                 setMembershipValidity(studentdata.getMemberShip().trim());
+
             } catch (Exception e) {
                 e.printStackTrace();
             }
@@ -380,5 +370,11 @@ public class ProfileFragment extends Fragment {
         binding.session.setEnabled(false);
         binding.StudentRollNo.setEnabled(false);
         binding.feesValidity.setEnabled(false);
+    }
+
+    @Override
+    public void onClick(View v) {//open bottom sheet for contacting user
+        Log.e("TAG", "onClick: running");
+        ContactOptions.newInstance(currentStudent.getValue().getName(), currentStudent.getValue().getPhone()).show(getChildFragmentManager(), "contactStudent");
     }
 }

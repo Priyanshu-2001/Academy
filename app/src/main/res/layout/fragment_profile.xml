@@ -336,7 +336,7 @@
 
             <Spinner
                 android:id="@+id/feesValidity"
-                android:layout_width="match_parent"
+                android:layout_width="0dp"
                 android:layout_height="50dp"
                 android:layout_marginHorizontal="25dp"
                 android:layout_marginVertical="20dp"
@@ -350,10 +350,21 @@
                 android:textColor="@color/textColorBlack"
                 android:textColorHint="@color/colorPrimary"
                 android:textSize="14sp"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintHorizontal_bias="1.0"
                 app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintEnd_toStartOf="@id/contact_student"
                 app:layout_constraintTop_toBottomOf="@+id/rollNo" />
+
+            <ImageButton
+                android:id="@+id/contact_student"
+                android:layout_width="wrap_content"
+                android:layout_height="50dp"
+                android:layout_marginRight="25dp"
+                android:contentDescription="Contact User"
+                android:visibility="gone"
+                app:layout_constraintBottom_toBottomOf="@+id/feesValidity"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:srcCompat="@drawable/ic_baseline_perm_contact_calendar_24" />
+
             <Button
                 android:id="@+id/editbtn"
                 android:layout_width="wrap_content"

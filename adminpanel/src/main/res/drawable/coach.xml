@@ -11,6 +11,7 @@
         android:centerColor="@color/colorPrimaryAdmin"
         android:endColor="@color/colorPrimaryAdmin"
         android:startColor="@color/absent_span"
+        android:centerX="0.2"
         android:type="linear" />
 
 </shape>

@@ -126,6 +126,8 @@ class AdminStudentsViewModel(app: Application) : AndroidViewModel(app) {
         }
         if (temp == null)
             temp = data
+        if (data == null)
+            temp = ArrayList()
         return MutableLiveData(temp as ArrayList<Studentdata>)
     }
 
