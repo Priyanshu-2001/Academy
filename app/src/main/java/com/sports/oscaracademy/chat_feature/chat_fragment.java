@@ -7,7 +7,6 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Toast;
 
 import androidx.databinding.DataBindingUtil;
 import androidx.fragment.app.Fragment;
@@ -63,7 +62,6 @@ public class chat_fragment extends Fragment {
                             pref.putString("userType", "-2");
                             pref.apply();
                             userCategory.setValue("coach");
-                            Toast.makeText(getContext(), "welcome back Coach", Toast.LENGTH_SHORT).show();
                         } else {
                             store.collection("chatResponders")
                                     .document("Admin")
@@ -78,12 +76,10 @@ public class chat_fragment extends Fragment {
                                                         pref.putString("userType", "-2");
                                                         pref.apply();
                                                         userCategory.setValue("admin");
-                                                        Toast.makeText(getContext(), "welcome back Admin", Toast.LENGTH_SHORT).show();
                                                     } else {
                                                         pref.putString("userType", "1");
                                                         pref.apply();
                                                         userCategory.setValue("student");
-                                                        Toast.makeText(getContext(), "welcome back Student", Toast.LENGTH_SHORT).show();
                                                     }
                                                 }
                                             }
@@ -131,9 +127,6 @@ public class chat_fragment extends Fragment {
                 });
             }
         });
-
-        String temp = preferences.getString("isStudent", "false");
-        Toast.makeText(getContext(), temp, Toast.LENGTH_SHORT).show();
         binding.progress.setVisibility(View.GONE);
         return binding.getRoot();
     }

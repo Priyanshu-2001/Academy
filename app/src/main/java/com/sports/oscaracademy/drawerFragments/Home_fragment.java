@@ -77,7 +77,6 @@ public class Home_fragment extends Fragment {
                         if (coachList.contains(currentuserID)) {
                             pref.putString("userType", "-2");
                             pref.apply();
-                            Toast.makeText(context, "welcome back Coach home", Toast.LENGTH_SHORT).show();
                         } else {
                             store.collection("chatResponders")
                                     .document("Admin")
@@ -91,11 +90,9 @@ public class Home_fragment extends Fragment {
                                                     if (adminList.contains(currentuserID)) {
                                                         pref.putString("userType", "-2");
                                                         pref.apply();
-                                                        Toast.makeText(context, "welcome back Admin home", Toast.LENGTH_SHORT).show();
                                                     } else {
                                                         pref.putString("userType", "1");
                                                         pref.apply();
-                                                        Toast.makeText(context, "welcome back Student home", Toast.LENGTH_SHORT).show();
                                                     }
                                                 }
                                             }
