@@ -14,6 +14,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.sports.oscaracademy.data.DashBoardData;
 import com.sports.oscaracademy.databinding.SingleDashboardRcvBinding;
+import com.sports.oscaracademy.drawerFragments.Home_fragment;
 import com.sports.oscaracademy.homeActivities.FeesPayment;
 import com.sports.oscaracademy.homeActivities.PayAndPlay;
 import com.sports.oscaracademy.homeActivities.Students;
@@ -37,7 +38,11 @@ public class dashBoard_adapter extends RecyclerView.Adapter<dashBoard_adapter.ho
         this.context = context;
         pref = context.getSharedPreferences("tokenFile", Context.MODE_PRIVATE);
         isStudent = pref.getString("isStudent", "false");
-        role = pref.getString("userType", "-1");
+        role = pref.getString("userType", "-1"); //-2 -> admin  , coach
+        // 1->  student
+        if (role.equals("-1")) {
+            Home_fragment.getUserType(context);
+        }
     }
 
     @NonNull

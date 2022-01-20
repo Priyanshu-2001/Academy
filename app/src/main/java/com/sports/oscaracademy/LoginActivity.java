@@ -21,7 +21,6 @@ import com.google.android.gms.auth.api.signin.GoogleSignInOptions;
 import com.google.android.gms.common.SignInButton;
 import com.google.android.gms.common.api.ApiException;
 import com.google.android.gms.tasks.OnCompleteListener;
-import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 import com.google.android.material.snackbar.BaseTransientBottomBar;
@@ -30,8 +29,6 @@ import com.google.firebase.auth.AuthCredential;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.GoogleAuthProvider;
-import com.google.firebase.firestore.DocumentReference;
-import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.SetOptions;
 import com.google.firebase.messaging.FirebaseMessaging;
@@ -268,48 +265,12 @@ public class LoginActivity extends AppCompatActivity {
                         // Get new FCM registration token
                         Map<String, Object> token = new HashMap<>();
                         token.put("token", task.getResult());
-                        FirebaseFirestore.getInstance().collection("token").document(FirebaseAuth.getInstance().getUid()).set(token, SetOptions.merge()).addOnCompleteListener(new OnCompleteListener<Void>() {
-                            @Override
-                            public void onComplete(@NonNull Task<Void> task) {
-                                if (task.isSuccessful()) {
-                                    Toast.makeText(getApplicationContext(), "Setup Completed Successfully", Toast.LENGTH_SHORT).show();
-                                }
-                            }
-                        });
+                        FirebaseFirestore.getInstance()
+                                .collection("token")
+                                .document(FirebaseAuth.getInstance().getUid())
+                                .set(token, SetOptions.merge());
                     }
                 });
 
     }
-    private String getUserType(){
-        DocumentReference doc = FirebaseFirestore.getInstance().collection("userType_private").document(mAuth.getUid());
-        final String[] temp = new String[1];
-        doc.get().addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
-            @Override
-            public void onSuccess(DocumentSnapshot documentSnapshot) {
-                 if (documentSnapshot.exists()){
-                     temp[0] = String.valueOf(documentSnapshot.get("role"));
-                 }else{
-                     temp[0] = "student";
-                 }
-            }
-        }).addOnFailureListener(new OnFailureListener() {
-            @Override
-            public void onFailure(@NonNull @NotNull Exception e) {
-                temp[0] = "student";
-            }
-        });
-        return temp[0];
-    }
-    // Method need to be put after some time for userType login
-    public void NextScreenIntent(){
-        Intent i;
-        if(getUserType()=="admin"){
-//            i = new Intent(LoginActivity.class , AdminDashboard.class);
-        }else{
-            i = new Intent(LoginActivity.this,Dashboard.class);
-        }
-//        startActivity(i);
-    }
-
-
 }

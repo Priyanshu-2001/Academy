@@ -48,8 +48,8 @@ public class chat_fragment extends Fragment {
         service = new studentsList(getContext());
     }
 
-    public void getuserType() {
-        Log.e("TAG", "getuserType: " + "called");
+    public void getUserType() {
+        Log.e("TAG", "getUserType: " + "called");
         String currentuserID = FirebaseAuth.getInstance().getUid();
         FirebaseFirestore store = FirebaseFirestore.getInstance();
         SharedPreferences.Editor pref = preferences.edit();
@@ -60,9 +60,10 @@ public class chat_fragment extends Fragment {
                     if (task.isSuccessful()) {
                         ArrayList<String> coachList = (ArrayList<String>) task.getResult().get("coachesList");
                         if (coachList.contains(currentuserID)) {
+                            pref.putString("userType", "-2");
+                            pref.apply();
                             userCategory.setValue("coach");
                             Toast.makeText(getContext(), "welcome back Coach", Toast.LENGTH_SHORT).show();
-                            pref.putString("userType", "1");
                         } else {
                             store.collection("chatResponders")
                                     .document("Admin")
@@ -71,17 +72,19 @@ public class chat_fragment extends Fragment {
                                             {
                                                 if (it.isSuccessful()) {
                                                     ArrayList<String> adminList = (ArrayList<String>) it.getResult().get("adminID");
-                                                    Log.e("TAG", "getuserType adminList " + adminList);
-                                                    Log.e("TAG", "getuserType adminList " + currentuserID);
+                                                    Log.e("TAG", "getUserType adminList " + adminList);
+                                                    Log.e("TAG", "getUserType adminList " + currentuserID);
                                                     if (adminList.contains(currentuserID)) {
                                                         pref.putString("userType", "-2");
+                                                        pref.apply();
                                                         userCategory.setValue("admin");
                                                         Toast.makeText(getContext(), "welcome back Admin", Toast.LENGTH_SHORT).show();
+                                                    } else {
+                                                        pref.putString("userType", "1");
+                                                        pref.apply();
+                                                        userCategory.setValue("student");
+                                                        Toast.makeText(getContext(), "welcome back Student", Toast.LENGTH_SHORT).show();
                                                     }
-                                                } else {
-                                                    pref.putString("userType", "1");
-                                                    userCategory.setValue("student");
-                                                    Toast.makeText(getContext(), "welcome back Student", Toast.LENGTH_SHORT).show();
                                                 }
                                             }
                                     );
@@ -95,7 +98,7 @@ public class chat_fragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         binding = DataBindingUtil.inflate(inflater, R.layout.fragment_chat, container, false);
-        getuserType();
+        getUserType();
         Sprite doubleBounce = new WanderingCubes();
         binding.progress.setIndeterminateDrawable(doubleBounce);
         binding.progress.setVisibility(View.VISIBLE);
@@ -106,30 +109,29 @@ public class chat_fragment extends Fragment {
                 service.getchatusers().observe(chat_fragment.this, new Observer<Map<String, ArrayList<String>>>() {
                     @Override
                     public void onChanged(Map<String, ArrayList<String>> stringArrayListMap) {
-                        Log.e("TAG", "onChanged:map " + stringArrayListMap.get("coach"));
                         showAllAdminAndCoaches(stringArrayListMap);//list of coach and admin ID is here
                     }
                 });
-            } else if (s.equals("admin") || s.equals("coach")) {
+            }
+            if (s.equals("admin") || s.equals("coach")) {
                 binding.textView5.setText("CHAT WITH STUDENT");
                 service.getStudents().observe(requireActivity(), studentdata -> {
                     showStudents(studentdata);
                     Log.e("TAG", "onChanged: student size " + studentdata.size());
                 });
             }
-
-
+            if (preferences.getString("isStudent", "false").equals("false") && s.equals("student")) {
+                binding.textView5.setText("CHAT WITH FACULTY");
+                service.getchatusers().observe(chat_fragment.this, new Observer<Map<String, ArrayList<String>>>() {
+                    @Override
+                    public void onChanged(Map<String, ArrayList<String>> stringArrayListMap) {
+                        Log.e("TAG", "onChanged:map " + stringArrayListMap.get("coach"));
+                        showAllAdmin(stringArrayListMap);//list of coach and admin ID is here
+                    }
+                });
+            }
         });
-        if (preferences.getString("isStudent", "false").equals("false")) {
-            binding.textView5.setText("CHAT WITH FACULTY");
-            service.getchatusers().observe(chat_fragment.this, new Observer<Map<String, ArrayList<String>>>() {
-                @Override
-                public void onChanged(Map<String, ArrayList<String>> stringArrayListMap) {
-                    Log.e("TAG", "onChanged:map " + stringArrayListMap.get("coach"));
-                    showAllAdmin(stringArrayListMap);//list of coach and admin ID is here
-                }
-            });
-        }
+
         String temp = preferences.getString("isStudent", "false");
         Toast.makeText(getContext(), temp, Toast.LENGTH_SHORT).show();
         binding.progress.setVisibility(View.GONE);
