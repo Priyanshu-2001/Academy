@@ -1,7 +1,6 @@
 package com.sports.oscaracademy.homeActivities;
 
 import android.os.Bundle;
-import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.ProgressBar;
@@ -62,68 +61,31 @@ public class adminAttendance extends AppCompatActivity {
         final boolean[] isadded = {false};
         if (type.equals("post")) {
             progressBar.setVisibility(View.VISIBLE);
-            students.getStudents().observe(this, new Observer<ArrayList<Studentdata>>() {
-                @Override
-                public void onChanged(ArrayList<Studentdata> studentdata) {
-                    getAttend.getPreviousRecord(date + "-" + month + "-" + year).observe(binding.getLifecycleOwner(), new Observer<ArrayList<Attendance_list>>() {
-                        @Override
-                        public void onChanged(ArrayList<Attendance_list> studentAttendances) {
-                            if (studentAttendances != null) {
-                                for (int i = 0; i < studentdata.size(); i++) {
-                                    if (studentAttendances.size() > 0) {
-                                        for (int j = 0; j < studentAttendances.size(); j++) {
-                                            if (studentAttendances.get(j).getRollNo().equals(studentdata.get(i).getRollno())) {
-                                                list.add(new Attendance_list(Integer.valueOf(studentdata.get(i).getRollno()), studentdata.get(i).getName(), studentAttendances.get(j).getOnLeave(), studentAttendances.get(j).getPresent()));
-                                                studentdata.remove(i);
-                                                i--;
-                                                studentAttendances.remove(j);
-                                                isadded[0] = true;
-                                                break;
-                                            }
+            students.getStudents().observe(this, TotalStudents ->
+                    getAttend.getPreviousRecord(date + "-" + month + "-" + year)
+                            .observe(adminAttendance.this, StudentPreviousAttendanceList -> {
+                                if (StudentPreviousAttendanceList != null) {
+                                    for (int i = 0; i < TotalStudents.size(); i++) {
+                                        containRoll c = containsRoll(StudentPreviousAttendanceList, TotalStudents.get(i).getRollno());
+                                        if (c.isContaining) {
+                                            list.add(new Attendance_list(Integer.valueOf(TotalStudents.get(i).getRollno()), TotalStudents.get(i).getName(), c.obj.getOnLeave(), c.obj.getPresent()));
+                                        } else {
+                                            list.add(new Attendance_list(Integer.valueOf(TotalStudents.get(i).getRollno()), TotalStudents.get(i).getName()));
                                         }
-                                        if (!isadded[0]) {
-                                            list.add(new Attendance_list(Integer.valueOf(studentdata.get(i).getRollno()), studentdata.get(i).getName()));
-                                            isadded[0] = false;
-                                        }
-                                    } else {
-                                        list.add(new Attendance_list(Integer.valueOf(studentdata.get(i).getRollno()), studentdata.get(i).getName()));
-                                        studentdata.remove(i);
-                                        i--;
                                     }
-                                }
-                                if (!studentdata.isEmpty()) {
-                                    for (int i = 0; i < studentdata.size(); i++) {
-                                        list.add(new Attendance_list(Integer.valueOf(studentdata.get(i).getRollno()), studentdata.get(i).getName()));
-                                        studentdata.remove(i);
-                                        i--;
-                                    }
-                                }
-                                if (!studentAttendances.isEmpty()) {
-                                    for (int i = 0; i < studentAttendances.size(); i++) {
-                                        list.add(new Attendance_list(Integer.valueOf(studentAttendances.get(i).getRollNo()), studentAttendances.get(i).getPresent(), studentAttendances.get(i).getOnLeave()));
-                                        studentAttendances.remove(i);
-                                        i--;
-                                    }
-                                }
-                                Log.d("TAG", "onCreate: " + list.get(0).getOnLeave());
-                                Log.d("TAG", "onCreate: " + list.get(0).getPresent());
-                                progressBar.setVisibility(View.GONE);
-                            } else {
-                                if (studentdata.size() > 0) {
-                                    for (int i = 0; i < studentdata.size(); i++) {
-                                        list.add(new Attendance_list(Integer.valueOf(studentdata.get(i).getRollno()), studentdata.get(i).getName()));
-                                    }
-                                    adapter.notifyDataSetChanged();
                                     progressBar.setVisibility(View.GONE);
+                                } else {
+                                    if (TotalStudents.size() > 0) {
+                                        for (int i = 0; i < TotalStudents.size(); i++) {
+                                            list.add(new Attendance_list(Integer.valueOf(TotalStudents.get(i).getRollno()), TotalStudents.get(i).getName()));
+                                        }
+                                        adapter.notifyDataSetChanged();
+                                        progressBar.setVisibility(View.GONE);
+                                    }
                                 }
-                            }
-                            adapter.notifyDataSetChanged();
-                        }
-                    });
-                }
-            });
-        }
-        else {
+                                adapter.notifyDataSetChanged();
+                            }));
+        } else {
             binding.headerTop.setVisibility(View.GONE);
             progressBar.setVisibility(View.VISIBLE);
             binding.button.setVisibility(View.GONE);
@@ -166,15 +128,31 @@ public class adminAttendance extends AppCompatActivity {
 
         }
 
-        adapter = new attendance_marker_adapter(list, date, month, year,type);
+        adapter = new attendance_marker_adapter(list, date, month, year, type);
         rcv.setAdapter(adapter);
 
-        binding.button.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                progressBar.setVisibility(View.VISIBLE);
-                adapter.UpdateDB(progressBar);
-            }
+        binding.button.setOnClickListener(v -> {
+            progressBar.setVisibility(View.VISIBLE);
+            adapter.UpdateDB(progressBar);
         });
+    }
+
+    public containRoll containsRoll(final ArrayList<Attendance_list> list, final String roll) {
+        for (Attendance_list o : list) {
+            if (o.getRollNo().equals(roll)) {
+                return new containRoll(o, true);
+            }
+        }
+        return new containRoll(new Attendance_list(), false);
+    }
+}
+
+class containRoll {
+    Attendance_list obj;
+    boolean isContaining;
+
+    public containRoll(Attendance_list obj, boolean isContaining) {
+        this.obj = obj;
+        this.isContaining = isContaining;
     }
 }

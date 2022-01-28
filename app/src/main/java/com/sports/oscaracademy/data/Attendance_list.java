@@ -41,6 +41,10 @@ public class Attendance_list {
         this.isAbsent = false;
     }
 
+    public Attendance_list() {
+
+    }
+
 
     public String getRollNo() {
         return String.valueOf(RollNo);
