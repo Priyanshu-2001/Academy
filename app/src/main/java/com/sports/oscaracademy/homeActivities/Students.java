@@ -31,10 +31,11 @@ public class Students extends AppCompatActivity {
 
     ActivityStudentsBinding binding;
     AdminStudentsViewModel viewModel;
-    Button tempFilterSelection, filter_rollNo, filter_name, filter_phoneNumber, filter_email, filter_InActive;
+    Button tempFilterSelection, filter_rollNo, filter_name, filter_phoneNumber, filter_email, filter_InActive, filterBatchWise;
     String filterType = "name";
     String catcher = null;
     private boolean isInActiveBtnActive = false;
+    private boolean isBatchWiseBtnActive = false;
 
 
     @Override
@@ -73,6 +74,7 @@ public class Students extends AppCompatActivity {
         filter_name = binding.filerName;
         filter_email = binding.filterEmail;
         filter_InActive = binding.filterActive;
+        filterBatchWise = binding.filterBatchWise;
         filter_phoneNumber = binding.filterPhoneNumber;
         binding.searchBtn.setOnClickListener(v -> {
             LayoutTransition layoutTransition = binding.layoutContainer.getLayoutTransition();
@@ -141,17 +143,33 @@ public class Students extends AppCompatActivity {
         filter_InActive.setOnClickListener(v -> {
             isInActiveBtnActive = !isInActiveBtnActive;
             setColorToDefault();
-//            filterType = "inActive";
-//            tempFilterSelection = filter_InActive;
             setColorToSelected(tempFilterSelection);
             if (isInActiveBtnActive) {
-                applyFilter("");
+//                applyFilter(binding.editSearch.getText().toString());
+                binding.ActionSearchBtn.performClick();
                 filter_InActive.setTextColor(getResources().getColor(R.color.white, null));
                 filter_InActive.setBackground(AppCompatResources.getDrawable(this, R.drawable.premium_btn));
             } else {
                 filter_InActive.setTextColor(getResources().getColor(R.color.black, null));
-                updateFullData();
+//                updateFullData();
+                binding.ActionSearchBtn.performClick();
                 filter_InActive.setBackground(AppCompatResources.getDrawable(this, R.drawable.btn_theme_2));
+            }
+        });
+        filterBatchWise.setOnClickListener(v -> {
+            isBatchWiseBtnActive = !isBatchWiseBtnActive;
+            setColorToDefault();
+            setColorToSelected(tempFilterSelection);
+            if (isBatchWiseBtnActive) {
+//                applyFilter(binding.editSearch.getText().toString());
+                binding.ActionSearchBtn.performClick();
+                filterBatchWise.setTextColor(getResources().getColor(R.color.white, null));
+                filterBatchWise.setBackground(AppCompatResources.getDrawable(this, R.drawable.premium_btn));
+            } else {
+                filterBatchWise.setTextColor(getResources().getColor(R.color.black, null));
+//                updateFullData();
+                binding.ActionSearchBtn.performClick();
+                filterBatchWise.setBackground(AppCompatResources.getDrawable(this, R.drawable.btn_theme_2));
             }
         });
         setColorToSelected(tempFilterSelection);
@@ -227,14 +245,14 @@ public class Students extends AppCompatActivity {
         Log.e("TAG", "applyFilter: " + filterType + " " + filter);
         if (catcher != null) {
             if (catcher.equals("0")) {
-                viewModel.getStudentDataFiltered(filterType, filter, isInActiveBtnActive).observe(this, studentData -> {
+                viewModel.getStudentDataFiltered(filterType, filter, isInActiveBtnActive, isBatchWiseBtnActive).observe(this, studentData -> {
                     Log.e("TAG", "applyFilter: " + studentData);
                     adapter = new studentList_adapter(getApplicationContext(), studentData, "false");
                     binding.studentrcv.setAdapter(adapter);
                     binding.progress.setVisibility(View.GONE);
                 });
             } else {
-                viewModel.getUserDataFiltered(filterType, filter, isInActiveBtnActive).observe(this, new Observer<ArrayList<Studentdata>>() {
+                viewModel.getUserDataFiltered(filterType, filter, isInActiveBtnActive, isBatchWiseBtnActive).observe(this, new Observer<ArrayList<Studentdata>>() {
                     @Override
                     public void onChanged(ArrayList<Studentdata> studentData) {
                         adapter = new studentList_adapter(getApplicationContext(), studentData, "true");

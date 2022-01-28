@@ -223,8 +223,20 @@
                             android:background="@drawable/search_filter_btn"
                             android:text="InActive"
                             app:layout_constraintBaseline_toBaselineOf="@+id/filter_email"
-                            app:layout_constraintEnd_toEndOf="parent"
                             app:layout_constraintStart_toEndOf="@+id/filter_email" />
+
+                        <Button
+                            android:id="@+id/filter_batchWise"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="center_horizontal"
+                            android:layout_marginHorizontal="10dp"
+                            android:layout_marginVertical="5dp"
+                            android:background="@drawable/search_filter_btn"
+                            android:text="BatchWise"
+                            app:layout_constraintBaseline_toBaselineOf="@+id/filter_Active"
+                            app:layout_constraintEnd_toEndOf="parent"
+                            app:layout_constraintStart_toEndOf="@+id/filter_Active" />
 
                     </androidx.constraintlayout.widget.ConstraintLayout>
 
