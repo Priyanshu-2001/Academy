@@ -38,6 +38,7 @@ class Schedule : AppCompatActivity() {
                 binding.textView8.visibility = View.GONE
                 binding.timings.visibility = View.GONE
                 binding.NoDataImage.visibility = View.VISIBLE
+                binding.NoDataText.visibility = View.VISIBLE
             }
         })
     }
