@@ -47,6 +47,7 @@ public class ProfileFragment extends Fragment implements View.OnClickListener {
     private String currentSelection;
     private FragmentProfileBinding binding;
     FirebaseFirestore firestore = FirebaseFirestore.getInstance();
+    studentsList service;
 
     public ProfileFragment() {
     }
@@ -64,6 +65,8 @@ public class ProfileFragment extends Fragment implements View.OnClickListener {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        prefs = requireActivity().getSharedPreferences("tokenFile", Context.MODE_PRIVATE);
+        service = new studentsList(requireContext());
         if (getArguments() != null) {
             userID = getArguments().getString(UID);
             try {
@@ -72,7 +75,6 @@ public class ProfileFragment extends Fragment implements View.OnClickListener {
                 editable = "false";
             }
         }
-        prefs = requireActivity().getSharedPreferences("tokenFile", Context.MODE_PRIVATE);
     }
 
     @Override
@@ -83,14 +85,14 @@ public class ProfileFragment extends Fragment implements View.OnClickListener {
         if (editable.equals("false")) { // list of current student is shown
             binding.deleteStudent.setVisibility(View.VISIBLE);
         }
-        if (editable.equals("true")) { // if its in add student sectoin i.e. users list is shown
+        if (editable.equals("true")) { // if its in add student section i.e. users list is shown
             binding.addStudent.setVisibility(View.VISIBLE);
         }
 
         if (editable.equals("false") || editable.equals("true")) {
             binding.contactStudent.setVisibility(View.VISIBLE);
         }
-
+        service.getSessionsList();
         Sprite doubleBounce = new WanderingCubes();
         binding.progress.setIndeterminateDrawable(doubleBounce);
 
@@ -134,11 +136,10 @@ public class ProfileFragment extends Fragment implements View.OnClickListener {
 
         //editable showing
         String isStudent = prefs.getString("isStudent", "false");
-        studentsList list = new studentsList(getActivity());
 
         String role = prefs.getString("role", "0"); //(role.equals("1")) is admin
         if ((isStudent.equals("true") && prefs.getString("role", "0").equals("0") || editable.equals("false"))) {
-            list.getStudents().observe(requireActivity(), studentdata -> {
+            service.getStudents().observe(requireActivity(), studentdata -> {
                 Log.d("TAG", "onChanged: req " + userID);
                 for (int i = 0; i < studentdata.size(); i++) {
                     Log.d("TAG", "onChanged: got " + studentdata.get(i).getUserId());
@@ -153,7 +154,7 @@ public class ProfileFragment extends Fragment implements View.OnClickListener {
                 }
             });
         } else {
-            list.getUsers().observe(requireActivity(), studentdata -> {
+            service.getUsers().observe(requireActivity(), studentdata -> {
                 Log.d("TAG", "onChanged: req " + userID);
                 for (int i = 0; i < studentdata.size(); i++) {
                     Log.d("TAG", "onChanged: got " + studentdata.get(i).getUserId());
@@ -177,7 +178,21 @@ public class ProfileFragment extends Fragment implements View.OnClickListener {
                 binding.contactStudent.setEnabled(true);
                 binding.contactStudent.setOnClickListener(this);
                 Log.e("TAG", "onCreateView: membership " + studentdata.getMemberShip());
-                setSession(studentdata.getSession());
+                service.getSessionsList().observe(this, list -> {
+                    list.add("N/A");
+                    ArrayAdapter<String> spinnerArrayAdapter = new ArrayAdapter<>
+                            (requireContext(), android.R.layout.simple_spinner_item, list);
+                    spinnerArrayAdapter.setDropDownViewResource(android.R.layout
+                            .simple_spinner_dropdown_item);
+                    binding.session.setAdapter(spinnerArrayAdapter);
+                    Log.e("TAG", "onCreateView: " + list.indexOf(studentdata.getSession()) + " " + studentdata.getSession() + list.toString());
+                    if (studentdata.getSession() == null || !list.contains(studentdata.getSession())) {
+                        binding.session.setSelection(list.size() - 1, true);
+                    } else {
+                        binding.session.setSelection(list.indexOf(studentdata.getSession()), true);
+                    }
+
+                });
                 if (studentdata.getPhone() == null || studentdata.getPhone().isEmpty()) {
                     binding.contactStudent.setVisibility(View.GONE);
                 }
@@ -188,34 +203,6 @@ public class ProfileFragment extends Fragment implements View.OnClickListener {
             }
         });
         return binding.getRoot();
-    }
-
-    private void setSession(String session) {
-        switch (session) {
-            case "A1":
-                binding.session.setSelection(1, true);
-                break;
-            case "A2":
-                binding.session.setSelection(2, true);
-                break;
-            case "B1":
-                binding.session.setSelection(3, true);
-                break;
-            case "B2":
-                binding.session.setSelection(4, true);
-                break;
-            case "C1":
-                binding.session.setSelection(5, true);
-                break;
-            case "C2":
-                binding.session.setSelection(6, true);
-                break;
-            case "Special Batch":
-                binding.session.setSelection(7, true);
-                break;
-            default:
-                binding.session.setSelection(0, true);
-        }
     }
 
     private void setMembershipValidity(String validity) {
@@ -230,7 +217,6 @@ public class ProfileFragment extends Fragment implements View.OnClickListener {
 
     private void UpdateDetails(String isStudent) {
         binding.progress.setVisibility(View.VISIBLE);
-        studentsList service = new studentsList(getActivity());
         service.updateProfile(currentSelection, binding.progress, currentStudent.getValue().getUserId(), getDataFromTxtViews());
     }
 
@@ -278,7 +264,6 @@ public class ProfileFragment extends Fragment implements View.OnClickListener {
         ProfileData.put("session", binding.session.getSelectedItem().toString().trim());
         ProfileData.put("membership", binding.feesValidity.getSelectedItem().toString().trim());
         if (binding.StudentRollNo.getText().toString().equals("null")) {
-            studentsList service = new studentsList(getContext());
             service.getRoll(userID).observe(requireActivity(), new Observer<Integer>() {
                 @Override
                 public void onChanged(Integer s) {
@@ -297,7 +282,6 @@ public class ProfileFragment extends Fragment implements View.OnClickListener {
         builder.setMessage(str);
         builder.setTitle(title);
         builder.setPositiveButton("Confirm", (dialog, which) -> {
-            studentsList service = new studentsList(getActivity());
             service.deleteStudent(currentStudent.getValue().getUserId(), data);
 
         });

@@ -42,6 +42,7 @@ public class studentsList {
     private final Context mContext;
     private MutableLiveData<Integer> roll;
     private String userID;
+    ArrayList<String> temp = null;
 
     ArrayList<String> adminID = new ArrayList<>();
     ArrayList<String> coachesID = new ArrayList<>();
@@ -66,6 +67,26 @@ public class studentsList {
         });
     }
 
+    public MutableLiveData<ArrayList<String>> getSessionsList() {
+        MutableLiveData<ArrayList<String>> data = new MutableLiveData<>();
+        if (temp == null) {
+            temp = new ArrayList<>();
+            db.getReference("session")
+                    .get()
+                    .addOnCompleteListener(new OnCompleteListener<DataSnapshot>() {
+                        @Override
+                        public void onComplete(@NonNull Task<DataSnapshot> task) {
+                            for (DataSnapshot child : task.getResult().getChildren()) {
+                                Log.e("TAG", "onComplete: " + child.getKey());
+                                temp.add(child.getKey());
+                            }
+                        }
+                    });
+        }
+        data.setValue(temp);
+        return data;
+    }
+
     private void updateRollList(int rollNo) {
         Map<String, Object> map = new HashMap<>();
         map.put("Last_RollNo", (rollNo + 1));
@@ -88,106 +109,6 @@ public class studentsList {
     public studentsList(Context c) {
         this.mContext = c;
     }
-
-    public MutableLiveData<ArrayList<Studentdata>> filteredStudentList(String filterType, Object filter) {
-        store.collection("students")
-                .whereGreaterThanOrEqualTo(filterType, filter)
-//                .orderBy("RollNo", Query.Direction.ASCENDING)
-                .get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
-            @Override
-            public void onComplete(@NonNull @NotNull Task<QuerySnapshot> task) {
-                if (task.isSuccessful()) {
-                    ArrayList<Studentdata> tempData = new ArrayList<>();
-                    String name, phone, userId, email, sex, Age, session, membership;
-                    Integer rollno;
-                    try {
-                        for (int i = 0; i < task.getResult().getDocuments().size(); i++) {
-                            name = task.getResult().getDocuments().get(i).getString("name");
-                            phone = task.getResult().getDocuments().get(i).getString("phone number");
-                            userId = task.getResult().getDocuments().get(i).getString("userID");
-                            rollno = task.getResult().getDocuments().get(i).get("RollNo", Integer.class);
-                            sex = task.getResult().getDocuments().get(i).getString("Sex");
-                            email = task.getResult().getDocuments().get(i).getString("email");
-                            Age = task.getResult().getDocuments().get(i).getString("Age");
-                            membership = task.getResult().getDocuments().get(i).getString("membership");
-                            try {
-                                session = task.getResult().getDocuments().get(i).getString("session");
-                            } catch (Exception e) {
-                                session = "N/A";
-                            }
-                            tempData.add(new Studentdata(name, rollno, phone, userId, email, sex, Age, session, membership));
-                        }
-                    } catch (Exception e) {
-                        e.printStackTrace();
-                    }
-                    Log.e("TAG", "onComplete: " + tempData);
-                    filterData.setValue(tempData);
-                } else {
-                    filterData.setValue(null);
-                    Toast.makeText(mContext, Objects.requireNonNull(task.getException()).getLocalizedMessage(), Toast.LENGTH_SHORT).show();
-                }
-            }
-        });
-        Log.d("TAG", "getStudents: filter service" + filterData);
-        return filterData;
-    }
-
-    public MutableLiveData<ArrayList<Studentdata>> filteredUserList(String filterType, Object filter) {
-        store.collection("user")
-                .whereGreaterThanOrEqualTo(filterType, filter)
-//                .orderBy("RollNo", Query.Direction.DESCENDING)
-                .get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
-            @Override
-            public void onComplete(@NonNull @NotNull Task<QuerySnapshot> task) {
-                if (task.isSuccessful()) {
-                    ArrayList<Studentdata> tempData = new ArrayList<>();
-                    String name, phone, userId, email, sex, Age, session, membershipValidity;
-                    Integer RollNo;
-                    try {
-                        for (int i = 0; i < task.getResult().getDocuments().size(); i++) {
-                            name = task.getResult().getDocuments().get(i).getString("name");
-                            phone = task.getResult().getDocuments().get(i).getString("phone number");
-                            userId = task.getResult().getDocuments().get(i).getString("userID");
-                            sex = task.getResult().getDocuments().get(i).getString("Sex");
-                            email = task.getResult().getDocuments().get(i).getString("email");
-                            Age = task.getResult().getDocuments().get(i).getString("Age");
-                            Studentdata data = new Studentdata(name, phone, userId, email, sex, Age);
-                            try {
-                                RollNo = task.getResult().getDocuments().get(i).get("RollNo", Integer.class);
-                            } catch (Exception e) {
-                                RollNo = null;
-                            }
-                            try {
-                                session = task.getResult().getDocuments().get(i).getString("session");
-                            } catch (Exception e) {
-                                session = "N/A";
-                            }
-                            try {
-                                membershipValidity = task.getResult().getDocuments().get(i).getString("membership");
-                            } catch (Exception e) {
-                                membershipValidity = "inactive";
-                            }
-                            data.setMemberShip(membershipValidity);
-                            data.setSession(session);
-                            if (RollNo != null) {
-                                data.setRollno(RollNo);
-                            }
-                            if (task.getResult().getDocuments().get(i).getString("isStudent").equals("false"))
-                                tempData.add(data);
-                        }
-                    } catch (Exception e) {
-                        e.printStackTrace();
-                    }
-                    filterUsers.setValue(tempData);
-                } else {
-                    Toast.makeText(mContext, task.getException().getLocalizedMessage(), Toast.LENGTH_SHORT).show();
-                }
-            }
-        });
-        Log.d("TAG", "getStudents: service filter " + filterUsers);
-        return filterUsers;
-    }
-
 
     public MutableLiveData<ArrayList<Studentdata>> getStudents() {//TODO here i can use firebase WhereEqualTo method user collection
         store.collection("students")      //TODO isStudent==true for list instead of creating different collextion and wasting space
@@ -297,12 +218,12 @@ public class studentsList {
             @Override
             public void onComplete(@NonNull Task<Void> task) {
                 dialogs.dismissDialog(pd);
-                deleteStudentfromStudentList(userIDs, dialogs);
+                deleteStudentFromStudentList(userIDs, dialogs);
             }
         });
     }
 
-    public void deleteStudentfromStudentList(String id, dialogs dialogs) {
+    public void deleteStudentFromStudentList(String id, dialogs dialogs) {
         store.collection("students").document(id).delete().addOnCompleteListener(
                 task -> {
                     dialogs.dismissDialog(new ProgressDialog(mContext, R.style.AlertDialog));
@@ -320,30 +241,28 @@ public class studentsList {
             store.collection("students").document(userId).set(dataFromTxtViews, SetOptions.merge()).addOnCompleteListener(task -> {
                 dialogs dialogs = new dialogs();
                 if (task.isSuccessful()) {
-                    dialogs.displayDialog("Update Sucessfull..", mContext);
-                    progress.setVisibility(View.GONE);
+                    dialogs.displayDialog("Update Successful..", mContext);
                 } else {
                     dialogs.displayDialog("Update Failed", mContext);
-                    progress.setVisibility(View.GONE);
                 }
+                progress.setVisibility(View.GONE);
             });
         } else {
             store.collection("user").document(userId).set(dataFromTxtViews, SetOptions.merge()).addOnCompleteListener(task -> {
                 dialogs dialogs = new dialogs();
                 if (task.isSuccessful()) {
-                    dialogs.displayDialog("Update Sucessfull..", mContext);
-                    progress.setVisibility(View.GONE);
+                    dialogs.displayDialog("Updated Successfully..", mContext);
                 } else {
                     dialogs.displayDialog("Update Failed !", mContext);
-                    progress.setVisibility(View.GONE);
                 }
+                progress.setVisibility(View.GONE);
             });
         }
     }
 
     MutableLiveData<Map<String, ArrayList<String>>> finalList = new MutableLiveData<>();
 
-    public MutableLiveData<Map<String, ArrayList<String>>> getchatusers() {
+    public MutableLiveData<Map<String, ArrayList<String>>> getChatUsers() {
         Map<String, ArrayList<String>> temp = new HashMap<>();
         store.collection("chatResponders").document("Admin").get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
             @Override

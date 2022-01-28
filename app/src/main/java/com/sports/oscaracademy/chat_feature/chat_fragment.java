@@ -102,7 +102,7 @@ public class chat_fragment extends Fragment {
         userCategory.observe(this, s -> {
             if (preferences.getString("isStudent", "false").equals("true") && s.equals("student")) {
                 binding.textView5.setText("CHAT WITH FACULTY");
-                service.getchatusers().observe(chat_fragment.this, new Observer<Map<String, ArrayList<String>>>() {
+                service.getChatUsers().observe(chat_fragment.this, new Observer<Map<String, ArrayList<String>>>() {
                     @Override
                     public void onChanged(Map<String, ArrayList<String>> stringArrayListMap) {
                         showAllAdminAndCoaches(stringArrayListMap);//list of coach and admin ID is here
@@ -118,7 +118,7 @@ public class chat_fragment extends Fragment {
             }
             if (preferences.getString("isStudent", "false").equals("false") && s.equals("student")) {
                 binding.textView5.setText("CHAT WITH FACULTY");
-                service.getchatusers().observe(chat_fragment.this, new Observer<Map<String, ArrayList<String>>>() {
+                service.getChatUsers().observe(chat_fragment.this, new Observer<Map<String, ArrayList<String>>>() {
                     @Override
                     public void onChanged(Map<String, ArrayList<String>> stringArrayListMap) {
                         Log.e("TAG", "onChanged:map " + stringArrayListMap.get("coach"));

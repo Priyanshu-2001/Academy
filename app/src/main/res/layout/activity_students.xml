@@ -274,7 +274,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent"
                 android:layout_marginHorizontal="20dp"
-                android:text="Contact Details"
+                android:text="Batch"
                 android:fontFamily="@font/rubik_medium"
                 android:textSize="16dp"
                 android:textColor="@color/textColor"

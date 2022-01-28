@@ -19,6 +19,9 @@ public class dialogs {
     }
 
     public final void displayDialog(String str, Context context) {
+        if (context == null) {
+            return;
+        }
         androidx.appcompat.app.AlertDialog.Builder builder = new androidx.appcompat.app.AlertDialog.Builder(context, R.style.AlertDialog);
         builder.setMessage(str);
         androidx.appcompat.app.AlertDialog alertDialog = builder.create();

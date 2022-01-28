@@ -28,15 +28,14 @@ import java.util.ArrayList;
 
 public class dashBoard_adapter extends RecyclerView.Adapter<dashBoard_adapter.holder> {
     private final ArrayList<DashBoardData> data;
-    Context context;
-    private final SharedPreferences pref;
+    private final Context context;
     private final String isStudent;
     private final String role;
 
     public dashBoard_adapter(ArrayList<DashBoardData> data, Context context) {
         this.data = data;
         this.context = context;
-        pref = context.getSharedPreferences("tokenFile", Context.MODE_PRIVATE);
+        SharedPreferences pref = context.getSharedPreferences("tokenFile", Context.MODE_PRIVATE);
         isStudent = pref.getString("isStudent", "false");
         role = pref.getString("userType", "-1"); //-2 -> admin  , coach
         // 1->  student

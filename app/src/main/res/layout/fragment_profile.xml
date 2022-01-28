@@ -225,7 +225,6 @@
                 android:layout_marginVertical="20dp"
                 android:background="@drawable/text_field_1"
                 android:hint="Session"
-                android:entries="@array/session"
                 android:popupBackground="@drawable/text_field_1"
                 android:paddingHorizontal="15dp"
                 android:paddingVertical="5dp"

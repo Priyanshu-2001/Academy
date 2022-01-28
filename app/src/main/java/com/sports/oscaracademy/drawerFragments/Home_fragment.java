@@ -121,7 +121,7 @@ public class Home_fragment extends Fragment {
                                     datalist.add(new DashBoardData(imgURL.get(i), s));
                                     i++;
                                 }
-                                adapter = new dashBoard_adapter(datalist, getActivity()); // need data over here from firebase server
+                                adapter = new dashBoard_adapter(datalist, requireContext()); // need data over here from firebase server
                                 rcv.setLayoutManager(new GridLayoutManager(getActivity(), 2));
                                 rcv.setAdapter(adapter);
                                 i = 0;

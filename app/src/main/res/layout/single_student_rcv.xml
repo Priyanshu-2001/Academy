@@ -59,7 +59,7 @@
                 android:layout_marginHorizontal="20dp"
                 android:gravity="center"
                 android:textSize="@dimen/textSize"
-                android:text="@{student.phone}"
+                android:text="@{student.session}"
                 android:textColor="@color/textColorBlack"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
