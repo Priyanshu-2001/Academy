@@ -68,6 +68,7 @@ public class adminAttendance extends AppCompatActivity {
                                     for (int i = 0; i < TotalStudents.size(); i++) {
                                         containRoll c = containsRoll(StudentPreviousAttendanceList, TotalStudents.get(i).getRollno());
                                         if (c.isContaining) {
+                                            StudentPreviousAttendanceList.remove(c.obj);
                                             list.add(new Attendance_list(Integer.valueOf(TotalStudents.get(i).getRollno()), TotalStudents.get(i).getName(), c.obj.getOnLeave(), c.obj.getPresent()));
                                         } else {
                                             list.add(new Attendance_list(Integer.valueOf(TotalStudents.get(i).getRollno()), TotalStudents.get(i).getName()));
