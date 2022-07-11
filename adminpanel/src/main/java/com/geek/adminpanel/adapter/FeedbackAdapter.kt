@@ -12,13 +12,16 @@ import com.geek.adminpanel.databinding.SingleFeedbackBinding
 import java.text.SimpleDateFormat
 import java.util.*
 
-class FeedbackAdapter(val data: ArrayList<FeedbackData>, val feedbackInterface: FeedBackInterface) :
+class FeedbackAdapter(
+    val data: ArrayList<FeedbackData>,
+    private val feedbackInterface: FeedBackInterface
+) :
     RecyclerView.Adapter<FeedbackAdapter.FeedbackViewHolder>() {
+
     class FeedbackViewHolder(
         val binding: SingleFeedbackBinding,
         private val feedbackInterface: FeedBackInterface
-    ) :
-        RecyclerView.ViewHolder(binding.root), View.OnLongClickListener {
+    ) : RecyclerView.ViewHolder(binding.root), View.OnLongClickListener {
         init {
             binding.cardView.setOnLongClickListener(this)
         }

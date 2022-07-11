@@ -58,7 +58,6 @@ public class adminAttendance extends AppCompatActivity {
         binding.setLifecycleOwner(this);
         studentsList students = new studentsList(this);
         attendanceService getAttend = new attendanceService();
-        final boolean[] isadded = {false};
         if (type.equals("post")) {
             progressBar.setVisibility(View.VISIBLE);
             students.getStudents().observe(this, TotalStudents ->
@@ -93,7 +92,7 @@ public class adminAttendance extends AppCompatActivity {
             getAttend.getPreviousRecord(date + "-" + month + "-" + year).observe(this, new Observer<ArrayList<Attendance_list>>() {
                 @Override
                 public void onChanged(ArrayList<Attendance_list> studentAttendances) {
-                    students.getStudents().observe(binding.getLifecycleOwner(), new Observer<ArrayList<Studentdata>>() {
+                    students.getStudents().observe(adminAttendance.this, new Observer<ArrayList<Studentdata>>() {
                         @Override
                         public void onChanged(ArrayList<Studentdata> studentdata) {
 

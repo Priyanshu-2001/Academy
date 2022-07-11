@@ -23,7 +23,7 @@ class Schedule : AppCompatActivity() {
             setDisplayHomeAsUpEnabled(true)
             setDisplayShowTitleEnabled(false)
         }
-        viewModel.getUserSchedule().observe(this, {
+        viewModel.getUserSchedule().observe(this) {
             binding.timings.visibility = View.VISIBLE
             binding.textView8.visibility = View.VISIBLE
             binding.timings.animate().translationY(-200f)
@@ -40,7 +40,7 @@ class Schedule : AppCompatActivity() {
                 binding.NoDataImage.visibility = View.VISIBLE
                 binding.NoDataText.visibility = View.VISIBLE
             }
-        })
+        }
     }
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {

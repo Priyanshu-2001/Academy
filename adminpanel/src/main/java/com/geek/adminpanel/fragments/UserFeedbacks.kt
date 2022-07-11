@@ -28,7 +28,7 @@ class UserFeedbacks : Fragment(R.layout.feedback_fragment), FeedBackInterface {
 
         viewModel = ViewModelProvider(this)[FeedbackViewModel::class.java]
 
-        viewModel.getFeedBacks().observe(this, {
+        viewModel.getFeedBacks().observe(viewLifecycleOwner) {
             if (it.isEmpty()) {
                 Toast.makeText(context, "Nothing to Show", Toast.LENGTH_SHORT).show()
             } else {
@@ -36,7 +36,7 @@ class UserFeedbacks : Fragment(R.layout.feedback_fragment), FeedBackInterface {
                 val adapter = FeedbackAdapter(it, this)
                 binding.feedbackRcv.adapter = adapter
             }
-        })
+        }
     }
 
     override fun deleteItem(pos: Int) {

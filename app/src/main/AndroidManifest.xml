@@ -70,6 +70,7 @@
             android:exported="false" />
         <activity
             android:name=".signUpActivity"
+            android:launchMode="singleInstance"
             android:screenOrientation="portrait"
             android:exported="false" />
         <activity
@@ -80,6 +81,7 @@
         <activity
             android:name=".LoginActivity"
             android:screenOrientation="portrait"
+            android:launchMode="singleInstance"
             android:exported="false" />
         <activity
             android:name=".MainActivity"
